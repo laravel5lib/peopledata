@@ -11,6 +11,13 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+Auth::routes();
+Route::get('/img/{path}', 'ImageController@show')->where('path', '.*');
+
+Route::get('/', 'HomeController@index')->name('home');
+Route::get('terms', 'HomeController@terms')->name('terms');
+Route::resource('members', 'MemberController');
+Route::get('members/add/{id}', 'MemberController@add');
+Route::post('members/{member}/addimage', 'MemberController@addimage');
+Route::get('members/updateinfo/{id}', 'MemberController@updateinfo')->name('members.updateinfo')->middleware('signed');

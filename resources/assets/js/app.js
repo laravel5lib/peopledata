@@ -15,8 +15,16 @@ window.Vue = require('vue');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('example-component', require('./components/ExampleComponent.vue'));
+Vue.component('spinner', require('./components/Utils/Spinner.vue'));
+Vue.component('member-show', require('./components/Members/MemberShow.vue'));
+Vue.component('member-edit', require('./components/Members/MemberEdit.vue'));
 
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
+import locale from 'element-ui/lib/locale/lang/en'
+Vue.use(ElementUI, { locale })
 const app = new Vue({
     el: '#app'
 });
+
+window.vm = app;

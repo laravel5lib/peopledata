@@ -25,6 +25,11 @@ return [
         'region' => 'us-east-1',
     ],
 
+    'people' => [
+        'id' => env('PEOPLE_APP_ID'),
+        'secret' => env('PEOPLE_APP_SECRET'),
+    ],
+
     'sparkpost' => [
         'secret' => env('SPARKPOST_SECRET'),
     ],
