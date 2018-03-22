@@ -67832,8 +67832,8 @@ __WEBPACK_IMPORTED_MODULE_0__node_modules_pnotify_dist_es_PNotify_js__["a" /* de
         });
         this.on("error", function (file, errorMessage, xhr) {
           __WEBPACK_IMPORTED_MODULE_0__node_modules_pnotify_dist_es_PNotify_js__["a" /* default */].error("No se ha podido actualizar la imagen!");
-          __WEBPACK_IMPORTED_MODULE_0__node_modules_pnotify_dist_es_PNotify_js__["a" /* default */].error(errorMessage);
-          __WEBPACK_IMPORTED_MODULE_0__node_modules_pnotify_dist_es_PNotify_js__["a" /* default */].error(xhr);
+          console.log(errorMessage);
+          console.log(xhr);
           window.vm.$children[0].image_layer = false;
         });
       }
