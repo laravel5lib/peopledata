@@ -146,7 +146,8 @@
           });
           this.on("error", function (file, errorMessage, xhr) {
             PNotify.error("No se ha podido actualizar la imagen!");
-            PNotify.error(errorMessage);
+            console.log(errorMessage);
+            console.log(xhr);
             window.vm.$children[0].image_layer = false
           });
         }
