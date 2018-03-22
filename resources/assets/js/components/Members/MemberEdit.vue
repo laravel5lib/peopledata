@@ -164,6 +164,8 @@
     },
     computed: {
       age: function () {
+        if(!this.member.birthdate) return '-?-';
+        else if(moment(this.member.birthdate).format('YYYY') == '2018' || moment(this.member.birthdate).format('YYYY') == '2017')return '-?-';
         return moment().diff(this.member.birthdate, 'years');
       }
     },
