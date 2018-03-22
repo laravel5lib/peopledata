@@ -144,6 +144,11 @@
             PNotify.success("Se ha cambiado la imagen corectamente!");
             window.vm.$children[0].image_layer = false
           });
+          this.on("error", function (file, errorMessage, xhr) {
+            PNotify.error("No se ha podido actualizar la imagen!");
+            PNotify.error(errorMessage);
+            window.vm.$children[0].image_layer = false
+          });
         }
       };
     },
