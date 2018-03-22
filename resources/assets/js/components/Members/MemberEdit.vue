@@ -6,7 +6,7 @@
                     <div class="row">
                         <div class="col-md-2 ">
                             <div class="align-items-center justify-content-center text-center user_avatar">
-                                <a @mouseover="image_layer = true" @mouseout="image_layer = false">
+                                <a v-touch="()=>{image_layer = true}" @mouseover="image_layer = true" @mouseout="image_layer = false">
                                     <img :src="member.image" :alt="member.name" class="rounded-circle img-fluid img-thumbnail" width="120">
                                     <form v-show="image_layer" :action="'/members/'+member.id + '/addimage'" class="dropzone image_layer" id="my-awesome-dropzone"></form>
                                 </a>
@@ -142,6 +142,7 @@
           this.on("success", function (file, response) {
             if (response.data) window.vm.$children[0].member = response.data
             PNotify.success("Se ha cambiado la imagen corectamente!");
+            window.vm.$children[0].image_layer = false
           });
         }
       };
