@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+    Lista de miembros @parent
+@endsection
+
 @section('content')
     <div class="container">
         @foreach($members->chunk(3) as $chunk)
