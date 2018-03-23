@@ -21,7 +21,7 @@
                                     </div>
                                     <div class="col-8">
                                         <h5 class="card-title">{{ $member->name }}</h5>
-                                        <p class="card-text">{{ $member->created_at }}</p>
+                                        <p class="card-text">{{ $member->updated_at }}</p>
                                         <a href="{{ \Illuminate\Support\Facades\URL::signedRoute('members.updateinfo', ['id' => $member->id]) }}" class="btn btn-primary">Actualizar</a>
                                         <a href="{{ route('members.edit', ['member' => $member->id]) }}" class="btn btn-success">Editar</a>
                                     </div>

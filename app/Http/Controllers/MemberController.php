@@ -42,7 +42,7 @@ class MemberController extends Controller
 //                }
 //            }
 //        }
-        $members = Member::all();
+        $members = Member::orderBy('updated_at', 'desc')->get();
         return view('members.index', compact('members'));
     }
 
