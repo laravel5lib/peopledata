@@ -5,15 +5,28 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-2 ">
+                            <div class="text-center"><small class="text-muted">Ha click sobre la imagen para cambiar tu foto</small></div>
                             <div class="align-items-center justify-content-center text-center user_avatar">
                                 <a v-touch="()=>{image_layer = true}" @mouseover="image_layer = true" @mouseout="image_layer = false">
                                     <img :src="member.image" :alt="member.name" class="rounded-circle img-fluid img-thumbnail" width="120">
                                     <form v-show="image_layer" :action="'/members/'+member.id + '/addimage'" class="dropzone image_layer" id="my-awesome-dropzone"></form>
                                 </a>
                             </div>
+                            <hr>
                             <div class="age">
                                 {{ age }} <br>
                                 <small>años</small>
+                            </div>
+                            <div>
+                                <div class="form-group text-center">
+                                    <!--<label for="birthdate">Fecha de nacimiento</label>-->
+                                    <div>
+                                        <el-date-picker name="birthdate" align="center" format="yyyy-MM-dd" value-format="yyyy-MM-dd" id="birthdate" v-model="member.birthdate" type="date" placeholder="Escoja una fecha"></el-date-picker>
+                                    </div>
+                                    <!--<input type="birthdate" :class="{ 'is-invalid' : errors.birthdate }" class="form-control" id="birthdate" aria-describedby="birthdateHelp" v-model="member.birthdate" @keyup="resetErrors('birthdate')">-->
+                                    <small v-if="errors.birthdate" id="birthdateHelp" class="form-text invalid-feedback">{{ errors.birthdate[0] }}</small>
+                                    <small v-else id="birthdateHelp" class="form-text text-muted">Fecha de nacimiento en formato AAAA-MM-DD</small>
+                                </div>
                             </div>
 
                         </div>
@@ -38,17 +51,6 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md">
-                                        <div class="form-group">
-                                            <label for="birthdate">Fecha de nacimiento</label>
-                                            <div>
-                                                <el-date-picker name="birthdate" align="center" format="yyyy-MM-dd" value-format="yyyy-MM-dd" id="birthdate" v-model="member.birthdate" type="date" placeholder="Escoja una fecha"></el-date-picker>
-                                            </div>
-                                            <!--<input type="birthdate" :class="{ 'is-invalid' : errors.birthdate }" class="form-control" id="birthdate" aria-describedby="birthdateHelp" v-model="member.birthdate" @keyup="resetErrors('birthdate')">-->
-                                            <small v-if="errors.birthdate" id="birthdateHelp" class="form-text invalid-feedback">{{ errors.birthdate[0] }}</small>
-                                            <small v-else id="birthdateHelp" class="form-text text-muted">Fecha de nacimiento en formato AAAA-MM-DD</small>
-                                        </div>
-                                    </div>
                                     <div class="col-md">
                                         <div class="form-group" v-if="!member.child">
                                             <label for="marital_status_id">Estado civil</label>
