@@ -42,7 +42,7 @@ class MemberController extends Controller
 //                }
 //            }
 //        }
-        $members = Member::all();
+        $members = Member::take(5)->get();
         return view('members.index', compact('members'));
     }
 
