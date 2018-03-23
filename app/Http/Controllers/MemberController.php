@@ -212,6 +212,8 @@ class MemberController extends Controller
             }
         }
         $member->append('image');
+        $member->authorization = Carbon::now();
+        $member->save();
         $results['data'] = $member;
         return $results;
     }
