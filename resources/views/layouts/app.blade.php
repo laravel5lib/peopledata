@@ -4,6 +4,9 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="http://www.elencuentrocondios.com/wp-content/uploads/2016/08/cropped-500pxElEncuentro-32x32.jpg" sizes="32x32">
+    <link rel="icon" href="http://www.elencuentrocondios.com/wp-content/uploads/2016/08/cropped-500pxElEncuentro-192x192.jpg" sizes="192x192">
+    <link rel="apple-touch-icon-precomposed" href="http://www.elencuentrocondios.com/wp-content/uploads/2016/08/cropped-500pxElEncuentro-180x180.jpg">
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
