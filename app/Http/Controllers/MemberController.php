@@ -27,21 +27,22 @@ class MemberController extends Controller
      */
     public function index()
     {
-        $members = collect([]);
-        $client  = new Client();
-        if ($id = request()->get('id')) {
-            $res = $client->get('https://api.planningcenteronline.com/people/v2/people?where[id]=' . $id, ['auth' => [config('services.people.id'), config('services.people.secret')]]);
-        } else {
-            $res = $client->get('https://api.planningcenteronline.com/people/v2/people', ['auth' => [config('services.people.id'), config('services.people.secret')]]);
-        }
-        if ($res->getStatusCode() == 200) {
-            $response = json_decode($res->getBody(), true);
-            if (isset($response['data'])) {
-                foreach ($response['data'] as $mb) {
-                    $members->push(Member::firstOrCreate(['id' => $mb['id']]));
-                }
-            }
-        }
+//        $members = collect([]);
+//        $client  = new Client();
+//        if ($id = request()->get('id')) {
+//            $res = $client->get('https://api.planningcenteronline.com/people/v2/people?where[id]=' . $id, ['auth' => [config('services.people.id'), config('services.people.secret')]]);
+//        } else {
+//            $res = $client->get('https://api.planningcenteronline.com/people/v2/people', ['auth' => [config('services.people.id'), config('services.people.secret')]]);
+//        }
+//        if ($res->getStatusCode() == 200) {
+//            $response = json_decode($res->getBody(), true);
+//            if (isset($response['data'])) {
+//                foreach ($response['data'] as $mb) {
+//                    $members->push(Member::firstOrCreate(['id' => $mb['id']]));
+//                }
+//            }
+//        }
+        $members = Member::all();
         return view('members.index', compact('members'));
     }
 
