@@ -5,18 +5,23 @@
 
 @section('content')
     @php
-        $church = 'LA IGLESIA EL ENCUENTRO CON DIOS';
+        $church = 'LA IGLESIA CRISTIANA EL ENCUENTRO CON LA PALABRA DE DIOS';
     @endphp
     <div class="container">
         <h1>Aviso de privacidad</h1>
         <h3>POLÍTICA DE PRIVACIDAD Y PROTECCIÓN DE DATOS PERSONALES DE {{ $church }}</h3>
         <hr>
-        <p>A continuación se presenta la Política de Privacidad y Protección de Datos Personales (en adelante la Política de Privacidad) aplicable a las personas que suministren sus datos personales (en adelante el “Titular”) a
-            <strong>{{ $church }}</strong> (en adelante “LA IGLESIA”), los cuales se incluirán en las bases de datos de LA IGLESIA y serán sometidos a Tratamiento por parte de dicha entidad.
+        <p>A continuación se presenta la Política de Privacidad y Protección de Datos Personales (en adelante la Política de Privacidad) aplicable a las
+            personas que suministren sus datos personales (en adelante el “Titular”) a
+            <strong>{{ $church }}</strong> (en adelante “LA IGLESIA”), los cuales se incluirán en las bases de datos de LA IGLESIA y serán sometidos a
+            Tratamiento por parte de dicha entidad.
         </p>
         <hr>
         <h4>1. Responsable y Encargado del Tratamiento:</h4>
-        <p>La entidad religiosa {{ $church }}¸ con domicilio principal en la ciudad de Medellín, la cual consta de Personería Jurídica Especial reconocida mediante la Resolución XX, inscrita en el Registro Público de las Entidades Religiosas y representada legalmente por el señor XX, identificado con cédula de ciudadanía No. XX de la ciudad de XX.</p>
+        <p>La entidad religiosa {{ $church }}¸ con domicilio principal en la ciudad de Medellín, la cual consta de Personería Jurídica Especial reconocida
+            mediante la Resolución 0551 del 24 de marzo de 2011, inscrita en el Registro Público de las Entidades Religiosas y representada legalmente por
+            el señor ALVARO FERNANDEZ SANCHEZ, identificado
+            con cédula de ciudadanía No. 396840 de la ciudad de Bogotá D.C.</p>
         <hr>
         <h4>2. Alcance de la Política de Privacidad:</h4>
         <p>La presente Política de Privacidad se aplicará a todas las Bases de Datos y/o archivos que contengan Datos Personales que sean objeto de Tratamiento por parte de LA IGLESIA, en los eventos en los cuales se le considere como Responsable y/o Encargado del Tratamiento de Datos Personales de personas naturales, conforme a las disposiciones de la Ley Estatutaria 1581 de 2012, el Decreto 1377 de 2013 y demás normas que en adelante las modifiquen y/o adicionen.</p>
