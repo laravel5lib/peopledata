@@ -93,6 +93,39 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <div class="col-md">
+                                        <div class="form-group">
+                                            <label for="profession">Profesión</label>
+                                            <input type="text" :class="{ 'is-invalid' : errors.profession }" class="form-control" id="profession" aria-describedby="professionHelp" v-model="member.profession" @keyup="resetErrors('profession')">
+                                            <small v-if="errors.profession" id="professionHelp" class="form-text invalid-feedback">{{ errors.profession[0] }}</small>
+                                            <small v-else id="professionHelp" class="form-text text-muted">Profesión o principal área de trabajo</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md">
+                                        <div class="form-group">
+                                            <label for="working">Situación laboral actual</label>
+                                            <select :class="{ 'is-invalid' : errors.working }" class="form-control" id="working" aria-describedby="workingHelp" v-model="member.working" @change="resetErrors('working')">
+                                                <option value="">&nbsp;</option>
+                                                <option value="Empleado/a">Empleado/a</option>
+                                                <option value="Independiente">Independiente</option>
+                                                <option value="Buscando trabajo">Buscando trabajo</option>
+                                                <option value="Pensionado/a">Pensionado/a</option>
+                                            </select>
+                                            <small v-if="errors.working" id="workingHelp" class="form-text invalid-feedback">{{ errors.working[0] }}</small>
+                                            <small v-else id="workingHelp" class="form-text text-muted">Selecciona una opción de la lista</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md">
+                                        <div class="form-group">
+                                            <label for="company">Empresa / Organización</label>
+                                            <input type="text" :class="{ 'is-invalid' : errors.company }" class="form-control" id="company" aria-describedby="companyHelp" v-model="member.company" @keyup="resetErrors('company')">
+                                            <small v-if="errors.company" id="companyHelp" class="form-text invalid-feedback">{{ errors.company[0] }}</small>
+                                            <small v-else id="companyHelp" class="form-text text-muted">Donde trabajas o realizas tu actividad principal</small>
+                                        </div>
+                                    </div>
+
+                                </div>
                                 <button type="submit" class="btn btn-primary">Actualizar</button>
                                 <!--<a href="/members" class="btn btn-danger">Cancelar</a>-->
                             </form>
@@ -185,6 +218,9 @@
           birthdate: this.member.birthdate,
           email: this.member.email,
           phone: this.member.phone,
+          profession: this.member.profession,
+          working: this.member.working,
+          company: this.member.company,
         }).then(
           ({data}) => {
             if (data.data) this.member = data.data

@@ -27,22 +27,26 @@ class MemberController extends Controller
      */
     public function index()
     {
-//        $members = collect([]);
-//        $client  = new Client();
-//        if ($id = request()->get('id')) {
-//            $res = $client->get('https://api.planningcenteronline.com/people/v2/people?where[id]=' . $id, ['auth' => [config('services.people.id'), config('services.people.secret')]]);
-//        } else {
+        if ($id = request()->get('id')) {
+            $members = Member::where('id', $id)->get();
+            if ($members->count() == 0) {
+                $members = collect([]);
+                $client  = new Client();
+                $res     = $client->get('https://api.planningcenteronline.com/people/v2/people?where[id]=' . $id, ['auth' => [config('services.people.id'), config('services.people.secret')]]);
+                if ($res->getStatusCode() == 200) {
+                    $response = json_decode($res->getBody(), true);
+                    if (isset($response['data'])) {
+                        foreach ($response['data'] as $mb) {
+                            $members->push(Member::firstOrCreate(['id' => $mb['id']]));
+                        }
+                    }
+                }
+            }
+        } else {
+            $members = Member::orderBy('updated_at', 'desc')->get();
 //            $res = $client->get('https://api.planningcenteronline.com/people/v2/people', ['auth' => [config('services.people.id'), config('services.people.secret')]]);
-//        }
-//        if ($res->getStatusCode() == 200) {
-//            $response = json_decode($res->getBody(), true);
-//            if (isset($response['data'])) {
-//                foreach ($response['data'] as $mb) {
-//                    $members->push(Member::firstOrCreate(['id' => $mb['id']]));
-//                }
-//            }
-//        }
-        $members = Member::orderBy('updated_at', 'desc')->get();
+        }
+
         return view('members.index', compact('members'));
     }
 
@@ -55,7 +59,8 @@ class MemberController extends Controller
     {
         $member = Member::firstOrCreate(['id' => $id]);
         $member->updateFromPeople();
-        $member->append('image');
+        $member->append(['image', 'profession','working','company']);
+//        $member->load('fields');
         $marital_statuses = MaritalStatus::all();
         return view('members.updateinfo', compact('member', 'marital_statuses'));
     }
@@ -212,7 +217,10 @@ class MemberController extends Controller
                 }
             }
         }
-        $member->append('image');
+        if ($profession = request()->get('profession')) $member->profession = $profession;
+        if ($working = request()->get('working')) $member->working = $working;
+        if ($company = request()->get('company')) $member->company = $company;
+        $member->append(['image', 'profession', 'working', 'company']);
         $member->authorization = Carbon::now();
         $member->save();
         $results['data'] = $member;
@@ -295,4 +303,6 @@ class MemberController extends Controller
         $results['data'] = $member;
         return $results;
     }
+
+
 }
