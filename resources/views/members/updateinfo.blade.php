@@ -1,6 +1,6 @@
 @extends('layouts.public')
 @section('title')
-    Actualización de datos personales @parent
+    Actualización de datos: {{ $member->name }} @parent
 @endsection
 @section('content')
     <div class="container">
