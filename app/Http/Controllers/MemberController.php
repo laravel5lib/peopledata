@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\MaritalStatus;
 use App\Member;
+use App\PCO\Field;
 use MediaUploader;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
@@ -59,10 +60,10 @@ class MemberController extends Controller
     {
         $member = Member::firstOrCreate(['id' => $id]);
         $member->updateFromPeople();
-        $member->append(['image', 'profession','working','company']);
-//        $member->load('fields');
+        $member->append(['image', 'profession','working','company','courses']);
         $marital_statuses = MaritalStatus::all();
-        return view('members.updateinfo', compact('member', 'marital_statuses'));
+        $courses = Field::where('tab_id',47880)->orderBy('sequence')->get();
+        return view('members.updateinfo', compact('member', 'marital_statuses', 'courses'));
     }
 
     /**
@@ -220,7 +221,16 @@ class MemberController extends Controller
         if ($profession = request()->get('profession')) $member->profession = $profession;
         if ($working = request()->get('working')) $member->working = $working;
         if ($company = request()->get('company')) $member->company = $company;
-        $member->append(['image', 'profession', 'working', 'company']);
+        if($courses = request()->get('courses')){
+            $actual_courses = $member->courses;
+            $allcourses = Field::where('tab_id',47880)->orderBy('sequence')->get();
+            foreach ($allcourses as $course){
+                if(isset($courses[$course->id]) && $courses[$course->id] != $actual_courses[$course->id]){
+                    $member->updateFieldValue($course->id,$courses[$course->id]);
+                }
+            }
+        }
+        $member->append(['image', 'profession','working','company','courses']);
         $member->authorization = Carbon::now();
         $member->save();
         $results['data'] = $member;

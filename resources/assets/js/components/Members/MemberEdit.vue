@@ -1,7 +1,8 @@
 <template>
     <div class="row justify-content-center" v-if="member">
         <div class="col-12">
-            <div class="card">
+            <div class="card mb-3">
+                <div class="card-header text-white bg-info">Información Personal</div>
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-2 ">
@@ -28,7 +29,6 @@
                                     <small v-else id="birthdateHelp" class="form-text text-muted">Fecha de nacimiento en formato AAAA-MM-DD</small>
                                 </div>
                             </div>
-
                         </div>
                         <div class="col-md-10">
                             <form @submit.prevent="updateMember">
@@ -124,15 +124,11 @@
                                             <small v-else id="companyHelp" class="form-text text-muted">Donde trabajas o realizas tu actividad principal</small>
                                         </div>
                                     </div>
-
                                 </div>
-                                <button type="submit" class="btn btn-primary">Actualizar</button>
+                                <div class="row"><div class="col-md text-right"><button type="submit" class="btn btn-primary">Actualizar</button></div></div>
                                 <!--<a href="/members" class="btn btn-danger">Cancelar</a>-->
                             </form>
                         </div>
-                            <!--<small class="text-muted">Importante: Toda la información que requiera con respecto al Tratamiento de sus datos puede consultarse-->
-                                <!--en la politica de tratamiento de datos de LA IGLESIA EL ENCUENTRO CON DIOS, el cual contiene nuestras políticas para el tratamiento de la información recogida, así como los procedimientos de consulta y reclamación que le permitirán hacer efectivos sus derechos al acceso, consulta, rectificación, actualización y supresión de los datos, visitando la página-->
-                                <!--<a href="/terms">data.elencuentrocondios.com/terms</a>, escribiendo al correo electrónico comunicaciones@elencuentrocondios.com o comunicándose con nosotros al teléfono 034 2686025</small>-->
                     </div>
                 </div>
                 <div class="card-footer text-muted">
@@ -143,6 +139,36 @@
                         <br>
                         Con esta aceptación, autorizo el tratamiento de mis datos para las finalidades arriba mencionadas y reconozco que los datos suministrados son ciertos y no ha sido omitida o alterada ninguna información, quedando informado que la falsedad u omisión de algún dato supondrá la imposibilidad de prestar correctamente el servicio.
                     </small>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header text-white bg-info">Educación Cristiana</div>
+                <!--<div class="card-footer text-muted"><small>Esta es la lista de cursos disponibles,</small></div>-->
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item" v-for="course in courses" :class="{'list-group-item-info':course.data_type=='header'}">
+                        <div class="row">
+                            <div class="col-md">{{ course.name }}</div>
+                            <div class="col-md" v-if="course.data_type=='select'">
+                                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                    <label @click="setCourse(course.id,'Si')" class="btn btn-outline-secondary" :class="{'active':member.courses[course.id] === 'Si'}">
+                                        <input  type="radio" name="options" value="Si" autocomplete="off"> Si
+                                    </label>
+                                    <label @click="setCourse(course.id,'No')" class="btn btn-outline-secondary" :class="{'active':member.courses[course.id] === 'No' || !member.courses[course.id]}">
+                                        <input type="radio" name="options" autocomplete="off"> No
+                                    </label>
+                                    <label @click="setCourse(course.id,'En curso actualmente')" class="btn btn-outline-secondary" :class="{'active':member.courses[course.id] === 'En curso actualmente'}">
+                                        <input type="radio" name="options" autocomplete="off"> En curso
+                                    </label>
+                                    <label @click="setCourse(course.id,'No terminado')" class="btn btn-outline-secondary" :class="{'active':member.courses[course.id] === 'No terminado'}">
+                                        <input type="radio" name="options" autocomplete="off"> No terminé
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <div class="card-body">
+                    <div class="row"><div class="col-md text-right"><button type="button" @click="updateMember" class="btn btn-primary">Actualizar</button></div></div>
                 </div>
             </div>
         </div>
@@ -188,7 +214,7 @@
         }
       };
     },
-    props: ['initial', 'marital_statuses'],
+    props: ['initial', 'marital_statuses', 'courses'],
     data () {
       return {
         loading: 0,
@@ -221,6 +247,7 @@
           profession: this.member.profession,
           working: this.member.working,
           company: this.member.company,
+          courses: this.member.courses
         }).then(
           ({data}) => {
             if (data.data) this.member = data.data
@@ -243,6 +270,9 @@
             }
           }
         );
+      },
+      setCourse(course_id,value){
+        Vue.set(this.member.courses,course_id,value)
       }
     }
   }

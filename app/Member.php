@@ -78,8 +78,13 @@ class Member extends Model
                 } elseif (($included['type'] == 'FieldDatum')) {
                     if ($field = Field::find(data_get($included, 'relationships.field_definition.data.id'))) {
                         $value = data_get($included, 'attributes.value');
-                        $this->fields()->syncWithoutDetaching([$field->id => ['id' => $included['id'], 'value' => $value]]);
-//                        dd($this->fields);
+                        $fields = $this->fields()->where('field_id',$field->id)->get()->pluck('pivot.value','pivot.id');
+                        $fields[$included['id']] = $value;
+                        $this->fields()->detach($field->id);
+                        foreach($fields as $key=>$val){
+                            $this->fields()->attach($field->id, ['id' => $key, 'value' => $val]);
+                        }
+//                        $this->fields()->syncWithoutDetaching([$field->id => ['id' => $included['id'], 'value' => $value]]);
                     }
                 } else {
 //                    dd($included);
@@ -205,5 +210,18 @@ class Member extends Model
     public function setCompanyAttribute($value)
     {
         $this->updateFieldValue(187252, $value);
+    }
+
+    /**
+     * Calculates courses values
+     * @return \Illuminate\Support\Collection
+     */
+    public function getCoursesAttribute()
+    {
+        $results = collect([]);
+        foreach ($this->fields()->where('tab_id',47880)->get() as $field){
+            $results[$field->id]  = $field->pivot->value;
+        }
+        return $results;
     }
 }

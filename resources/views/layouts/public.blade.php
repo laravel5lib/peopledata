@@ -26,7 +26,7 @@
     <div id="app">
         <nav class="navbar navbar-light navbar-laravel">
             <div class="container">
-                <a class="navbar-brand" href="#">
+                <a class="navbar-brand text-truncate" href="#">
                     <img src="{{ asset('images/logos/el-encuentro-168x100.png') }}" height="30" alt="El Encuentro con Dios" class="d-inline-block align-top">
                     Actualización de Datos :: El Encuentro con Dios
                 </a>

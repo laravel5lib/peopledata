@@ -39,6 +39,7 @@ Artisan::command('people:fields', function () {
                 $this->line($row['id']);
                 $field = \App\PCO\Field::firstOrCreate(['id'=>$row['id']],$row['attributes']);
                 $field->update($row['attributes']);
+                $field->updateOptions();
             }
         }
     }
