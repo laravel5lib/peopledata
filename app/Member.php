@@ -77,13 +77,16 @@ class Member extends Model
                     // processed above
                 } elseif (($included['type'] == 'FieldDatum')) {
                     if ($field = Field::find(data_get($included, 'relationships.field_definition.data.id'))) {
-                        $value = data_get($included, 'attributes.value');
-                        $fields = $this->fields()->where('field_id',$field->id)->get()->pluck('pivot.value','pivot.id');
-                        $fields[$included['id']] = $value;
-                        $this->fields()->detach($field->id);
-                        foreach($fields as $key=>$val){
-                            $this->fields()->attach($field->id, ['id' => $key, 'value' => $val]);
-                        }
+                        $value                   = data_get($included, 'attributes.value');
+//                        $fields                  = $this->fields()->where('field_id', $field->id)->get()->pluck('pivot.value', 'pivot.id');
+                        $this->fields()->syncWithoutDetaching([$field->id => ['id' => $included['id'], 'value' => $value]]);
+//                        if($field->id==178703) dd($fields);
+//                        $fields[$included['id']] = $value;
+//                        $this->fields()->detach($field->id);
+//                        foreach ($fields as $key => $val) {
+//                            $this->fields()->attach($field->id, ['id' => $key, 'value' => $val]);
+//                            $this->fields()->syncWithoutDetaching([$field->id => ['id' => $key, 'value' => $val]]);
+//                        }
 //                        $this->fields()->syncWithoutDetaching([$field->id => ['id' => $included['id'], 'value' => $value]]);
                     }
                 } else {
@@ -123,10 +126,10 @@ class Member extends Model
      */
     public function updateFieldValue($field_id, $value)
     {
-        $data = $this->fields()->where('fields.id', $field_id)->first();
+        $data   = $this->fields()->where('fields.id', $field_id)->first();
         $client = new Client();
         if ($data_id = data_get($data, 'pivot.id')) {
-            $res    = $client->patch('https://api.planningcenteronline.com/people/v2/field_data/' . $data_id,
+            $res = $client->patch('https://api.planningcenteronline.com/people/v2/field_data/' . $data_id,
                 ['auth' => [config('services.people.id'), config('services.people.secret')],
                  'json' => ['data' => [
                      'type' => 'FieldDatum', 'id' => $data_id, 'attributes' => ['value' => $value]
@@ -134,19 +137,19 @@ class Member extends Model
                 ]
             );
             if ($res->getStatusCode() == 200) {
-                $this->fields()->syncWithoutDetaching([$field_id=> ['value' => $value]]);
+                $this->fields()->syncWithoutDetaching([$field_id => ['value' => $value]]);
 //                $this->fields()->updateExistingPivot($field_id, ['value' => $value]);
             }
-        } else{
-            $res    = $client->post('https://api.planningcenteronline.com/people/v2/people/'. $this->id.'/field_data',
+        } else {
+            $res = $client->post('https://api.planningcenteronline.com/people/v2/people/' . $this->id . '/field_data',
                 ['auth' => [config('services.people.id'), config('services.people.secret')],
                  'json' => ['data' => [
-                     'type' => 'FieldDatum', 'attributes' => ['value' => $value, 'field_definition_id'=>$field_id]
+                     'type' => 'FieldDatum', 'attributes' => ['value' => $value, 'field_definition_id' => $field_id]
                  ]]
                 ]
             );
             if ($res->getStatusCode() == 200 || $res->getStatusCode() == 201) {
-                $this->fields()->syncWithoutDetaching([$field_id=> ['value' => $value]]);
+                $this->fields()->syncWithoutDetaching([$field_id => ['value' => $value]]);
             }
         }
     }
@@ -157,7 +160,7 @@ class Member extends Model
      */
     public function getProfessionAttribute()
     {
-        if($field = $this->fields()->where('fields.id',167052)->first()){
+        if ($field = $this->fields()->where('fields.id', 167052)->first()) {
             return $field->pivot->value;
         }
         return '';
@@ -171,13 +174,14 @@ class Member extends Model
     {
         $this->updateFieldValue(167052, $value);
     }
+
     /**
      * Calculates profession field value
      * @return string
      */
     public function getWorkingAttribute()
     {
-        if($field = $this->fields()->where('fields.id',178703)->first()){
+        if ($field = $this->fields()->where('fields.id', 178703)->first()) {
             return $field->pivot->value;
         }
         return '';
@@ -191,13 +195,14 @@ class Member extends Model
     {
         $this->updateFieldValue(178703, $value);
     }
+
     /**
      * Calculates profession field value
      * @return string
      */
     public function getCompanyAttribute()
     {
-        if($field = $this->fields()->where('fields.id',187252)->first()){
+        if ($field = $this->fields()->where('fields.id', 187252)->first()) {
             return $field->pivot->value;
         }
         return '';
@@ -219,8 +224,8 @@ class Member extends Model
     public function getCoursesAttribute()
     {
         $results = collect([]);
-        foreach ($this->fields()->where('tab_id',47880)->get() as $field){
-            $results[$field->id]  = $field->pivot->value;
+        foreach ($this->fields()->where('tab_id', 47880)->get() as $field) {
+            $results[$field->id] = $field->pivot->value;
         }
         return $results;
     }
