@@ -134,7 +134,6 @@ class MemberController extends Controller
             'last_name'  => 'required|min:3',
             'gender'     => 'required',
             'email'      => 'nullable|email',
-            'birthdate'  => 'required|date',
         ]);
         $results = [];
         $client  = new Client();
