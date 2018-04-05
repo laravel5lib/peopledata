@@ -198,18 +198,20 @@
           this.on("addedfile", function (file) { window.vm.$children[0].loading++ });
           this.on("complete", function (file) {
             this.removeFile(file);
-            window.vm.$children[0].loading--
+            window.vm.$children[0].loading = 0
           });
           this.on("success", function (file, response) {
             if (response.data) window.vm.$children[0].member = response.data
-            PNotify.success("Se ha cambiado la imagen corectamente!");
+            PNotify.success("Se ha cambiado la imagen correctamente!");
             window.vm.$children[0].image_layer = false
+            window.vm.$children[0].loading = 0
           });
           this.on("error", function (file, errorMessage, xhr) {
             PNotify.error("No se ha podido actualizar la imagen!");
             console.log(errorMessage);
             console.log(xhr);
             window.vm.$children[0].image_layer = false
+            window.vm.$children[0].loading = 0
           });
         }
       };

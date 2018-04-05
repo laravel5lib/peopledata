@@ -23,6 +23,7 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import locale from 'element-ui/lib/locale/lang/en'
 Vue.use(ElementUI, { locale })
+
 import Vue2TouchEvents from 'vue2-touch-events'
 Vue.use(Vue2TouchEvents)
 
