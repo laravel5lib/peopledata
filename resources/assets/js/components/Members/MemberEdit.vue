@@ -6,7 +6,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-2 ">
-                            <div class="text-center"><small class="text-muted">Ha click sobre la imagen para cambiar tu foto</small></div>
+                            <div class="text-center"><small class="text-muted">Haz click sobre la imagen para cambiar tu foto</small></div>
                             <div class="align-items-center justify-content-center text-center user_avatar">
                                 <a v-touch="()=>{image_layer = true}" @mouseover="image_layer = true" @mouseout="image_layer = false">
                                     <img :src="member.image" :alt="member.name" class="rounded-circle img-fluid img-thumbnail" width="120">
