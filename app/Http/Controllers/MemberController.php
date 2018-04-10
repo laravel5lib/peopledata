@@ -224,7 +224,10 @@ class MemberController extends Controller
             $actual_courses = $member->courses;
             $allcourses = Field::where('tab_id',47880)->orderBy('sequence')->get();
             foreach ($allcourses as $course){
-                if(isset($courses[$course->id]) && $courses[$course->id] != $actual_courses[$course->id]){
+                if(isset($courses[$course->id]) && (
+                    !isset($actual_courses[$course->id]) ||
+                                                   ($courses[$course->id] != $actual_courses[$course->id])
+                    )){
                     $member->updateFieldValue($course->id,$courses[$course->id]);
                 }
             }
