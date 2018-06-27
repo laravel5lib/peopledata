@@ -92,11 +92,62 @@ class MemberController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return array
      */
     public function store(Request $request)
     {
-        //
+        $this->validate(request(), [
+            'first_name' => 'required|min:3',
+            'last_name'  => 'required|min:3',
+        ]);
+        $results = [];
+        $client  = new Client();
+        $data    = [
+            'type'       => 'Person', 
+            'attributes' => [
+                'first_name' => request()->get('first_name'),
+                'last_name'  => request()->get('last_name'),
+            ]
+        ];
+        $res = $client->post('https://api.planningcenteronline.com/people/v2/people',
+            ['auth' => [config('services.people.id'), config('services.people.secret')],
+             'json' => ['data' => $data]
+            ]
+        );
+        if($res->getStatusCode() == 200 || $res->getStatusCode() == 201){
+            $response = json_decode($res->getBody(), true);
+//            $results['response'] = $response;
+            if(isset($response['data']['id'])){
+                $member = Member::firstOrCreate(['id'=>$response['data']['id']]);
+                if ($email = request()->get('email')) {
+                    $client_email = new Client();
+                    $res_email    = $client_email->post('https://api.planningcenteronline.com/people/v2/people/' . $member->id . '/emails',
+                        ['auth' => [config('services.people.id'), config('services.people.secret')],
+                         'json' => ['data' => ['type' => 'Email', 'attributes' => ['address' => $email, 'location' => 'Home', 'primary' => true]]]
+                        ]
+                    );
+                    if ($res_email->getStatusCode() == 200 || $res_email->getStatusCode() == 201) {
+                        $member->email = $email;
+                        $member->save();
+                    }
+                }
+                if($phone = request()->get('phone')){
+                    $client_phone = new Client();
+                    $res_phone    = $client_phone->post('https://api.planningcenteronline.com/people/v2/people/' . $member->id . '/phone_numbers',
+                        ['auth' => [config('services.people.id'), config('services.people.secret')],
+                         'json' => ['data' => ['type' => 'PhoneNumber', 'attributes' => ['number' => $phone, 'location' => 'Mobile', 'primary' => true]]]
+                        ]
+                    );
+                    if ($res_phone->getStatusCode() == 200 || $res_phone->getStatusCode() == 201) {
+                        $member->phone = $phone;
+                        $member->save();
+                    }
+                }
+                $member->updateFromPeople();
+                $results['member'] = $member;
+            }
+        }
+        return $results;
     }
 
     /**
@@ -313,6 +364,25 @@ class MemberController extends Controller
         }
         $member->append('image');
         $results['data'] = $member;
+        return $results;
+    }
+
+    /**
+     * @return array
+     */
+    public function search()
+    {
+        $results = [];
+        if($query = request()->get('search')){
+            $members = Member::where('name','like','%'.$query.'%')
+                ->orWhere('first_name','like','%'.$query.'%')
+                ->orWhere('last_name','like','%'.$query.'%')
+                ->orWhere('email','like','%'.$query.'%')
+                ->orWhere('phone','like','%'.$query.'%')
+                ->get();
+            $members->each->append(['image', 'profession','working','company','courses']);
+            $results['members'] = $members;
+        }
         return $results;
     }
 

@@ -37,7 +37,8 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-                        <li><a class="nav-link" href="/members">Miembros</a></li>
+                        <li class="{{ request()->is('members')?'active':'' }}"><a class="nav-link" href="/members">Miembros</a></li>
+                        <li class="{{ request()->is('courses')?'active':'' }}"><a class=" nav-link" href="/courses">Educación Cristiana</a></li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->

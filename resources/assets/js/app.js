@@ -18,6 +18,8 @@ window.Vue = require('vue');
 Vue.component('spinner', require('./components/Utils/Spinner.vue'));
 Vue.component('member-show', require('./components/Members/MemberShow.vue'));
 Vue.component('member-edit', require('./components/Members/MemberEdit.vue'));
+Vue.component('students-search', require('./components/Courses/StudentsSearch.vue'));
+Vue.component('student-inscription', require('./components/Courses/StudentInscription.vue'));
 
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
