@@ -4,7 +4,7 @@
             <div class="col-md-1 text-center"><img :src="member.image" :alt="member.name" class="rounded-circle img-fluid img-thumbnail mb-1" width="100">
                 <button type="button" class="btn btn-danger btn-sm" @click="removeStudent">Quitar</button>
             </div>
-            <div class="col-md-3">{{ member.first_name }} {{ member.last_name }}<br>
+            <div class="col-md-3"><a :href="'/members/'+member.id + '/edit'">{{ member.first_name }} {{ member.last_name }}</a><br>
                 <small class="text-muted">{{ member.email }}</small>
                 <br>
                 <small class="text-muted">Tel: {{ member.phone }}</small>
