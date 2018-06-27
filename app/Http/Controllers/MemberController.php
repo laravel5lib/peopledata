@@ -169,7 +169,11 @@ class MemberController extends Controller
      */
     public function edit(Member $member)
     {
-        return view('members.edit', compact('member'));
+        $member->updateFromPeople();
+        $member->append(['image', 'profession','working','company','courses']);
+        $marital_statuses = MaritalStatus::all();
+        $courses = Field::where('tab_id',47880)->orderBy('sequence')->get();
+        return view('members.edit', compact('member', 'marital_statuses', 'courses'));
     }
 
     /**

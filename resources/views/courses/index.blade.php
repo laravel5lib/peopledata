@@ -10,7 +10,15 @@
             <div class="col-md">
                 <div class="card mb-2">
                     <div class="card-body">
-                        <a href="/courses/create" class="btn btn-primary">Agregar clase</a>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <select id="period" class="form-control" @change="document.location.href='/courses?period='+document.getElementById('period').options[document.getElementById('period').selectedIndex].value">
+                                    <option {{ $period=='2018-1'?'selected':'' }} value="2018-1">2018-1</option>
+                                    <option {{ $period=='2018-2'?'selected':'' }} value="2018-2">2018-2</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 text-right"><a href="/courses/create" class="btn btn-primary">Agregar clase</a></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -20,7 +28,7 @@
                 $days = ['1'=>'Lunes','2'=>'Martes','3'=>'Miércoles','4'=>'Jueves','5'=>'Viernes','6'=>'Sábado','0'=>'Domingo'];
             @endphp
             @foreach($days as $index=>$day)
-                @if(($courses = \App\PCO\Course::where('day',$index)->orderBy('hour')->get()) && $courses->count())
+                @if(($courses = \App\PCO\Course::where('period',$period)->where('day',$index)->orderBy('hour')->get()) && $courses->count())
                     <div class="card">
                         <div class="card-header text-white bg-info">{{ $day }}</div>
                         <div class="card-body">
