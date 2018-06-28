@@ -70295,11 +70295,11 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("option", { attrs: { value: "didnt_start" } }, [
-                _vm._v("Nunca comenzó")
+                _vm._v("No llegó")
               ]),
               _vm._v(" "),
               _c("option", { attrs: { value: "didnt_finish" } }, [
-                _vm._v("Comenzó pero no terminó")
+                _vm._v("Desertó")
               ])
             ]
           )

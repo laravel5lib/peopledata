@@ -15,8 +15,8 @@
                 <option value="signed">Preinscrito</option>
                 <option value="in_progress">En curso</option>
                 <option value="completed">Completado</option>
-                <option value="didnt_start">Nunca comenzó</option>
-                <option value="didnt_finish">Comenzó pero no terminó</option>
+                <option value="didnt_start">No llegó</option>
+                <option value="didnt_finish">Desertó</option>
             </select></div>
             <div class="col-md-2 text-center">
                 <div class="input-group">
