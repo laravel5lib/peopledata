@@ -70146,6 +70146,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 
@@ -70217,17 +70219,7 @@ var render = function() {
           _c("img", {
             staticClass: "rounded-circle img-fluid img-thumbnail mb-1",
             attrs: { src: _vm.member.image, alt: _vm.member.name, width: "100" }
-          }),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-danger btn-sm",
-              attrs: { type: "button" },
-              on: { click: _vm.removeStudent }
-            },
-            [_vm._v("Quitar")]
-          )
+          })
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "col-md-3" }, [
@@ -70343,7 +70335,7 @@ var render = function() {
           ])
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "col-md-4 text-center" }, [
+        _c("div", { staticClass: "col-md-3 text-center" }, [
           _c("input", {
             directives: [
               {
@@ -70375,6 +70367,18 @@ var render = function() {
               }
             }
           })
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-md-1 text-center" }, [
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-danger btn-sm",
+              attrs: { type: "button" },
+              on: { click: _vm.removeStudent }
+            },
+            [_c("i", { staticClass: "fal fa-trash-alt" })]
+          )
         ])
       ]),
       _vm._v(" "),

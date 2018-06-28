@@ -22,6 +22,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <script defer src="{{ asset('js/fontawesome-all.js') }}"></script>
 </head>
 <body>
     <div id="app">

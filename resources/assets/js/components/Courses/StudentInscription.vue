@@ -3,7 +3,6 @@
         <div class="row">
             <div class="col-md-1 text-center">
                 <img :src="member.image" :alt="member.name" class="rounded-circle img-fluid img-thumbnail mb-1" width="100">
-                <button type="button" class="btn btn-danger btn-sm" @click="removeStudent">Quitar</button>
             </div>
             <div class="col-md-3">
                 <a :href="'/members/'+member.id + '/edit'">{{ member.first_name }} {{ member.last_name }}</a><br>
@@ -26,8 +25,11 @@
                     <input type="text" class="form-control" placeholder="0" v-model="payment" @keyup.enter="updateInscription" @blur="updateInscription">
                 </div>
             </div>
-            <div class="col-md-4 text-center">
+            <div class="col-md-3 text-center">
                 <input type="text" class="form-control" placeholder="Escriba aquí" v-model="notes" @keyup.enter="updateInscription" @blur="updateInscription">
+            </div>
+            <div class="col-md-1 text-center">
+                <button type="button" class="btn btn-danger btn-sm" @click="removeStudent"><i class="fal fa-trash-alt"></i></button>
             </div>
         </div>
         <spinner v-if="loading"></spinner>
