@@ -11,11 +11,12 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-5">
-                        <h5 class="card-title">{{ $course->name }}</h5>
-                        <small class="text-muted">{{ $course->dayName }} {{ $course->hour }}<br>
-                            ${{ number_format($course->value,0,',','.') }}<br>
-                            {{ $course->location }}
-                        </small>
+                        <h5 class="card-title">{{ $course->name }}
+                            <small class="text-muted">{{ $course->dayName }} {{ $course->hour }}<br>
+                                ${{ number_format($course->value,0,',','.') }}<br>
+                                {{ $course->location }}
+                            </small>
+                        </h5>
                     </div>
                     <div class="col-md-1">
                         @if($course->professor)
@@ -25,8 +26,10 @@
                     <div class="col-md-4">
                         @if($course->professor)
                             <h6 class="card-title">
-                                <strong>Profesor:</strong> <a href="/members/{{ $course->professor->id }}/edit">{{ $course->professor->first_name }} {{ $course->professor->last_name }}</a><br>
-                                <small class="text-muted">{{  $course->professor->email }}</small><br>
+                                <strong>Profesor:</strong>
+                                <a href="/members/{{ $course->professor->id }}/edit">{{ $course->professor->first_name }} {{ $course->professor->last_name }}</a><br>
+                                <small class="text-muted">{{  $course->professor->email }}</small>
+                                <br>
                                 <small class="text-muted">Tel: {{  $course->professor->phone }}</small>
                             </h6>
                         @endif
