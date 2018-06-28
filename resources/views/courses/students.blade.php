@@ -12,7 +12,10 @@
                 <div class="row">
                     <div class="col-md-5">
                         <h5 class="card-title">{{ $course->name }}</h5>
-                        <p class="card-text">{{ $course->dayName }} {{ $course->hour }}, ${{ number_format($course->value,0,',','.') }}, {{ $course->location }}</p>
+                        <small class="text-muted">{{ $course->dayName }} {{ $course->hour }}<br>
+                            ${{ number_format($course->value,0,',','.') }}<br>
+                            {{ $course->location }}
+                        </small>
                     </div>
                     <div class="col-md-1">
                         @if($course->professor)
@@ -29,7 +32,7 @@
                         @endif
                     </div>
                     <div class="col-md-2 text-right">
-                        <a href="/courses/{{ $course->id }}/edit" class="btn btn-primary">Editar</a>
+                        <a href="/courses/{{ $course->id }}/edit" class="btn btn-primary"><i class="fal fa-edit"></i></a>
                     </div>
                 </div>
             </div>
