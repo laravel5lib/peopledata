@@ -238,6 +238,7 @@ class Member extends Model
     {
         if ($status == 'completed') return 'success';
         elseif($status == 'didnt_start') return 'danger';
+        elseif($status == 'didnt_finish') return 'warning';
         else return '';
     }
 }
