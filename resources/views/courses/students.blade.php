@@ -11,7 +11,7 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-5">
-                        <h5 class="card-title">{{ $course->name }}
+                        <h5 class="card-title">{{ $course->name }}<br>
                             <small class="text-muted">{{ $course->dayName }} {{ $course->hour }}<br>
                                 ${{ number_format($course->value,0,',','.') }}<br>
                                 {{ $course->location }}
