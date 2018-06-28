@@ -92,7 +92,7 @@ class CoursesController extends Controller
             'period'=>'required',
         ]);
         $course->update(request()->all());
-        return redirect('/courses');
+        return redirect('/courses?period='.$course->period);
     }
 
     /**
