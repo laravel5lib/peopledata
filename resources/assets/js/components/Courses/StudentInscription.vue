@@ -1,18 +1,22 @@
 <template>
     <div>
         <div class="row">
-            <div class="col-md-1 text-center"><img :src="member.image" :alt="member.name" class="rounded-circle img-fluid img-thumbnail mb-1" width="100">
+            <div class="col-md-1 text-center">
+                <img :src="member.image" :alt="member.name" class="rounded-circle img-fluid img-thumbnail mb-1" width="100">
                 <button type="button" class="btn btn-danger btn-sm" @click="removeStudent">Quitar</button>
             </div>
-            <div class="col-md-3"><a :href="'/members/'+member.id + '/edit'">{{ member.first_name }} {{ member.last_name }}</a><br>
+            <div class="col-md-3">
+                <a :href="'/members/'+member.id + '/edit'">{{ member.first_name }} {{ member.last_name }}</a><br>
                 <small class="text-muted">{{ member.email }}</small>
                 <br>
                 <small class="text-muted">Tel: {{ member.phone }}</small>
             </div>
             <div class="col-md-2 text-center"><select @change="updateInscription" class="form-control" v-model="status">
-                <option value="pending">Pendiente</option>
-                <option value="signed">Inscrito</option>
-                <option value="retired">Retirado</option>
+                <option value="signed">Preinscrito</option>
+                <option value="in_progress">En curso</option>
+                <option value="completed">Completado</option>
+                <option value="didnt_start">Nunca comenzó</option>
+                <option value="didnt_finish">Comenzó pero no terminó</option>
             </select></div>
             <div class="col-md-2 text-center">
                 <div class="input-group">
@@ -22,7 +26,8 @@
                     <input type="text" class="form-control" placeholder="0" v-model="payment" @keyup.enter="updateInscription" @blur="updateInscription">
                 </div>
             </div>
-            <div class="col-md-4 text-center"><input type="text" class="form-control" placeholder="Escriba aquí" v-model="notes" @keyup.enter="updateInscription" @blur="updateInscription">
+            <div class="col-md-4 text-center">
+                <input type="text" class="form-control" placeholder="Escriba aquí" v-model="notes" @keyup.enter="updateInscription" @blur="updateInscription">
             </div>
         </div>
         <spinner v-if="loading"></spinner>
@@ -31,16 +36,17 @@
 
 <script>
   import PNotify from '../../../../../node_modules/pnotify/dist/es/PNotify.js';
+
   PNotify.defaults.styling = "bootstrap4"; // Bootstrap version 4
 
   export default {
-    props: ['member','course_id'],
+    props: ['member', 'course_id'],
     data () {
       return {
         loading: 0,
         notes: '',
         payment: 0,
-        status: 'signed'
+        status: 'signed',
       }
     },
     mounted () {
@@ -53,7 +59,7 @@
     methods: {
       updateInscription () {
         this.loading++
-        axios.post('/courses/'+this.course_id + '/update-student/'+this.member.id, 
+        axios.post('/courses/' + this.course_id + '/update-student/' + this.member.id,
           {
             status: this.status,
             payment: this.payment,
@@ -61,16 +67,16 @@
           }).then(
           ({data}) => {
             this.loading--
-            if(data.message)PNotify.success(data.message);
+            if (data.message) PNotify.success(data.message);
           }
         ).catch(function (error) {
           this.loading--
           PNotify.error("Ha ocurrido un error");
         }.bind(this))
       },
-      removeStudent(id){
+      removeStudent (id) {
         this.loading++
-        axios.post('/courses/'+this.course_id + '/remove-student/'+this.member.id).then(
+        axios.post('/courses/' + this.course_id + '/remove-student/' + this.member.id).then(
           ({data}) => {
             document.location.reload();
           }

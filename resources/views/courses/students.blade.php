@@ -14,7 +14,7 @@
                         <h5 class="card-title">{{ $course->name }}</h5>
                         <p class="card-text">{{ $course->dayName }} {{ $course->hour }}, ${{ number_format($course->value,0,',','.') }}, {{ $course->location }}</p>
                         @if($course->professor)
-                            <p class="card-text"><strong>Profesor:</strong> {{ $course->professor->first_name }} {{ $course->professor->last_name }}</p>
+                            <p class="card-text"><strong>Profesor:</strong> <a href="/members/{{ $course->professor->id }}/edit">{{ $course->professor->first_name }} {{ $course->professor->last_name }}</a></p>
                         @endif
                     </div>
                     <div class="col-md-4 text-right">
