@@ -229,4 +229,15 @@ class Member extends Model
         }
         return $results;
     }
+
+    /**
+     * @param $status
+     * @return string
+     */
+    public function calculateClass($status)
+    {
+        if ($status == 'completed') return 'success';
+        elseif($status == 'didnt_start') return 'danger';
+        else return '';
+    }
 }

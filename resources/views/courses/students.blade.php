@@ -28,11 +28,12 @@
                         <div class="col-md-4"><strong>Estudiante</strong></div>
                         <div class="col-md-2"><strong>Estado</strong></div>
                         <div class="col-md-2"><strong>Pago</strong></div>
-                        <div class="col-md-4"><strong>Observaciones</strong></div>
+                        <div class="col-md-3"><strong>Observaciones</strong></div>
+                        <div class="col-md-1">&nbsp;</div>
                     </div>
                 </li>
                 @forelse($members as $member)
-                    <li class="list-group-item">
+                    <li class="list-group-item list-group-item-{{ $member->calculateClass($member->pivot->status) }}">
                         <student-inscription :member="{{ $member }}" :course_id="{{ $course->id }}"></student-inscription>
                     </li>
                 @empty
