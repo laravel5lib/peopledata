@@ -60,7 +60,7 @@ class MemberController extends Controller
     {
         $member = Member::firstOrCreate(['id' => $id]);
         $member->updateFromPeople();
-        $member->append(['image', 'profession','working','company','courses']);
+        $member->append(['image', 'profession','working','company','field_courses']);
         $marital_statuses = MaritalStatus::all();
         $courses = Field::where('tab_id',47880)->orderBy('sequence')->get();
         return view('members.updateinfo', compact('member', 'marital_statuses', 'courses'));
@@ -170,7 +170,7 @@ class MemberController extends Controller
     public function edit(Member $member)
     {
         $member->updateFromPeople();
-        $member->append(['image', 'profession','working','company','courses']);
+        $member->append(['image', 'profession','working','company','field_courses']);
         $marital_statuses = MaritalStatus::all();
         $courses = Field::where('tab_id',47880)->orderBy('sequence')->get();
         return view('members.edit', compact('member', 'marital_statuses', 'courses'));
@@ -276,7 +276,7 @@ class MemberController extends Controller
         if ($working = request()->get('working')) $member->working = $working;
         if ($company = request()->get('company')) $member->company = $company;
         if($courses = request()->get('courses')){
-            $actual_courses = $member->courses;
+            $actual_courses = $member->field_courses;
             $allcourses = Field::where('tab_id',47880)->orderBy('sequence')->get();
             foreach ($allcourses as $course){
                 if(isset($courses[$course->id]) && (
@@ -287,7 +287,7 @@ class MemberController extends Controller
                 }
             }
         }
-        $member->append(['image', 'profession','working','company','courses']);
+        $member->append(['image', 'profession','working','company','field_courses']);
         $member->authorization = Carbon::now();
         $member->save();
         $results['data'] = $member;
@@ -384,7 +384,7 @@ class MemberController extends Controller
                 ->orWhere('email','like','%'.$query.'%')
                 ->orWhere('phone','like','%'.$query.'%')
                 ->get();
-            $members->each->append(['image', 'profession','working','company','courses']);
+            $members->each->append(['image', 'profession','working','company','field_courses']);
             $results['members'] = $members;
         }
         return $results;

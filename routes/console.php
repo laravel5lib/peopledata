@@ -1,5 +1,6 @@
 <?php
 
+use App\Member;
 use GuzzleHttp\Client;
 use Illuminate\Foundation\Inspiring;
 
@@ -21,7 +22,7 @@ Artisan::command('people:sync {limit?} {offset?}', function ($limit = 25, $offse
         $response = json_decode($res->getBody(), true);
         if (isset($response['data'])) {
             foreach ($response['data'] as $row) {
-                $member = \App\Member::firstOrCreate(['id' => $row['id']]);
+                $member = Member::firstOrCreate(['id' => $row['id']]);
                 $member->updateFromPeople();
                 $this->line(++$count . '. ' . $row['id'] . ' ' . $member->name);
             }
@@ -29,6 +30,20 @@ Artisan::command('people:sync {limit?} {offset?}', function ($limit = 25, $offse
     }
 
 })->describe('Sync tabs information');
+
+Artisan::command('people:analyze {limit?} {offset?}', function ($limit = 25, $offset = 0) {
+    $members = Member::has('courses')->orderBy('name')->get();
+    $i = 0;
+    foreach ( $members as $member){
+        $this->line(++$i . '. ' . $member->first_name . ' ' . $member->last_name);
+        foreach ($member->courses as $course){
+            if($course->pivot->status == 'completed') $this->info('     (' . $course->period . ') '. $course->name);
+            elseif(starts_with($course->pivot->status, 'didnt_')) $this->error('     (' . $course->period . ') '. $course->name);
+            else $this->comment('     -(' . $course->period . ') '. $course->name);
+        }
+    }
+
+})->describe('Display people analysis');
 
 Artisan::command('people:tabs', function () {
     $client = new Client();

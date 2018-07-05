@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\PCO\Course;
 use App\PCO\Field;
 use MediaUploader;
 use Carbon\Carbon;
@@ -104,6 +105,14 @@ class Member extends Model
     public function fields()
     {
         return $this->belongsToMany(Field::class)->withPivot(['id', 'value'])->withTimestamps();
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function courses()
+    {
+        return $this->belongsToMany(Course::class)->withPivot(['status','payment','notes'])->withTimestamps();
     }
 
     /**
@@ -221,7 +230,7 @@ class Member extends Model
      * Calculates courses values
      * @return \Illuminate\Support\Collection
      */
-    public function getCoursesAttribute()
+    public function getFieldCoursesAttribute()
     {
         $results = collect([]);
         foreach ($this->fields()->where('tab_id', 47880)->get() as $field) {

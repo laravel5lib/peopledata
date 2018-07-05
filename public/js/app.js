@@ -68025,7 +68025,7 @@ __WEBPACK_IMPORTED_MODULE_0__node_modules_pnotify_dist_es_PNotify_js__["a" /* de
         profession: this.member.profession,
         working: this.member.working,
         company: this.member.company,
-        courses: this.member.courses
+        courses: this.member.field_courses
       }).then(function (_ref) {
         var data = _ref.data;
 
@@ -68048,7 +68048,7 @@ __WEBPACK_IMPORTED_MODULE_0__node_modules_pnotify_dist_es_PNotify_js__["a" /* de
       });
     },
     setCourse: function setCourse(course_id, value) {
-      Vue.set(this.member.courses, course_id, value);
+      Vue.set(this.member.field_courses, course_id, value);
     }
   }
 });
@@ -69218,7 +69218,9 @@ var render = function() {
                                       staticClass: "btn btn-outline-secondary",
                                       class: {
                                         active:
-                                          _vm.member.courses[course.id] === "Si"
+                                          _vm.member.field_courses[
+                                            course.id
+                                          ] === "Si"
                                       },
                                       on: {
                                         click: function($event) {
@@ -69247,9 +69249,10 @@ var render = function() {
                                       staticClass: "btn btn-outline-secondary",
                                       class: {
                                         active:
-                                          _vm.member.courses[course.id] ===
-                                            "No" ||
-                                          !_vm.member.courses[course.id]
+                                          _vm.member.field_courses[
+                                            course.id
+                                          ] === "No" ||
+                                          !_vm.member.field_courses[course.id]
                                       },
                                       on: {
                                         click: function($event) {
@@ -69277,8 +69280,9 @@ var render = function() {
                                       staticClass: "btn btn-outline-secondary",
                                       class: {
                                         active:
-                                          _vm.member.courses[course.id] ===
-                                          "En curso actualmente"
+                                          _vm.member.field_courses[
+                                            course.id
+                                          ] === "En curso actualmente"
                                       },
                                       on: {
                                         click: function($event) {
@@ -69309,8 +69313,9 @@ var render = function() {
                                       staticClass: "btn btn-outline-secondary",
                                       class: {
                                         active:
-                                          _vm.member.courses[course.id] ===
-                                          "No terminado"
+                                          _vm.member.field_courses[
+                                            course.id
+                                          ] === "No terminado"
                                       },
                                       on: {
                                         click: function($event) {

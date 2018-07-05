@@ -150,16 +150,16 @@
                             <div class="col-md">{{ course.name }}</div>
                             <div class="col-md" v-if="course.data_type=='select'">
                                 <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                                    <label @click="setCourse(course.id,'Si')" class="btn btn-outline-secondary" :class="{'active':member.courses[course.id] === 'Si'}">
+                                    <label @click="setCourse(course.id,'Si')" class="btn btn-outline-secondary" :class="{'active':member.field_courses[course.id] === 'Si'}">
                                         <input  type="radio" name="options" value="Si" autocomplete="off"> Si
                                     </label>
-                                    <label @click="setCourse(course.id,'No')" class="btn btn-outline-secondary" :class="{'active':member.courses[course.id] === 'No' || !member.courses[course.id]}">
+                                    <label @click="setCourse(course.id,'No')" class="btn btn-outline-secondary" :class="{'active':member.field_courses[course.id] === 'No' || !member.field_courses[course.id]}">
                                         <input type="radio" name="options" autocomplete="off"> No
                                     </label>
-                                    <label @click="setCourse(course.id,'En curso actualmente')" class="btn btn-outline-secondary" :class="{'active':member.courses[course.id] === 'En curso actualmente'}">
+                                    <label @click="setCourse(course.id,'En curso actualmente')" class="btn btn-outline-secondary" :class="{'active':member.field_courses[course.id] === 'En curso actualmente'}">
                                         <input type="radio" name="options" autocomplete="off"> En curso
                                     </label>
-                                    <label @click="setCourse(course.id,'No terminado')" class="btn btn-outline-secondary" :class="{'active':member.courses[course.id] === 'No terminado'}">
+                                    <label @click="setCourse(course.id,'No terminado')" class="btn btn-outline-secondary" :class="{'active':member.field_courses[course.id] === 'No terminado'}">
                                         <input type="radio" name="options" autocomplete="off"> No terminé
                                     </label>
                                 </div>
@@ -249,7 +249,7 @@
           profession: this.member.profession,
           working: this.member.working,
           company: this.member.company,
-          courses: this.member.courses
+          courses: this.member.field_courses
         }).then(
           ({data}) => {
             if (data.data) this.member = data.data
@@ -274,7 +274,7 @@
         );
       },
       setCourse(course_id,value){
-        Vue.set(this.member.courses,course_id,value)
+        Vue.set(this.member.field_courses,course_id,value)
       }
     }
   }
