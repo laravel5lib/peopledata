@@ -15,8 +15,9 @@
 Auth::routes();
 Route::get('/img/{path}', 'ImageController@show')->where('path', '.*');
 Route::get('/mailable', function(){
-    $mail = new \App\Mail\Courses\CoursePreRegisteredMail(\App\PCO\Course::find(1));
-    \Illuminate\Support\Facades\Mail::to('jcorrego@gmail.com')->send($mail);
+    $user = \App\User::find(1);
+    $mail = new \App\Mail\Courses\CoursePreRegisteredMail(\App\PCO\Course::find(1), $user);
+    \Illuminate\Support\Facades\Mail::to($user)->send($mail);
     return $mail;
 });
 

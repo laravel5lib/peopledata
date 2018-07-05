@@ -2,7 +2,7 @@
     {{-- Header --}}
     @slot('header')
         @component('mail::header', ['url' => config('app.url')])
-            {{ config('app.name') }}
+            <img src="{!! isset($message)?$message->embed( public_path().'/images/logos/el-encuentro-168x100.png' ):url('images/logos/el-encuentro-168x100.png') !!}" width="168" height="100" alt="{{ config('app.name') }}">
         @endcomponent
     @endslot
 

@@ -26,4 +26,20 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /**
+     * @return bool|mixed|string
+     */
+    public function getShortName()
+    {
+        if (str_contains($this->name, " ")) {
+            $tokens = explode(" ", $this->name);
+            if (count($tokens) >= 4) return $tokens[0] . ' ' . $tokens[1];
+            else return $tokens[0];
+        } else if (str_contains($this->name, '@')) {
+            return substr($this->name, 0, strpos($this->name, "@"));
+        } else {
+            return $this->name;
+        }
+    }
 }
