@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\MaritalStatus;
 use App\Member;
 use App\PCO\Field;
+use App\User;
 use MediaUploader;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
@@ -18,7 +19,7 @@ class MemberController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth')->except(['updateinfo', 'update', 'addimage']);
+        $this->middleware('auth')->except(['updateinfo', 'update', 'addimage','courses']);
     }
 
     /**
@@ -390,5 +391,10 @@ class MemberController extends Controller
         return $results;
     }
 
+    public function courses(Member $member)
+    {
+        $user = User::firstOrCreate(['email'=>$member->email]);
+        return $user;
+    }
 
 }
