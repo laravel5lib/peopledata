@@ -391,6 +391,10 @@ class MemberController extends Controller
         return $results;
     }
 
+    /**
+     * @param Member $member
+     * @return mixed
+     */
     public function courses(Member $member)
     {
         $user = User::firstOrCreate(['email'=>$member->email]);
