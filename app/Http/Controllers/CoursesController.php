@@ -136,12 +136,33 @@ class CoursesController extends Controller
     /**
      * @param Course $course
      * @param Member $member
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @return array|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function addStudent(Course $course, Member $member)
     {
         $course->members()->attach($member);
+        if(request()->ajax()){
+            $results = [];
+            $results['status'] = 'success';
+            $results['message'] = 'Inscripción realizada!';
+            return $results;
+        }
         return redirect('courses/'.$course->id.'/students');
+    }
+    /**
+     * @param Course $course
+     * @param Member $member
+     * @return array|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function toggleStudent(Course $course, Member $member)
+    {
+        $results = [];
+        $results['toggle'] = $course->members()->toggle($member->id);
+        $results['status'] = 'success';
+        $results['message'] = 'Cambio realizado';
+        $results['students'] = $course->members()->count();
+        return $results;
+
     }
     /**
      * @param Course $course

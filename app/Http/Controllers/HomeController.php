@@ -25,11 +25,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        if($data = request()->get('email_phone')){
-            if($member = Member::where('email','like',$data)->orWhere('phone','like',$data)->first()){
-                return redirect('members/'.$member->id.'/courses');
-            }
-        }
         $period = request()->get('period','2018-2');
         $days = [
             '1'=>['day'=>'Lunes'],
@@ -41,14 +36,18 @@ class HomeController extends Controller
             '0'=>['day'=>'Domingo']
         ];
         foreach ($days as $key=>$day){
-            $days[$key]['courses'] = Course::where('period',$period)->where('day',$key)->orderBy('hour')->get();
+            $days[$key]['courses'] = Course::where('period',$period)->where('day',$key)->withCount('members')->orderBy('hour')->get();
+            $days[$key]['courses']->each->formatValue();
         }
         $member = null;
+        $signed_courses = [];
         if(auth()->check()){
             auth()->user()->fixMember();
             $member = auth()->user()->member;
+            $signed_courses = $member->courses()->where('period',$period)->pluck('id')->toArray();
         }
-        return view('home', compact('days','member'));
+        
+        return view('home', compact('days','member','signed_courses'));
     }
 
     /**

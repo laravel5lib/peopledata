@@ -16,6 +16,12 @@ class Course extends Model
     protected $fillable = ['name','description','location', 'day', 'hour','status','period','value'];
 
     /**
+     * The relations to eager load on every query.
+     *
+     * @var array
+     */
+    protected $with = ['professor'];
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function professor()
@@ -71,5 +77,13 @@ class Course extends Model
         elseif($this->name == 'Misión Integral') return 'aqua_splash';
         
         return 'winter_neva';
+    }
+
+    /**
+     * Formats numeric value
+     */
+    public function formatValue()
+    {
+        $this->value = '$'.number_format($this->value,'0',',','.');
     }
 }

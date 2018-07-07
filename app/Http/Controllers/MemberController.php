@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\Courses\CourseRecommendedMail;
 use App\MaritalStatus;
 use App\Member;
+use App\PCO\Course;
 use App\PCO\Field;
 use App\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use MediaUploader;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
@@ -20,7 +23,7 @@ class MemberController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth')->except(['updateinfo', 'update', 'addimage','courses']);
+        $this->middleware('auth')->except(['updateinfo', 'update', 'addimage','courses','simpleLogin','store','unfinishedCourses']);
     }
 
     /**
@@ -100,6 +103,7 @@ class MemberController extends Controller
         $this->validate(request(), [
             'first_name' => 'required|min:3',
             'last_name'  => 'required|min:3',
+            'email'  => 'required|email',
         ]);
         $results = [];
         $client  = new Client();
@@ -403,9 +407,63 @@ class MemberController extends Controller
             $user->name = $member->name;
             $user->save();
         }
-        $user->fixMember();
+        $user->member()->associate($member);
+        $user->save();
         Auth::login($user, true);
         return redirect('/');
+    }
+
+    /**
+     * @return array
+     */
+    public function simpleLogin()
+    {
+        $this->validate(request(),[
+            'email_phone' => [
+                'required',
+                function($attribute, $value, $fail) {
+                    if(!($member = Member::where('email','like',$value)->orWhere('phone','like',$value)->first())){
+                        return $fail('No encontramos tus datos en el sistema. Intenta nuevamente.');
+                    }
+                },
+            ],
+        ]);
+        $results = [];
+        $data = request()->get('email_phone');
+        $member = Member::where('email','like',$data)->orWhere('phone','like',$data)->first();
+        $results['member'] = $member;
+        return $results;
+    }
+
+    /**
+     * @param string $period
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function unfinishedCourses($period = '2018-1')
+    {
+        $members = Member::whereHas('courses',function($query)use($period){
+            $query->where('period',$period)->whereIn('course_member.status',['didnt_finish','didnt_start']);
+        })->get();
+        $members->each->append('image');
+        $available = [];
+        foreach(Course::where('period','2018-2')->orderBy('name')->get() as $cr){
+            if(!in_array($cr->name,$available)) $available[] = $cr->name;
+        }
+        return view('members.unfinished', compact('members','period','available'));
+    }
+
+    /**
+     * @param Member $member
+     * @return array
+     */
+    public function recommend(Member $member)
+    {
+        $course_name = request()->get('course','');
+        $results = [];
+        Mail::to($member->email)->send(new CourseRecommendedMail($course_name, $member));
+        $results['status'] = 'success';
+        $results['message'] = 'Mensaje enviado correctamente';
+        return $results;
     }
 
 }

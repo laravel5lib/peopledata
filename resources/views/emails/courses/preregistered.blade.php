@@ -9,10 +9,10 @@ es probable que este registro lo hayas hecho tu directamente, o tu profesor del
 A continuación tienes la información del curso en el que estás inscrito(a).
 
 @component('mail::panel')
-    ## {{ $course->name }}  
-    **Professor:** {{ $course->professor->name }}  
-    **Horario:** {{ $course->dayName }}, {{ $course->hour }}  
-    **Salón:** {{ $course->location }}
+## {{ $course->name }}  
+**Professor:** {{ $course->professor->name }}  
+**Horario:** {{ $course->dayName }}, {{ $course->hour }}    
+**Salón:** {{ $course->location }}  
 @endcomponent
 
 @component('mail::button', ['url' => ''])

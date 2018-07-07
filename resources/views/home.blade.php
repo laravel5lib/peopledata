@@ -48,11 +48,13 @@
             </div>
             <div class="card">
                 <div class="card-body">
-                        @if($member)
-                            @if($past = $member->courses()->where('period','2018-1')->first())
+                    @if($member)
+                        @if($past = $member->courses()->where('period','2018-1')->first())
                             <p class="card-text">El semestre 2018-1 te inscribiste en el curso
                                 <span class="text-info">{{ $past->name }}</span> con
-                                <span class="text-muted">{{ $past->professor->name }}</span>
+                                @if($past->professor)
+                                    <span class="text-muted">{{ $past->professor->name }}</span>
+                                @endif
                                 @if($past->pivot->status == 'completed')
                                     y lo <span class="text-success">terminaste</span> correctamente.
                                 @elseif($past->pivot->status == 'didnt_finish')
@@ -61,66 +63,47 @@
                                     pero <span class="text-danger">no lo tomaste</span>.
                                 @endif
                             </p>
-                            @else
-                                <p class="card-text">El semestre 2018-1, no tenemos registro que te hayas inscrito en ningun curso.</p>
-                            @endif
-                            @if($fields = $member->field_courses)
-                                <p class="card-text">Anteriormente, nos informaste que ya has tomado los siguientes cursos: <br>
+                        @else
+                            <p class="card-text">El semestre 2018-1, no tenemos registro que te hayas inscrito en ningun curso.</p>
+                        @endif
+                        @if(($fields = $member->field_courses_taken) && count($fields))
+                            <p class="card-text">Anteriormente, nos informaste que ya has tomado los siguientes cursos:
+                                <br>
                                 @foreach($fields as $field=>$value)
                                     @php
                                         $field_name = \App\PCO\Field::find($field)->name;
                                     @endphp
                                     @if(in_array($value, ['Si','En curso actualmente']) &&(!$past || $past->name!=$field_name))
-                                            <span class="text-info">{{ $field_name }}</span>,
+                                        <span class="text-info">{{ $field_name }}</span>,
                                     @endif
                                 @endforeach
-                                </p>
-                            @else
-                                <p class="card-text">Tampoco tenemos registrado en nuestro sistema que hayas tomado algún otro curso anteriormente.</p>
-                            @endif
-                            <p class="card-text">Tomando en cuenta esta información, te recomendamos que para este semestre tomes el curso: <span class="text-info">{{ $member->recommendCourse() }}</span></p>
+                            </p>
                         @else
-                            <p class="card-text">Debes ingresar al sistema para ver tu información</p>
-                            <form action="/" method="post">
-                                @csrf
-                            <div class="form-group">
-                                {{--<label for="email_phone">Ingresar</label>--}}
-                                <input type="text" name="email_phone" class="form-control" id="email_phone" aria-describedby="emailHelp" placeholder="Escribir Email o teléfono">
-                                <small id="emailHelp" class="form-text text-muted">Escriba la dirección de correo electrónico o el número celular</small>
-                            </div>
-                                <input type="submit" value="Ingresar" class="btn btn-sm btn-primary">
-                            </form>
+                            <p class="card-text">Tampoco tenemos registrado en nuestro sistema que hayas tomado algún otro curso anteriormente.</p>
                         @endif
+                        <p class="card-text">Tomando en cuenta esta información, te recomendamos que para este semestre tomes el curso:
+                            <span class="text-info">{{ $member->recommendCourse() }}</span></p>
+                    @else
+                        <simple-login></simple-login>
+                    @endif
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-6">
-            </div>
-            <div class="col-md-6">
-
-            </div>
-        </div>
         <hr class="my-4 border-bottom">
-        {{--<img src="" class="rounded mx-auto d-block img-fluid" alt="">--}}
+        <blockquote class="blockquote">
+            <p class="mb-0">Para inscribirte en uno de los cursos a continuación, solo debes hacer click sobre el. 
+                Para cancelar una inscripción puedes dar click nuevamente sobre el curso. Los cursos que aparecen en color <span class="badge grow_early text-white">verde</span> son los que tienes inscritos en el momento.</p>
+        </blockquote>
         @foreach($days as $day)
             <div class="row">
                 <div class="col">
                     <h3>{{ $day['day'] }}</h3>
-                    {{--<p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>--}}
                 </div>
             </div>
             <div class="row">
                 @forelse($day['courses'] as $course)
                     <div class="col-md-4">
-                        <div class="card {{ $course->style }} text-white mb-2 border-0">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ $course->name }}</h5>
-                                <p class="card-text">{{ $course->dayName }} {{ $course->hour }}<br>
-                                    {{ $course->professor->name }}
-                                </p>
-                            </div>
-                        </div>
+                        <course-register-small ini_status="{{ in_array($course->id,$signed_courses)?'signed':'' }}" :member="{{ $member }}" :course="{{ $course }}"></course-register-small>
                     </div>
                 @empty
                     <div class="col">

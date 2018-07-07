@@ -2,6 +2,7 @@
 
 namespace App\Mail\Courses;
 
+use App\Member;
 use App\PCO\Course;
 use App\User;
 use Illuminate\Bus\Queueable;
@@ -9,23 +10,23 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class CoursePreRegisteredMail extends Mailable implements ShouldQueue
+class CourseRecommendedMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
-    public $course;
-    public $user;
+    public $course_name;
+    public $member;
 
     /**
      * Create a new message instance.
      *
-     * @param Course $course
-     * @param User $user
+     * @param $course_name
+     * @param Member $member
      */
-    public function __construct(Course $course, User $user)
+    public function __construct($course_name, Member $member)
     {
-        $this->course = $course;
-        $this->user = $user;
+        $this->course_name = $course_name;
+        $this->member = $member;
     }
 
     /**
@@ -35,8 +36,9 @@ class CoursePreRegisteredMail extends Mailable implements ShouldQueue
      */
     public function build()
     {
-        return $this->subject('Te encuentras inscrito(a) en un curso de Educación Cristiana')
+        $url = url('members/'.$this->member->id.'/courses');
+        return $this->subject('Tenemos el curso perfecto para tí!')
             ->cc(['jcorrego@gmail.com','isabelorozcoalvarez@gmail.com','sramos7785@gmail.com'])
-            ->markdown('emails.courses.preregistered');
+            ->markdown('emails.courses.recommended', compact('url'));
     }
 }

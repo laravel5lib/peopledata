@@ -49,6 +49,9 @@ class Member extends Model
                 $attributes['updated_at'] = Carbon::parse($attributes['updated_at']);
                 $this->update($attributes);
                 if ($attributes['avatar']) {
+                    foreach($this->getMedia('avatar') as $media){
+                        $media->delete();
+                    }
                     $media = MediaUploader::fromSource($attributes['avatar'])->toDisk('public')->toDirectory('members/' . $this->id)->upload();
                     $this->syncMedia($media, 'avatar');
                 }
@@ -234,6 +237,18 @@ class Member extends Model
     {
         $results = collect([]);
         foreach ($this->fields()->where('tab_id', 47880)->get() as $field) {
+            $results[$field->id] = $field->pivot->value;
+        }
+        return $results;
+    }
+    /**
+     * Calculates courses values
+     * @return \Illuminate\Support\Collection
+     */
+    public function getFieldCoursesTakenAttribute()
+    {
+        $results = collect([]);
+        foreach ($this->fields()->where('tab_id', 47880)->wherePivotIn('value',['Si','En curso actualmente'])->get() as $field) {
             $results[$field->id] = $field->pivot->value;
         }
         return $results;

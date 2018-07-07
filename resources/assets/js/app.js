@@ -20,6 +20,9 @@ Vue.component('member-show', require('./components/Members/MemberShow.vue'));
 Vue.component('member-edit', require('./components/Members/MemberEdit.vue'));
 Vue.component('students-search', require('./components/Courses/StudentsSearch.vue'));
 Vue.component('student-inscription', require('./components/Courses/StudentInscription.vue'));
+Vue.component('student-unfinished', require('./components/Courses/StudentUnfinished.vue'));
+Vue.component('simple-login', require('./components/Members/SimpleLogin.vue'));
+Vue.component('course-register-small', require('./components/Courses/CourseRegisterSmall.vue'));
 
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
