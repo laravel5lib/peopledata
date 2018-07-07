@@ -28,7 +28,7 @@
             <div class="container">
                 <a class="navbar-brand text-truncate" href="#">
                     <img src="{{ asset('images/logos/el-encuentro-168x100.png') }}" height="30" alt="El Encuentro con Dios" class="d-inline-block align-top">
-                    Actualización de Datos :: El Encuentro con Dios
+                    Iglesia Cristiana El Encuentro con Dios
                 </a>
             </div>
         </nav>

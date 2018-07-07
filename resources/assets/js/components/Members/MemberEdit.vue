@@ -6,7 +6,9 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-2 ">
-                            <div class="text-center"><small class="text-muted">Haz click sobre la imagen para cambiar tu foto</small></div>
+                            <div class="text-center">
+                                <small class="text-muted">Haz click sobre la imagen para cambiar tu foto</small>
+                            </div>
                             <div class="align-items-center justify-content-center text-center user_avatar">
                                 <a v-touch="()=>{image_layer = true}" @mouseover="image_layer = true" @mouseout="image_layer = false">
                                     <img :src="member.image" :alt="member.name" class="rounded-circle img-fluid img-thumbnail" width="120">
@@ -125,7 +127,12 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row"><div class="col-md text-right"><button type="submit" class="btn btn-primary">Actualizar</button></div></div>
+                                <div class="row">
+                                    <div class="col-md text-right">
+                                        <button type="submit" class="btn btn-primary">Actualizar</button>
+                                        <a href="/" class="btn btn-secondary">Regresar al Inicio</a>
+                                    </div>
+                                </div>
                                 <!--<a href="/members" class="btn btn-danger">Cancelar</a>-->
                             </form>
                         </div>
@@ -135,13 +142,14 @@
                     <small class="text-muted">
                         Al hacer uso del este formulario, y en conformidad con lo dispuesto en la Ley Estatuaria 1581 de 2012, el Decreto Reglamentario 1377 de 2013 y demás normas concordantes sobre protección de Datos Personales, Yo autorizo de manera previa, expresa e informativa a LA IGLESIA EL ENCUENTRO CON DIOS,
                         para recolectar, almacenar, administrar, procesar, transferir y utilizar toda la información que pueda relacionarse a mí, que le he proporcionado ahora o en el pasado,
-                        los cuales serán destinados para las finalidades contempladas en el documento de políticas de privacidad publicado aquí: <a target="_blank" href="/terms">Política de tratamiento de datos personales</a>.
+                        los cuales serán destinados para las finalidades contempladas en el documento de políticas de privacidad publicado aquí:
+                        <a target="_blank" href="/terms">Política de tratamiento de datos personales</a>.
                         <br>
                         Con esta aceptación, autorizo el tratamiento de mis datos para las finalidades arriba mencionadas y reconozco que los datos suministrados son ciertos y no ha sido omitida o alterada ninguna información, quedando informado que la falsedad u omisión de algún dato supondrá la imposibilidad de prestar correctamente el servicio.
                     </small>
                 </div>
             </div>
-            <div class="card">
+            <div class="card" v-if="0">
                 <div class="card-header text-white bg-info">Educación Cristiana</div>
                 <!--<div class="card-footer text-muted"><small>Esta es la lista de cursos disponibles,</small></div>-->
                 <ul class="list-group list-group-flush">
@@ -151,7 +159,7 @@
                             <div class="col-md" v-if="course.data_type=='select'">
                                 <div class="btn-group btn-group-toggle" data-toggle="buttons">
                                     <label @click="setCourse(course.id,'Si')" class="btn btn-outline-secondary" :class="{'active':member.field_courses[course.id] === 'Si'}">
-                                        <input  type="radio" name="options" value="Si" autocomplete="off"> Si
+                                        <input type="radio" name="options" value="Si" autocomplete="off"> Si
                                     </label>
                                     <label @click="setCourse(course.id,'No')" class="btn btn-outline-secondary" :class="{'active':member.field_courses[course.id] === 'No' || !member.field_courses[course.id]}">
                                         <input type="radio" name="options" autocomplete="off"> No
@@ -168,7 +176,12 @@
                     </li>
                 </ul>
                 <div class="card-body">
-                    <div class="row"><div class="col-md text-right"><button type="button" @click="updateMember" class="btn btn-primary">Actualizar</button></div></div>
+                    <div class="row">
+                        <div class="col-md text-right">
+                            <button type="button" @click="updateMember" class="btn btn-primary">Actualizar</button>
+                            <a href="/" class="btn btn-secondary">Regresar al Inicio</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -178,12 +191,12 @@
 
 <script>
   import PNotify from '../../../../../node_modules/pnotify/dist/es/PNotify.js';
+
   PNotify.defaults.styling = "bootstrap4"; // Bootstrap version 4
   import moment from 'moment'
 
   export default {
-    components: {
-    },
+    components: {},
     mounted () {
       this.member = this.initial
       Dropzone.options.myAwesomeDropzone = {
@@ -227,8 +240,8 @@
     },
     computed: {
       age: function () {
-        if(!this.member.birthdate) return '-?-';
-        else if(moment(this.member.birthdate).format('YYYY') == '2018' || moment(this.member.birthdate).format('YYYY') == '2017')return '-?-';
+        if (!this.member.birthdate) return '-?-';
+        else if (moment(this.member.birthdate).format('YYYY') == '2018' || moment(this.member.birthdate).format('YYYY') == '2017') return '-?-';
         return moment().diff(this.member.birthdate, 'years');
       }
     },
@@ -273,8 +286,8 @@
           }
         );
       },
-      setCourse(course_id,value){
-        Vue.set(this.member.field_courses,course_id,value)
+      setCourse (course_id, value) {
+        Vue.set(this.member.field_courses, course_id, value)
       }
     }
   }

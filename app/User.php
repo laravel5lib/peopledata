@@ -42,4 +42,25 @@ class User extends Authenticatable
             return $this->name;
         }
     }
+
+    /**
+     * Associates a member by email
+     */
+    public function fixMember()
+    {
+        if(!$this->member_id){
+            if($member = Member::where('email','like',$this->email)->first()){
+                $this->member()->associate($member);
+                $this->save();
+            }
+        }
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function member()
+    {
+        return $this->belongsTo(Member::class);
+    }
 }

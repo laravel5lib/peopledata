@@ -11,7 +11,8 @@
                 <small class="text-muted">Tel: {{ member.phone }}</small>
             </div>
             <div class="col-md-2 text-center"><select @change="updateInscription" class="form-control" v-model="status">
-                <option value="signed">Preinscrito</option>
+                <option value="signed">Pre-inscrito</option>
+                <option value="confirmed">Confirmado</option>
                 <option value="in_progress">En curso</option>
                 <option value="completed">Completado</option>
                 <option value="didnt_start">No llegó</option>

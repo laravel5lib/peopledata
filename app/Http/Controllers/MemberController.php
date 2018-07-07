@@ -6,6 +6,7 @@ use App\MaritalStatus;
 use App\Member;
 use App\PCO\Field;
 use App\User;
+use Illuminate\Support\Facades\Auth;
 use MediaUploader;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
@@ -54,12 +55,11 @@ class MemberController extends Controller
 
 
     /**
-     * @param $id
+     * @param Member $member
      * @return Member
      */
-    public function updateinfo($id)
+    public function updateinfo(Member $member)
     {
-        $member = Member::firstOrCreate(['id' => $id]);
         $member->updateFromPeople();
         $member->append(['image', 'profession','working','company','field_courses']);
         $marital_statuses = MaritalStatus::all();
@@ -397,8 +397,15 @@ class MemberController extends Controller
      */
     public function courses(Member $member)
     {
+        $member->updateFromPeople();
         $user = User::firstOrCreate(['email'=>$member->email]);
-        return $user;
+        if(!$user->name){
+            $user->name = $member->name;
+            $user->save();
+        }
+        $user->fixMember();
+        Auth::login($user, true);
+        return redirect('/');
     }
 
 }

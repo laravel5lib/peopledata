@@ -56,4 +56,20 @@ class Course extends Model
         $days = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
         return $days[$this->day];
     }
+
+    public function getStyleAttribute()
+    {
+        if($this->name == 'Vida Nueva') return 'aqua_splash';
+        elseif($this->name == 'Ser discípulo implica compromiso devocional') return 'aqua_splash';
+        elseif($this->name == 'Mateo 1') return 'star_wine';
+        elseif($this->name == 'Tiempos Peligrosos') return 'aqua_splash';
+        elseif($this->name == 'Cristo - Espíritu Santo') return 'aqua_splash';
+        elseif($this->name == 'Mateo 2') return 'star_wine';
+        elseif($this->name == 'Mateo 3') return 'star_wine';
+        elseif($this->name == 'Mateo 4') return 'star_wine';
+        elseif($this->name == 'Mateo 6') return 'star_wine';
+        elseif($this->name == 'Misión Integral') return 'aqua_splash';
+        
+        return 'winter_neva';
+    }
 }

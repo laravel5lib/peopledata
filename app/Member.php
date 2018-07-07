@@ -250,4 +250,29 @@ class Member extends Model
         elseif($status == 'didnt_finish') return 'warning';
         else return '';
     }
+
+    /**
+     * @return string
+     */
+    public function recommendCourse()
+    {
+        if($past = $this->courses()->where('period','2018-1')->first()){
+            if($past->pivot->status == 'didnt_start') return $past->name;
+            elseif($past->pivot->status == 'didnt_finish') return $past->name;
+            elseif($past->pivot->status == 'completed') {
+                if($past->name == 'Tiempos Peligrosos') return 'Mateo 1';   
+                elseif($past->name == 'Mateo 1') return 'Mateo 2';   
+                elseif($past->name == 'Mateo 2') return 'Mateo 3';   
+                elseif($past->name == 'Mateo 3') return 'Mateo 4';   
+                elseif($past->name == 'Mateo 4') return 'Mateo 5';   
+                elseif($past->name == 'Mateo 5') return 'Mateo 6';   
+                elseif($past->name == 'Vida Nueva') return 'Ser discípulo implica compromiso devocional';   
+                elseif($past->name == 'Ser discípulo implica compromiso devocional') return 'Cristo - Espíritu Santo';   
+                elseif($past->name == 'Buscándole a Él') return 'Cristo - Espíritu Santo';   
+                elseif($past->name == 'Pentateuco') return 'Mateo 1';   
+                elseif($past->name == 'Misión Integral') return 'Cristo - Espíritu Santo';   
+            }
+        }
+        return 'Cristo - Espíritu Santo';
+    }
 }
