@@ -37,6 +37,11 @@
     },
     methods: {
       toggleRegister () {
+        if(!this.member) {
+          PNotify.error('Debes ingresar tus datos para poder registrate a un curso');
+          document.getElementById('email_phone').focus();
+          return true;
+        }
         this.loading++
         axios.post('/courses/' + this.course.id + '/toggle/' + this.member.id).then(
           ({data}) => {

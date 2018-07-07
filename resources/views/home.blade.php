@@ -103,7 +103,7 @@
             <div class="row">
                 @forelse($day['courses'] as $course)
                     <div class="col-md-4">
-                        <course-register-small ini_status="{{ in_array($course->id,$signed_courses)?'signed':'' }}" :member="{{ $member }}" :course="{{ $course }}"></course-register-small>
+                        <course-register-small ini_status="{{ in_array($course->id,$signed_courses)?'signed':'' }}" :member="{{ $member??0 }}" :course="{{ $course }}"></course-register-small>
                     </div>
                 @empty
                     <div class="col">
@@ -113,18 +113,6 @@
             </div>
             <hr class="my-4 border-bottom">
         @endforeach
-        {{--@foreach($courses->chunk(3) as $chunk)--}}
-        {{--<div class="card-deck">--}}
-        {{--@foreach($chunk as $course)--}}
-        {{--<div class="card {{ $course->style }} text-white mb-2 border-0">--}}
-        {{--<div class="card-body">--}}
-
-        {{--</div>--}}
-        {{--</div>--}}
-        {{--@endforeach--}}
-        {{--</div>--}}
-        {{--@endforeach--}}
-
     </div>
 @endsection
 
