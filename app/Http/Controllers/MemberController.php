@@ -23,7 +23,7 @@ class MemberController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth')->except(['updateinfo', 'update', 'addimage','courses','simpleLogin','store','unfinishedCourses']);
+        $this->middleware('auth')->except(['updateinfo', 'update', 'addimage','courses','simpleLogin','store','unfinishedCourses','recommend']);
     }
 
     /**
