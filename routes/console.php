@@ -87,8 +87,8 @@ Artisan::command('people:registered-mail', function () {
         if ($member->email) {
             $course = $member->courses()->where('period', $period)->first();
             $this->line($member->name . ': ' . $course->name);
-//            Mail::to($member->email)->send(new CoursePreRegisteredMail($course, $member));
-            Mail::to('jcorrego@gmail.com')->send(new CoursePreRegisteredMail($course, $member));
+            Mail::to($member->email)->send(new CoursePreRegisteredMail($course, $member));
+//            Mail::to('jcorrego@gmail.com')->send(new CoursePreRegisteredMail($course, $member));
         } else {
             $this->error($member->name . ': No Email');
         }

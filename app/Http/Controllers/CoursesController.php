@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Member;
+use App\Notifications\CourseRegisterChangedNotification;
 use App\PCO\Course;
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
 
 class CoursesController extends Controller
 {
@@ -140,7 +143,9 @@ class CoursesController extends Controller
      */
     public function addStudent(Course $course, Member $member)
     {
+        $admin = User::find(1);
         $course->members()->attach($member);
+        $admin->notify(new CourseRegisterChangedNotification($member, $course, 'registrado', auth()->user()));
         if(request()->ajax()){
             $results = [];
             $results['status'] = 'success';
@@ -156,8 +161,14 @@ class CoursesController extends Controller
      */
     public function toggleStudent(Course $course, Member $member)
     {
+        $admin = User::find(1);
         $results = [];
         $results['toggle'] = $course->members()->toggle($member->id);
+        if(count($results['toggle']['attached'])){
+            $admin->notify(new CourseRegisterChangedNotification($member, $course, 'registrado', auth()->user()));
+        } elseif(count($results['toggle']['detached'])){
+            $admin->notify(new CourseRegisterChangedNotification($member, $course, 'eliminado',auth()->user()));
+        }
         $results['status'] = 'success';
         $results['message'] = 'Cambio realizado';
         $results['students'] = $course->members()->count();
@@ -201,8 +212,10 @@ class CoursesController extends Controller
      */
     public function removeStudent(Course $course, Member $member)
     {
+        $admin = User::find(1);
         $results = [];
         $course->members()->detach($member->id);
+        $admin->notify(new CourseRegisterChangedNotification($member, $course, 'eliminado', auth()->user()));
         $results['status'] = 'success';
         $results['message'] = 'Estudiante eliminado!';
         return $results;

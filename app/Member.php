@@ -4,6 +4,7 @@ namespace App;
 
 use App\PCO\Course;
 use App\PCO\Field;
+use Illuminate\Notifications\Notifiable;
 use MediaUploader;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
@@ -12,7 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Member extends Model
 {
-    use Mediable;
+    use Mediable, Notifiable;
     /**
      * The attributes that are mass assignable.
      *

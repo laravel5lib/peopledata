@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\Courses\CourseRecommendedMail;
-use App\MaritalStatus;
+use App\User;
 use App\Member;
 use App\PCO\Course;
 use App\PCO\Field;
-use App\User;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
 use MediaUploader;
 use Carbon\Carbon;
+use App\MaritalStatus;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Auth;
+use App\Mail\Courses\CourseRecommendedMail;
 
 class MemberController extends Controller
 {
