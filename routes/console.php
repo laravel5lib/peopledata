@@ -1,8 +1,11 @@
 <?php
 
+use App\Mail\Courses\CoursePreRegisteredMail;
 use App\Member;
+use App\PCO\Course;
 use GuzzleHttp\Client;
 use Illuminate\Foundation\Inspiring;
+use Illuminate\Support\Facades\Mail;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,7 +20,7 @@ use Illuminate\Foundation\Inspiring;
 Artisan::command('people:sync {limit?} {offset?}', function ($limit = 25, $offset = 0) {
     $client = new Client();
     $count  = 0;
-    $res    = $client->get('https://api.planningcenteronline.com/people/v2/people?per_page='.$limit.'&offset=' . $offset, ['auth' => [config('services.people.id'), config('services.people.secret')]]);
+    $res    = $client->get('https://api.planningcenteronline.com/people/v2/people?per_page=' . $limit . '&offset=' . $offset, ['auth' => [config('services.people.id'), config('services.people.secret')]]);
     if ($res->getStatusCode() == 200) {
         $response = json_decode($res->getBody(), true);
         if (isset($response['data'])) {
@@ -33,13 +36,13 @@ Artisan::command('people:sync {limit?} {offset?}', function ($limit = 25, $offse
 
 Artisan::command('people:analyze {limit?} {offset?}', function ($limit = 25, $offset = 0) {
     $members = Member::has('courses')->orderBy('name')->get();
-    $i = 0;
-    foreach ( $members as $member){
+    $i       = 0;
+    foreach ($members as $member) {
         $this->line(++$i . '. ' . $member->first_name . ' ' . $member->last_name);
-        foreach ($member->courses as $course){
-            if($course->pivot->status == 'completed') $this->info('     (' . $course->period . ') '. $course->name);
-            elseif(starts_with($course->pivot->status, 'didnt_')) $this->error('     (' . $course->period . ') '. $course->name);
-            else $this->comment('     -(' . $course->period . ') '. $course->name);
+        foreach ($member->courses as $course) {
+            if ($course->pivot->status == 'completed') $this->info('     (' . $course->period . ') ' . $course->name);
+            elseif (starts_with($course->pivot->status, 'didnt_')) $this->error('     (' . $course->period . ') ' . $course->name);
+            else $this->comment('     -(' . $course->period . ') ' . $course->name);
         }
     }
 
@@ -75,3 +78,19 @@ Artisan::command('people:fields', function () {
         }
     }
 })->describe('Sync field definitions information');
+Artisan::command('people:registered-mail', function () {
+    $period  = '2018-2';
+    $members = Member::whereHas('courses', function ($query) use ($period) {
+        $query->where('period', $period);
+    })->get();
+    foreach ($members as $member) {
+        if ($member->email) {
+            $course = $member->courses()->where('period', $period)->first();
+            $this->line($member->name . ': ' . $course->name);
+//            Mail::to($member->email)->send(new CoursePreRegisteredMail($course, $member));
+            Mail::to('jcorrego@gmail.com')->send(new CoursePreRegisteredMail($course, $member));
+        } else {
+            $this->error($member->name . ': No Email');
+        }
+    }
+})->describe('Send emails to registered students');

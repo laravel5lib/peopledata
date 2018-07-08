@@ -38,7 +38,7 @@ class CourseRecommendedMail extends Mailable implements ShouldQueue
     {
         $url = url('members/'.$this->member->id.'/courses');
         return $this->subject('Tenemos el curso perfecto para tí!')
-            ->cc(['jcorrego@gmail.com','isabelorozcoalvarez@gmail.com','sramos7785@gmail.com'])
+            ->bcc(['jcorrego@gmail.com','isabelorozcoalvarez@gmail.com','sramos7785@gmail.com'])
             ->markdown('emails.courses.recommended', compact('url'));
     }
 }
