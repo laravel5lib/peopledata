@@ -11,6 +11,9 @@ use GuzzleHttp\Client;
 use Plank\Mediable\Mediable;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property mixed id
+ */
 class Member extends Model
 {
     use Mediable, Notifiable;
@@ -50,7 +53,7 @@ class Member extends Model
                 $attributes['updated_at'] = Carbon::parse($attributes['updated_at']);
                 $this->update($attributes);
                 if ($attributes['avatar']) {
-                    foreach($this->getMedia('avatar') as $media){
+                    foreach ($this->getMedia('avatar') as $media) {
                         $media->delete();
                     }
                     $media = MediaUploader::fromSource($attributes['avatar'])->toDisk('public')->toDirectory('members/' . $this->id)->upload();
@@ -82,7 +85,7 @@ class Member extends Model
                     // processed above
                 } elseif (($included['type'] == 'FieldDatum')) {
                     if ($field = Field::find(data_get($included, 'relationships.field_definition.data.id'))) {
-                        $value                   = data_get($included, 'attributes.value');
+                        $value = data_get($included, 'attributes.value');
 //                        $fields                  = $this->fields()->where('field_id', $field->id)->get()->pluck('pivot.value', 'pivot.id');
                         $this->fields()->syncWithoutDetaching([$field->id => ['id' => $included['id'], 'value' => $value]]);
 //                        if($field->id==178703) dd($fields);
@@ -116,7 +119,7 @@ class Member extends Model
      */
     public function courses()
     {
-        return $this->belongsToMany(Course::class)->withPivot(['status','payment','notes'])->withTimestamps();
+        return $this->belongsToMany(Course::class)->withPivot(['status', 'payment', 'notes'])->withTimestamps();
     }
 
     /**
@@ -242,6 +245,7 @@ class Member extends Model
         }
         return $results;
     }
+
     /**
      * Calculates courses values
      * @return \Illuminate\Support\Collection
@@ -249,7 +253,7 @@ class Member extends Model
     public function getFieldCoursesTakenAttribute()
     {
         $results = collect([]);
-        foreach ($this->fields()->where('tab_id', 47880)->wherePivotIn('value',['Si','En curso actualmente'])->get() as $field) {
+        foreach ($this->fields()->where('tab_id', 47880)->wherePivotIn('value', ['Si', 'En curso actualmente'])->get() as $field) {
             $results[$field->id] = $field->pivot->value;
         }
         return $results;
@@ -262,8 +266,8 @@ class Member extends Model
     public function calculateClass($status)
     {
         if ($status == 'completed') return 'success';
-        elseif($status == 'didnt_start') return 'danger';
-        elseif($status == 'didnt_finish') return 'warning';
+        elseif ($status == 'didnt_start') return 'danger';
+        elseif ($status == 'didnt_finish') return 'warning';
         else return '';
     }
 
@@ -272,22 +276,27 @@ class Member extends Model
      */
     public function recommendCourse()
     {
-        if($past = $this->courses()->where('period','2018-1')->first()){
-            if($past->pivot->status == 'didnt_start') return $past->name;
-            elseif($past->pivot->status == 'didnt_finish') return $past->name;
-            elseif($past->pivot->status == 'completed') {
-                if($past->name == 'Tiempos Peligrosos') return 'Mateo 1';   
-                elseif($past->name == 'Mateo 1') return 'Mateo 2';   
-                elseif($past->name == 'Mateo 2') return 'Mateo 3';   
-                elseif($past->name == 'Mateo 3') return 'Mateo 4';   
-                elseif($past->name == 'Mateo 4') return 'Mateo 5';   
-                elseif($past->name == 'Mateo 5') return 'Mateo 6';   
-                elseif($past->name == 'Vida Nueva') return 'Ser discípulo implica compromiso devocional';   
-                elseif($past->name == 'Ser discípulo implica compromiso devocional') return 'Cristo - Espíritu Santo';   
-                elseif($past->name == 'Buscándole a Él') return 'Cristo - Espíritu Santo';   
-                elseif($past->name == 'Pentateuco') return 'Mateo 1';   
-                elseif($past->name == 'Misión Integral') return 'Cristo - Espíritu Santo';   
+        if ($past = $this->courses()->where('period', '2018-1')->first()) {
+            if ($past->pivot->status == 'didnt_start') return $past->name;
+            elseif ($past->pivot->status == 'didnt_finish') return $past->name;
+            elseif ($past->pivot->status == 'completed') {
+                if ($past->name == 'Tiempos Peligrosos') return 'Mateo 1';
+                elseif ($past->name == 'Mateo 1') return 'Mateo 2';
+                elseif ($past->name == 'Mateo 2') return 'Mateo 3';
+                elseif ($past->name == 'Mateo 3') return 'Mateo 4';
+                elseif ($past->name == 'Mateo 4') return 'Mateo 5';
+                elseif ($past->name == 'Mateo 5') return 'Mateo 6';
+                elseif ($past->name == 'Vida Nueva') return 'Ser discípulo implica compromiso devocional';
+                elseif ($past->name == 'Ser discípulo implica compromiso devocional') return 'Cristo - Espíritu Santo';
+                elseif ($past->name == 'Buscándole a Él') return 'Cristo - Espíritu Santo';
+                elseif ($past->name == 'Pentateuco') return 'Mateo 1';
+                elseif ($past->name == 'Misión Integral') return 'Cristo - Espíritu Santo';
             }
+        } else {
+            $fields = $this->field_courses_taken;
+            if (!count($fields)) return 'Vida Nueva';
+            if (isset($fields['178678']) && $fields['178680'] == 'Si') return 'Cristo - Espíritu Santo';
+            if (isset($fields['178678']) && $fields['178678'] == 'Si') return 'Ser discípulo implica compromiso devocional';
         }
         return 'Cristo - Espíritu Santo';
     }

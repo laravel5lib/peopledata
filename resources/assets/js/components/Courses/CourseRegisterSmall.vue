@@ -1,15 +1,18 @@
 <template>
     <div>
-        <div :class="this.status && (this.status==='signed' || this.status==='confirmed')?'grow_early':'star_wine'"
+        <div :class="status && (status==='signed' || status==='confirmed')?'grow_early':'star_wine'"
              class="card text-white mb-2 border-0"
              @click="toggleRegister">
             <div class="card-body">
-                <div class="float-right"><span class="badge badge-light">{{ course.value }}</span><br>
-                    <span class="badge badge-dark" v-if="students">{{ students }} estudiantes</span>
+                <div class="float-right">
+                    <span class="badge badge-light">{{ course.value }}</span><br>
+                    <span class="badge badge-dark" v-if="students">{{ students }} estudiantes</span><br>
+                    <span class="badge badge-success" v-if="status==='signed' || status==='confirmed'">Estas inscrit@!</span>
                 </div>
                 <h5 class="card-title">{{ course.name }}</h5>
                 <p class="card-text">{{ course.dayName }} {{ course.hour }}, {{ course.location }}<br>
-                    {{ course.professor.name }}
+                    <span v-if="course.professor">{{ course.professor.name }}</span>
+                    <span v-else>Sin profesor asignado</span>
                 </p>
             </div>
         </div>
@@ -76,7 +79,7 @@
     .card{
         cursor: pointer;
         &:hover{
-            background-image: linear-gradient(15deg, #13547a 0%, #80d0c7 100%);
+            /*background-image: linear-gradient(15deg, #13547a 0%, #80d0c7 100%);*/
         }
     }
 </style>

@@ -34,19 +34,19 @@ Artisan::command('people:sync {limit?} {offset?}', function ($limit = 25, $offse
 
 })->describe('Sync tabs information');
 
-Artisan::command('people:analyze {limit?} {offset?}', function ($limit = 25, $offset = 0) {
-    $members = Member::has('courses')->orderBy('name')->get();
+Artisan::command('people:invite {limit?} {offset?}', function ($limit = 25, $offset = 0) {
+    $members = Member::where('child',0)
+        ->whereNotNull('email')
+        ->whereNotIn('id',['32461976','32462095'])
+        ->doesntHave('courses')
+        ->orderBy('name')->skip($offset)->take($limit)->get();
     $i       = 0;
     foreach ($members as $member) {
         $this->line(++$i . '. ' . $member->first_name . ' ' . $member->last_name);
-        foreach ($member->courses as $course) {
-            if ($course->pivot->status == 'completed') $this->info('     (' . $course->period . ') ' . $course->name);
-            elseif (starts_with($course->pivot->status, 'didnt_')) $this->error('     (' . $course->period . ') ' . $course->name);
-            else $this->comment('     -(' . $course->period . ') ' . $course->name);
-        }
+        Mail::to($member->email)->send(new \App\Mail\Courses\PickYourCourseMail($member));
     }
 
-})->describe('Display people analysis');
+})->describe('Invite people to courses');
 
 Artisan::command('people:tabs', function () {
     $client = new Client();
@@ -78,6 +78,7 @@ Artisan::command('people:fields', function () {
         }
     }
 })->describe('Sync field definitions information');
+
 Artisan::command('people:registered-mail', function () {
     $period  = '2018-2';
     $members = Member::whereHas('courses', function ($query) use ($period) {

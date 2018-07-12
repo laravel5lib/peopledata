@@ -8,11 +8,10 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class CourseRecommendedMail extends Mailable implements ShouldQueue
+class PickYourCourseMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
-    public $course_name;
     public $member;
 
     /**
@@ -21,9 +20,8 @@ class CourseRecommendedMail extends Mailable implements ShouldQueue
      * @param $course_name
      * @param Member $member
      */
-    public function __construct($course_name, Member $member)
+    public function __construct(Member $member)
     {
-        $this->course_name = $course_name;
         $this->member = $member;
     }
 
@@ -35,8 +33,9 @@ class CourseRecommendedMail extends Mailable implements ShouldQueue
     public function build()
     {
         $url = url('members/'.$this->member->id.'/courses');
-        return $this->subject('Tenemos el curso perfecto para tí!')
-            ->bcc(['jcorrego@gmail.com','isabelorozcoalvarez@gmail.com','sramos7785@gmail.com'])
-            ->markdown('emails.courses.recommended', compact('url'));
+        return $this->subject($this->member->first_name . ', no te quedes sin estudiar este semestre!')
+//            ->bcc(['jcorrego@gmail.com','isabelorozcoalvarez@gmail.com','sramos7785@gmail.com'])
+            ->bcc(['jcorrego@gmail.com'])
+            ->markdown('emails.courses.pickcourse', compact('url'));
     }
 }

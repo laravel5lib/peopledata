@@ -81,8 +81,8 @@
                         @else
                             <p class="card-text">Tampoco tenemos registrado en nuestro sistema que hayas tomado algún otro curso anteriormente.</p>
                         @endif
-                        <p class="card-text">Tomando en cuenta esta información, te recomendamos que para este semestre tomes el curso:
-                            <span class="text-info">{{ $member->recommendCourse() }}</span></p>
+                        {{--<p class="card-text">Tomando en cuenta esta información, para este semestre podrías tomar el curso:--}}
+                            {{--<span class="text-info">{{ $member->recommendCourse() }}</span></p>--}}
                     @else
                         <simple-login></simple-login>
                     @endif

@@ -164,13 +164,17 @@ class CoursesController extends Controller
         $admin = User::find(1);
         $results = [];
         $results['toggle'] = $course->members()->toggle($member->id);
+        $results['status'] = 'success';
         if(count($results['toggle']['attached'])){
             $admin->notify(new CourseRegisterChangedNotification($member, $course, 'registrado', auth()->user()));
+            $results['message'] = 'Te has registrado correctamente!';
         } elseif(count($results['toggle']['detached'])){
             $admin->notify(new CourseRegisterChangedNotification($member, $course, 'eliminado',auth()->user()));
+            $results['message'] = 'Has cancelado la inscripción!';
+        } else {
+            $results['message'] = 'Cambio realizado';
         }
-        $results['status'] = 'success';
-        $results['message'] = 'Cambio realizado';
+        
         $results['students'] = $course->members()->count();
         return $results;
 
