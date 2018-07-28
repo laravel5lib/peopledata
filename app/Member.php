@@ -2,13 +2,13 @@
 
 namespace App;
 
-use App\PCO\Course;
 use App\PCO\Field;
-use Illuminate\Notifications\Notifiable;
 use MediaUploader;
 use Carbon\Carbon;
+use App\PCO\Course;
 use GuzzleHttp\Client;
 use Plank\Mediable\Mediable;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Model;
 
 /**
