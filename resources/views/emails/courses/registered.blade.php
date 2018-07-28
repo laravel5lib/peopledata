@@ -14,9 +14,12 @@ A continuación tienes la información del curso en el que estás inscrito(a).
 **Professor:** {{ $course->professor->name }}  
 **Horario:** {{ $course->dayName }}, {{ $course->hour }}    
 **Salón:** {{ $course->location }}  
+**Valor:** ${{ number_format($course->value,0,',','.') }}
 @endcomponent
 
 Si tienen alguna inquietud, puedes contactar a **Sandra Ramos** al correo electrónico: *sramos7785@gmail.com*, o al teléfono: *3176489132*  
+
+Si aún no has cancelado tu inscripción, lo puedes hacer el domingo acercándote a las mesas de inscripción.    
 
 Puedes revisar o cambiar tu inscripción haciendo click en el botón a continuación.
 
