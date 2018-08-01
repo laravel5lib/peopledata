@@ -2,6 +2,7 @@
 
 use App\Mail\Courses\CoursePreRegisteredMail;
 use App\Mail\Courses\CourseRegisteredMail;
+use App\Mail\Courses\CourseSummaryMail;
 use App\Member;
 use App\PCO\Course;
 use GuzzleHttp\Client;
@@ -96,3 +97,21 @@ Artisan::command('people:registered-mail', function () {
         }
     }
 })->describe('Send emails to registered students');
+
+Artisan::command('courses:professor-mail', function () {
+    $period  = '2018-2';
+    $courses = Course::where('period',$period)->has('members')->get();
+    foreach ($courses as $course) {
+        if ($prof = $course->professor) {
+            if ($prof->email) {
+                $this->line($prof->id . '. ' . $prof->name . ': ' . $course->name);
+                Mail::to($prof->email)->send(new CourseSummaryMail($course, $prof));
+//            Mail::to('jcorrego@gmail.com')->send(new CoursePreRegisteredMail($course, $member));
+            } else {
+                $this->error($prof->id . '. ' . $prof->name . ': No Email');
+            }
+        } else {
+            $this->error($course->name . ': No Professor');
+        }
+    }
+})->describe('Send emails to professor with course summary');

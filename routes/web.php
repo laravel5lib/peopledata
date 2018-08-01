@@ -36,6 +36,7 @@ Route::get('members/{member}/updateinfo', 'MemberController@updateinfo')->name('
 Route::resource('courses', 'CoursesController');
 Route::get('courses/{course}/students', 'CoursesController@students');
 Route::get('courses/{course}/professor', 'CoursesController@professor');
+Route::get('courses/{course}/summary/{professor}', 'CoursesController@professorSummary');
 Route::get('courses/{course}/add/{member}', 'CoursesController@addStudent');
 Route::post('courses/{course}/toggle/{member}', 'CoursesController@toggleStudent');
 Route::get('courses/{course}/professoradd/{member}', 'CoursesController@addProfessor');

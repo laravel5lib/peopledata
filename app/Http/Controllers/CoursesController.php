@@ -7,6 +7,7 @@ use App\Notifications\CourseRegisterChangedNotification;
 use App\PCO\Course;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
 
 class CoursesController extends Controller
@@ -17,7 +18,7 @@ class CoursesController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')->except(['professorSummary']);
     }
     /**
      * Display a listing of the resource.
@@ -233,6 +234,25 @@ class CoursesController extends Controller
         $course->professor()->dissociate();
         $course->save();
         return back();
+    }
+
+    /**
+     * Logins a user adisplays course students edit page
+     * @param Course $course
+     * @param Member $professor
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function professorSummary(Course $course, Member $professor)
+    {
+        $user = User::firstOrCreate(['email'=>$professor->email]);
+        if(!$user->name){
+            $user->name = $professor->name;
+            $user->save();
+        }
+        $user->member()->associate($professor);
+        $user->save();
+        Auth::login($user, true);
+        return redirect('/courses/'.$course->id . '/students');
         
     }
 }
