@@ -103,7 +103,7 @@ Artisan::command('courses:professor-mail', function () {
     $courses = Course::where('period',$period)->has('members')->get();
     foreach ($courses as $course) {
         if ($prof = $course->professor) {
-            if ($prof->email) {
+            if ($prof->email && $prof->id == 32462732) {
                 $this->line($prof->id . '. ' . $prof->name . ': ' . $course->name);
                 Mail::to($prof->email)->send(new CourseSummaryMail($course, $prof));
 //            Mail::to('jcorrego@gmail.com')->send(new CoursePreRegisteredMail($course, $member));
