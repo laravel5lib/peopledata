@@ -116,7 +116,7 @@ class CoursesController extends Controller
      */
     public function students(Course $course)
     {
-        $members = $course->members;
+        $members = $course->members()->orderBy('name')->get();
         $members->each->append('image');
         return view('courses.students', compact('course','members'));
     }
