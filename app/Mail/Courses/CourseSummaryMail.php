@@ -39,7 +39,7 @@ class CourseSummaryMail extends Mailable implements ShouldQueue
         $url = url('courses/'.$this->course->id . '/summary/'.$this->professor->id);
         return $this->subject('Lista de estudiantes inscritos: '.$this->course->name)
 //            ->cc(['jcorrego@gmail.com','isabelorozcoalvarez@gmail.com','sramos7785@gmail.com'])
-//            ->bcc(['jcorrego@gmail.com'])
+            ->bcc(['jcorrego@gmail.com'])
             ->markdown('emails.courses.summary', compact('url'));
     }
 }
