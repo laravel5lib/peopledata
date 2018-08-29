@@ -49,7 +49,7 @@
                         <div class="col-md-1">&nbsp;</div>
                     </div>
                 </li>
-                @forelse($members as $member)
+                @forelse($members->whereNotIn('pivot.status',['didnt_start','didnt_finish']) as $member)
                     <li class="list-group-item list-group-item-{{ $member->calculateClass($member->pivot->status) }}">
                         <student-inscription :member="{{ $member }}" :course_id="{{ $course->id }}"></student-inscription>
                     </li>
@@ -63,6 +63,27 @@
                 <a href="/courses/{{ $course->id }}/search" class="btn btn-success">Agregar estudiante</a>
                 <a href="/courses" class="btn btn-secondary">Cancelar</a>
             </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <div class="row text-center">
+                        <div class="col-md-12"><strong>Estudiantes que cancelaron o no empezaron el curso</strong></div>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div class="row text-center">
+                        <div class="col-md-4"><strong>Estudiante</strong></div>
+                        <div class="col-md-2"><strong>Estado</strong></div>
+                        <div class="col-md-2"><strong>Pago</strong></div>
+                        <div class="col-md-3"><strong>Observaciones</strong></div>
+                        <div class="col-md-1">&nbsp;</div>
+                    </div>
+                </li>
+                @foreach($members->whereIn('pivot.status',['didnt_start','didnt_finish']) as $member)
+                    <li class="list-group-item list-group-item-{{ $member->calculateClass($member->pivot->status) }}">
+                        <student-inscription :member="{{ $member }}" :course_id="{{ $course->id }}"></student-inscription>
+                    </li>
+                @endforeach
+            </ul>
         </div>
     </div>
 @endsection

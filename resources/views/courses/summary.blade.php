@@ -9,8 +9,8 @@
             @if($course->value)
                 <span class="text-muted">${{ number_format($course->value,0,',','.') }}</span> <br>
             @endif
-            @if($course->members->count())
-            <span class="badge badge-info">{{ $course->members->count() }} estudiantes</span>
+            @if($course->members->whereNotIn('pivot.status',['didnt_start','didnt_finish'])->count())
+            <span class="badge badge-info">{{ $course->members->whereNotIn('pivot.status',['didnt_start','didnt_finish'])->count() }} estudiantes</span>
             @endif
         </p>
     </div>
