@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Member;
-use App\Notifications\CourseRegisterChangedNotification;
-use App\PCO\Course;
 use App\User;
+use App\Member;
+use App\PCO\Course;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Notification;
+use App\Exports\CoursesMembersExport;
+use App\Notifications\CourseRegisterChangedNotification;
 
 class CoursesController extends Controller
 {
@@ -29,6 +29,15 @@ class CoursesController extends Controller
     {
         $period = request()->get('period','2018-2');
         return view('courses.index', compact('period'));
+    }
+
+    public function export()
+    {
+        $period = request()->get('period','2018-2');
+//        $days = ['1' => 'Lunes', '2' => 'Martes', '3' => 'Miércoles', '4' => 'Jueves', '5' => 'Viernes', '6' => 'Sábado', '0' => 'Domingo'];
+//        $courses = Course::where('period', $period)->with('members')->get();
+//        return view('courses.export', compact('days', 'courses'));
+        return new CoursesMembersExport($period);
     }
 
     /**

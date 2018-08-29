@@ -33,6 +33,8 @@ Route::post('members/{member}/recommend', 'MemberController@recommend');
 Route::post('members/search', 'MemberController@search');
 Route::post('members/simple-login', 'MemberController@simpleLogin');
 Route::get('members/{member}/updateinfo', 'MemberController@updateinfo')->name('members.updateinfo')->middleware('signed');
+
+Route::get('courses/export', 'CoursesController@export');
 Route::resource('courses', 'CoursesController');
 Route::get('courses/{course}/students', 'CoursesController@students');
 Route::get('courses/{course}/professor', 'CoursesController@professor');
