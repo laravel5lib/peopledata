@@ -21,8 +21,9 @@ Route::get('/mailable', function(){
     return $mail;
 });
 
-Route::get('/', 'HomeController@index')->name('home');
-Route::post('/', 'HomeController@index')->name('home');
+Route::get('/', 'HomeController@index');
+Route::get('mycourses', 'HomeController@mycourses');
+Route::post('mycourses', 'HomeController@mycourses');
 Route::get('terms', 'HomeController@terms')->name('terms');
 Route::resource('members', 'MemberController');
 Route::get('members/{member}/courses', 'MemberController@courses');

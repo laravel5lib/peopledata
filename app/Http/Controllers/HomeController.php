@@ -15,15 +15,19 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth')->except(['index','terms']);
+        $this->middleware('auth')->except(['terms']);
     }
 
+    public function index()
+    {
+        return redirect('/courses');    
+    }
     /**
      * Show the application dashboard.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function mycourses()
     {
         $period = request()->get('period','2018-2');
         $days = [
