@@ -20,7 +20,7 @@
                         <div class="col-md-2">&nbsp;</div>
                     </div>
                 </li>
-                @forelse($ministry->members as $member)
+                @forelse($ministry->members()->orderBy('first_name')->get() as $member)
                     <li class="list-group-item">
                         <div class="row">
                             <div class="col-md-1 text-center">
