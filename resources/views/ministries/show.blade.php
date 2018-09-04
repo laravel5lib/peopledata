@@ -10,7 +10,10 @@
             <h5 class="card-header text-white bg-info">Listado de mujeres</h5>
             <div class="card-body">
                 <div class="row">
-                    <div class="col-md-12 text-right"><a href="/ministries/{{ $ministry->id }}/search" class="btn btn-primary">Agregar mujer</a></div>
+                    <div class="col-md-6">
+                        En este momento hay <strong>{{ $ministry->members()->count() }}</strong> mujeres registradas.
+                    </div>
+                    <div class="col-md-6 text-right"><a href="/ministries/{{ $ministry->id }}/search" class="btn btn-primary">Agregar mujer</a></div>
                 </div>
             </div>
             <ul class="list-group list-group-flush">
