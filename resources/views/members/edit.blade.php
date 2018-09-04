@@ -6,6 +6,6 @@
 
 @section('content')
 <div class="container">
-    <member-edit :initial="{{ $member }}" :marital_statuses="{{ $marital_statuses }}" :courses="{{ $courses }}"></member-edit>
+    <member-edit :initial="{{ $member }}" :marital_statuses="{{ $marital_statuses }}" :courses="{{ $courses }}" back_url="/"></member-edit>
 </div>
 @endsection

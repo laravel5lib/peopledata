@@ -1,6 +1,5 @@
 <template>
     <div>
-        
         <div class="input-group mb-3">
             <div class="input-group-prepend">
                 <span class="input-group-text" id="searchHelp">Buscar</span>
@@ -11,7 +10,9 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item" v-for="member in results">
                 <div class="row">
-                    <div class="col-md-2"><img :src="member.image" :alt="member.name" class="rounded-circle img-fluid img-thumbnail" width="100"></div>
+                    <div class="col-md-2">
+                        <img :src="member.image" :alt="member.name" class="rounded-circle img-fluid img-thumbnail" width="100">
+                    </div>
                     <div class="col-md-8">
                         {{ member.first_name }} {{ member.last_name }}<br>
                         Teléfono: {{ member.phone}}<br>
@@ -66,10 +67,10 @@
                                 <button type="button" class="btn btn-sm btn-success" @click="createMember">Crear registro</button>
                             </div>
                         </div>
-                        
+
                     </div>
                 </div>
-                
+
             </li>
         </ul>
         <spinner v-if="loading"></spinner>
@@ -78,18 +79,18 @@
 
 <script>
   export default {
-    props: ['course_id','add_url'],
+    props: ['add_url'],
     data () {
       return {
         loading: 0,
         search: '',
         results: [],
-        searched:false,
-        user:{
-          first_name:'',
-          last_name:'',
-          phone:'',
-          email:'',
+        searched: false,
+        user: {
+          first_name: '',
+          last_name: '',
+          phone: '',
+          email: '',
         },
         create: false,
         errors: {},
@@ -104,7 +105,7 @@
           this.loading++
           axios.post('/members/search', {search: this.search}).then(
             ({data}) => {
-              if(data.members)this.results = data.members
+              if (data.members) this.results = data.members
               this.loading--
               this.searched = true
             }
@@ -122,7 +123,7 @@
           phone: this.user.phone,
         }).then(
           ({data}) => {
-            if (data.member) document.location.href = this.add_url+data.member.id
+            if (data.member) document.location.href = this.add_url + data.member.id
             this.loading--
           }
         ).catch(

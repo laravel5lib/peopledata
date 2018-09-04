@@ -130,7 +130,7 @@
                                 <div class="row">
                                     <div class="col-md text-right">
                                         <button type="submit" class="btn btn-primary">Actualizar</button>
-                                        <a href="/" class="btn btn-secondary">Regresar al Inicio</a>
+                                        <a :href="back_url" class="btn btn-secondary">Regresar</a>
                                     </div>
                                 </div>
                                 <!--<a href="/members" class="btn btn-danger">Cancelar</a>-->
@@ -149,7 +149,7 @@
                     </small>
                 </div>
             </div>
-            <div class="card" v-if="0">
+            <div class="card">
                 <div class="card-header text-white bg-info">Educación Cristiana</div>
                 <!--<div class="card-footer text-muted"><small>Esta es la lista de cursos disponibles,</small></div>-->
                 <ul class="list-group list-group-flush">
@@ -179,7 +179,7 @@
                     <div class="row">
                         <div class="col-md text-right">
                             <button type="button" @click="updateMember" class="btn btn-primary">Actualizar</button>
-                            <a href="/" class="btn btn-secondary">Regresar al Inicio</a>
+                            <a :href="back_url" class="btn btn-secondary">Regresar</a>
                         </div>
                     </div>
                 </div>
@@ -229,7 +229,7 @@
         }
       };
     },
-    props: ['initial', 'marital_statuses', 'courses'],
+    props: ['initial', 'marital_statuses', 'courses', 'back_url'],
     data () {
       return {
         loading: 0,

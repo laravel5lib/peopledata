@@ -20,7 +20,7 @@ class HomeController extends Controller
 
     public function index()
     {
-        return redirect('/courses');    
+        return redirect('/courses');
     }
     /**
      * Show the application dashboard.
