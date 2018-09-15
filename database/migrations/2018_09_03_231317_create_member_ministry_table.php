@@ -14,7 +14,6 @@ class CreateMemberMinistryTable extends Migration
     public function up()
     {
         Schema::create('member_ministry', function (Blueprint $table) {
-            $table->increments('id');
             $table->unsignedInteger('member_id');
             $table->unsignedInteger('ministry_id');
             $table->timestamps();
