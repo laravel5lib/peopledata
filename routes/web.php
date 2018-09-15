@@ -1,32 +1,13 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
-
 Auth::routes();
 Route::get('/img/{path}', 'ImageController@show')->where('path', '.*');
-Route::get('/mailable', function(){
-    $user = \App\User::find(1);
-    $mail = new \App\Mail\Courses\CoursePreRegisteredMail(\App\PCO\Course::find(1), $user);
-    \Illuminate\Support\Facades\Mail::to($user)->send($mail);
-    return $mail;
-});
 
 Route::get('/', 'HomeController@index');
-Route::get('mycourses', 'HomeController@mycourses');
-Route::post('mycourses', 'HomeController@mycourses');
+Route::any('mycourses', 'HomeController@mycourses');
 Route::get('terms', 'HomeController@terms')->name('terms');
-Route::resource('members', 'MemberController');
 
+Route::resource('members', 'MemberController');
 Route::get('members/{member}/courses', 'MemberController@courses');
 Route::get('members/unfinished/{period}', 'MemberController@unfinishedCourses');
 Route::get('members/add/{id}', 'MemberController@add');
@@ -54,3 +35,11 @@ Route::get('ministries/{ministry}/search', 'MinistryController@search');
 Route::get('ministries/{ministry}/add/{member}', 'MinistryController@addMember');
 Route::get('ministries/{ministry}/del/{member}', 'MinistryController@delMember');
 Route::get('ministries/{ministry}/edit/{member}', 'MinistryController@editMember');
+
+
+//Route::get('/mailable', function(){
+//    $user = \App\User::find(1);
+//    $mail = new \App\Mail\Courses\CoursePreRegisteredMail(\App\PCO\Course::find(1), $user);
+//    \Illuminate\Support\Facades\Mail::to($user)->send($mail);
+//    return $mail;
+//});
