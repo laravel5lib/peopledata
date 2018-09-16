@@ -61,7 +61,7 @@ class User extends Resource
                 ->onlyOnForms()
                 ->creationRules('required', 'string', 'min:6')
                 ->updateRules('nullable', 'string', 'min:6'),
-            BelongsTo::make('Member')
+            BelongsTo::make('Member')->hideWhenUpdating()->hideWhenCreating()
         ];
     }
 
