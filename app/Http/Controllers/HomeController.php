@@ -21,7 +21,12 @@ class HomeController extends Controller
     public function index()
     {
         if(auth()->check()){
-            return redirect('/courses/11/students');
+            $user = auth()->user();
+            if($member = $user->member){
+                if($course = $member->professorCourses()->where('period','2018-2')->first()){
+                    return redirect('/courses/'.$course->id.'/students');
+                }
+            }
         }
         return redirect('/courses');
     }

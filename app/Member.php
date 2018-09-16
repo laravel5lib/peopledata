@@ -127,6 +127,11 @@ class Member extends Model
         return $this->belongsToMany(Course::class)->withPivot(['status', 'payment', 'notes'])->withTimestamps();
     }
 
+    public function professorCourses()
+    {
+        return $this->hasMany(Course::class);
+    }
+
     /**
      * Generates image url
      * @return mixed|string
