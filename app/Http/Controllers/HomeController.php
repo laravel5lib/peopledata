@@ -20,6 +20,9 @@ class HomeController extends Controller
 
     public function index()
     {
+        if(auth()->check()){
+            return redirect('/courses/11/students');
+        }
         return redirect('/courses');
     }
     /**
