@@ -11,14 +11,14 @@
                 <div class="card mb-2">
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col">
                                 <select id="period" class="form-control" onChange="document.location.href='/courses?period='+document.getElementById('period').options[document.getElementById('period').selectedIndex].value">
                                     <option {{ $period=='2018-1'?'selected':'' }} value="2018-1">2018-1</option>
                                     <option {{ $period=='2018-2'?'selected':'' }} value="2018-2">2018-2</option>
                                 </select>
                             </div>
-                            <div class="col-md-4 text-center"><a href="/courses/export" class="btn btn-secondary">Exportar</a></div>
-                            <div class="col-md-4 text-right"><a href="/courses/create" class="btn btn-primary">Agregar clase</a></div>
+                            <div class="col"><a href="/courses/export" class="btn btn-secondary">Exportar</a></div>
+                            <div class="col"><a href="/courses/create" class="btn btn-primary">Agregar clase</a></div>
                         </div>
                     </div>
                 </div>
