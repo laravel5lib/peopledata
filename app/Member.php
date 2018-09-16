@@ -24,6 +24,11 @@ class Member extends Model
      */
     protected $fillable = ['id', 'avatar', 'first_name', 'last_name', 'nickname', 'birthdate', 'child', 'gender', 'name', 'remote_id', 'status', 'created_at', 'updated_at'];
 
+
+    public function user()
+    {
+        return $this->hasOne(User::class);
+    }
     /**
      * Updates member info from remote
      * @return mixed

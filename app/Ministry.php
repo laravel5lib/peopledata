@@ -10,4 +10,9 @@ class Ministry extends Model
     {
         return $this->belongsToMany(Member::class)->withTimestamps();
     }
+
+    public function groups()
+    {
+        return $this->hasMany(MinistryGroup::class);
+    }
 }

@@ -23,7 +23,7 @@ class MemberController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth')->except(['updateinfo', 'update', 'addimage','courses','simpleLogin','store','unfinishedCourses','recommend']);
+        $this->middleware('auth')->except(['updateinfo', 'update', 'addimage', 'courses', 'simpleLogin', 'store', 'unfinishedCourses', 'recommend']);
     }
 
     /**
@@ -64,9 +64,10 @@ class MemberController extends Controller
     public function updateinfo(Member $member)
     {
         $member->updateFromPeople();
-        $member->append(['image', 'profession','working','company','field_courses']);
+        $member->append(['image', 'profession', 'working', 'company', 'field_courses']);
         $marital_statuses = MaritalStatus::all();
-        $courses = Field::where('tab_id',47880)->orderBy('sequence')->get();
+        $courses          = Field::where('tab_id', 47880)->orderBy('sequence')->get();
+
         return view('members.updateinfo', compact('member', 'marital_statuses', 'courses'));
     }
 
@@ -79,6 +80,7 @@ class MemberController extends Controller
     {
         $member = Member::firstOrCreate(['id' => $id]);
         $member->updateFromPeople();
+
         return redirect('members/' . $id);
     }
 
@@ -103,32 +105,32 @@ class MemberController extends Controller
         $this->validate(request(), [
             'first_name' => 'required|min:3',
             'last_name'  => 'required|min:3',
-            'email'  => 'required|email',
+            'email'      => 'required|email',
         ]);
         $results = [];
         $client  = new Client();
         $data    = [
-            'type'       => 'Person', 
+            'type'       => 'Person',
             'attributes' => [
                 'first_name' => request()->get('first_name'),
                 'last_name'  => request()->get('last_name'),
-            ]
+            ],
         ];
-        $res = $client->post('https://api.planningcenteronline.com/people/v2/people',
+        $res     = $client->post('https://api.planningcenteronline.com/people/v2/people',
             ['auth' => [config('services.people.id'), config('services.people.secret')],
-             'json' => ['data' => $data]
+             'json' => ['data' => $data],
             ]
         );
-        if($res->getStatusCode() == 200 || $res->getStatusCode() == 201){
+        if ($res->getStatusCode() == 200 || $res->getStatusCode() == 201) {
             $response = json_decode($res->getBody(), true);
 //            $results['response'] = $response;
-            if(isset($response['data']['id'])){
-                $member = Member::firstOrCreate(['id'=>$response['data']['id']]);
+            if (isset($response['data']['id'])) {
+                $member = Member::firstOrCreate(['id' => $response['data']['id']]);
                 if ($email = request()->get('email')) {
                     $client_email = new Client();
                     $res_email    = $client_email->post('https://api.planningcenteronline.com/people/v2/people/' . $member->id . '/emails',
                         ['auth' => [config('services.people.id'), config('services.people.secret')],
-                         'json' => ['data' => ['type' => 'Email', 'attributes' => ['address' => $email, 'location' => 'Home', 'primary' => true]]]
+                         'json' => ['data' => ['type' => 'Email', 'attributes' => ['address' => $email, 'location' => 'Home', 'primary' => true]]],
                         ]
                     );
                     if ($res_email->getStatusCode() == 200 || $res_email->getStatusCode() == 201) {
@@ -136,11 +138,11 @@ class MemberController extends Controller
                         $member->save();
                     }
                 }
-                if($phone = request()->get('phone')){
+                if ($phone = request()->get('phone')) {
                     $client_phone = new Client();
                     $res_phone    = $client_phone->post('https://api.planningcenteronline.com/people/v2/people/' . $member->id . '/phone_numbers',
                         ['auth' => [config('services.people.id'), config('services.people.secret')],
-                         'json' => ['data' => ['type' => 'PhoneNumber', 'attributes' => ['number' => $phone, 'location' => 'Mobile', 'primary' => true]]]
+                         'json' => ['data' => ['type' => 'PhoneNumber', 'attributes' => ['number' => $phone, 'location' => 'Mobile', 'primary' => true]]],
                         ]
                     );
                     if ($res_phone->getStatusCode() == 200 || $res_phone->getStatusCode() == 201) {
@@ -152,6 +154,7 @@ class MemberController extends Controller
                 $results['member'] = $member;
             }
         }
+
         return $results;
     }
 
@@ -175,9 +178,10 @@ class MemberController extends Controller
     public function edit(Member $member)
     {
         $member->updateFromPeople();
-        $member->append(['image', 'profession','working','company','field_courses']);
+        $member->append(['image', 'profession', 'working', 'company', 'field_courses']);
         $marital_statuses = MaritalStatus::all();
-        $courses = Field::where('tab_id',47880)->orderBy('sequence')->get();
+        $courses          = Field::where('tab_id', 47880)->orderBy('sequence')->get();
+
         return view('members.edit', compact('member', 'marital_statuses', 'courses'));
     }
 
@@ -204,21 +208,21 @@ class MemberController extends Controller
                 'last_name'  => request()->get('last_name'),
                 'birthdate'  => request()->get('birthdate'),
                 'gender'     => request()->get('gender'),
-            ]
+            ],
         ];
         if ($marital = request()->get('marital_status_id')) {
             $data['relationships'] = [
                 'marital_status' => [
                     'data' => [
                         'type' => 'MaritalStatus',
-                        'id'   => $marital
-                    ]
-                ]
+                        'id'   => $marital,
+                    ],
+                ],
             ];
         }
         $res = $client->patch('https://api.planningcenteronline.com/people/v2/people/' . $member->id . '?include=emails,phone_numbers,marital_status',
             ['auth' => [config('services.people.id'), config('services.people.secret')],
-             'json' => ['data' => $data]
+             'json' => ['data' => $data],
             ]
         );
         if ($res->getStatusCode() == 200) {
@@ -230,7 +234,7 @@ class MemberController extends Controller
                     $client_email = new Client();
                     $res_email    = $client_email->patch('https://api.planningcenteronline.com/people/v2/emails/' . $email_id,
                         ['auth' => [config('services.people.id'), config('services.people.secret')],
-                         'json' => ['data' => ['type' => 'Email', 'id' => $email_id, 'attributes' => ['address' => $email]]]
+                         'json' => ['data' => ['type' => 'Email', 'id' => $email_id, 'attributes' => ['address' => $email]]],
                         ]
                     );
                     if ($res_email->getStatusCode() == 200) {
@@ -241,7 +245,7 @@ class MemberController extends Controller
                     $client_email = new Client();
                     $res_email    = $client_email->post('https://api.planningcenteronline.com/people/v2/people/' . $member->id . '/emails',
                         ['auth' => [config('services.people.id'), config('services.people.secret')],
-                         'json' => ['data' => ['type' => 'Email', 'attributes' => ['address' => $email, 'location' => 'Home', 'primary' => true]]]
+                         'json' => ['data' => ['type' => 'Email', 'attributes' => ['address' => $email, 'location' => 'Home', 'primary' => true]]],
                         ]
                     );
                     if ($res_email->getStatusCode() == 200 || $res_email->getStatusCode() == 201) {
@@ -256,7 +260,7 @@ class MemberController extends Controller
                     $client_phone = new Client();
                     $res_phone    = $client_phone->patch('https://api.planningcenteronline.com/people/v2/people/' . $member->id . '/phone_numbers/' . $phone_id,
                         ['auth' => [config('services.people.id'), config('services.people.secret')],
-                         'json' => ['data' => ['type' => 'PhoneNumber', 'id' => $phone_id, 'attributes' => ['number' => $phone]]]
+                         'json' => ['data' => ['type' => 'PhoneNumber', 'id' => $phone_id, 'attributes' => ['number' => $phone]]],
                         ]
                     );
                     if ($res_phone->getStatusCode() == 200) {
@@ -267,7 +271,7 @@ class MemberController extends Controller
                     $client_phone = new Client();
                     $res_phone    = $client_phone->post('https://api.planningcenteronline.com/people/v2/people/' . $member->id . '/phone_numbers',
                         ['auth' => [config('services.people.id'), config('services.people.secret')],
-                         'json' => ['data' => ['type' => 'PhoneNumber', 'attributes' => ['number' => $phone, 'location' => 'Mobile', 'primary' => true]]]
+                         'json' => ['data' => ['type' => 'PhoneNumber', 'attributes' => ['number' => $phone, 'location' => 'Mobile', 'primary' => true]]],
                         ]
                     );
                     if ($res_phone->getStatusCode() == 200 || $res_phone->getStatusCode() == 201) {
@@ -280,22 +284,23 @@ class MemberController extends Controller
         if ($profession = request()->get('profession')) $member->profession = $profession;
         if ($working = request()->get('working')) $member->working = $working;
         if ($company = request()->get('company')) $member->company = $company;
-        if($courses = request()->get('courses')){
+        if ($courses = request()->get('courses')) {
             $actual_courses = $member->field_courses;
-            $allcourses = Field::where('tab_id',47880)->orderBy('sequence')->get();
-            foreach ($allcourses as $course){
-                if(isset($courses[$course->id]) && (
-                    !isset($actual_courses[$course->id]) ||
-                                                   ($courses[$course->id] != $actual_courses[$course->id])
-                    )){
-                    $member->updateFieldValue($course->id,$courses[$course->id]);
+            $allcourses     = Field::where('tab_id', 47880)->orderBy('sequence')->get();
+            foreach ($allcourses as $course) {
+                if (isset($courses[$course->id]) && (
+                        !isset($actual_courses[$course->id]) ||
+                        ($courses[$course->id] != $actual_courses[$course->id])
+                    )) {
+                    $member->updateFieldValue($course->id, $courses[$course->id]);
                 }
             }
         }
-        $member->append(['image', 'profession','working','company','field_courses']);
+        $member->append(['image', 'profession', 'working', 'company', 'field_courses']);
         $member->authorization = Carbon::now();
         $member->save();
         $results['data'] = $member;
+
         return $results;
     }
 
@@ -318,12 +323,12 @@ class MemberController extends Controller
     {
         $results = [];
         $this->validate(request(), [
-            'file' => 'required|image'
+            'file' => 'required|image',
         ]);
         $media = MediaUploader::fromSource(request()->file('file'))
 //            ->useHashForFilename()
-            ->useFilename(cleanUrl(request()->file('file')->getClientOriginalName(), true))
-            ->toDisk('public')->toDirectory('members/' . $member->id)->upload();
+                              ->useFilename(cleanUrl(request()->file('file')->getClientOriginalName(), true))
+                              ->toDisk('public')->toDirectory('members/' . $member->id)->upload();
 //        $extension = substr($media->getUrl(), strrpos($media->getUrl(), '.'));
 //        $media->rename(cleanUrl($media->basename));
 //        $media->save();
@@ -337,8 +342,8 @@ class MemberController extends Controller
                         'name'     => 'file',
                         'contents' => file_get_contents($media->getUrl()),
                         'filename' => $media->basename,
-                    ]
-                ]
+                    ],
+                ],
             ]
         );
         if ($res->getStatusCode() == 201) {
@@ -355,10 +360,10 @@ class MemberController extends Controller
                                     'type'       => 'Person',
                                     'id'         => $member->id,
                                     'attributes' => [
-                                        'avatar' => $fileid
-                                    ]
-                                ]
-                            ]
+                                        'avatar' => $fileid,
+                                    ],
+                                ],
+                            ],
                         ]
                     );
                     if ($res2->getStatusCode() == 200) {
@@ -369,10 +374,12 @@ class MemberController extends Controller
             }
         } else {
             $response = json_decode($res->getBody(), true);
+
             return ['error' => $response, 'phrase' => $res->getReasonPhrase(), 'code' => $res->getStatusCode()];
         }
         $member->append('image');
         $results['data'] = $member;
+
         return $results;
     }
 
@@ -382,16 +389,17 @@ class MemberController extends Controller
     public function search()
     {
         $results = [];
-        if($query = request()->get('search')){
-            $members = Member::where('name','like','%'.$query.'%')
-                ->orWhere('first_name','like','%'.$query.'%')
-                ->orWhere('last_name','like','%'.$query.'%')
-                ->orWhere('email','like','%'.$query.'%')
-                ->orWhere('phone','like','%'.$query.'%')
-                ->get();
-            $members->each->append(['image', 'profession','working','company','field_courses']);
+        if ($query = request()->get('search')) {
+            $members = Member::where('name', 'like', '%' . $query . '%')
+                             ->orWhere('first_name', 'like', '%' . $query . '%')
+                             ->orWhere('last_name', 'like', '%' . $query . '%')
+                             ->orWhere('email', 'like', '%' . $query . '%')
+                             ->orWhere('phone', 'like', '%' . $query . '%')
+                             ->get();
+            $members->each->append(['image', 'profession', 'working', 'company', 'field_courses']);
             $results['members'] = $members;
         }
+
         return $results;
     }
 
@@ -402,36 +410,35 @@ class MemberController extends Controller
     public function courses(Member $member)
     {
         $member->updateFromPeople();
-        $user = User::firstOrCreate(['email'=>$member->email]);
-        if(!$user->name){
+        $user = User::firstOrCreate(['email' => $member->email]);
+        if (!$user->name) {
             $user->name = $member->name;
             $user->save();
         }
         $user->member()->associate($member);
         $user->save();
         Auth::login($user, true);
+
         return redirect('/');
     }
-
-    /**
-     * @return array
-     */
+    
     public function simpleLogin()
     {
-        $this->validate(request(),[
+        $this->validate(request(), [
             'email_phone' => [
                 'required',
-                function($attribute, $value, $fail) {
-                    if(!($member = Member::where('email','like',$value)->orWhere('phone','like',$value)->first())){
+                function ($attribute, $value, $fail) {
+                    if (!($member = Member::where('email', 'like', $value)->orWhere('phone', 'like', $value)->first())) {
                         return $fail('No encontramos tus datos en el sistema. Intenta nuevamente.');
                     }
                 },
             ],
         ]);
-        $results = [];
-        $data = request()->get('email_phone');
-        $member = Member::where('email','like',$data)->orWhere('phone','like',$data)->first();
+        $results           = [];
+        $data              = request()->get('email_phone');
+        $member            = Member::where('email', 'like', $data)->orWhere('phone', 'like', $data)->first();
         $results['member'] = $member;
+
         return $results;
     }
 
@@ -441,15 +448,16 @@ class MemberController extends Controller
      */
     public function unfinishedCourses($period = '2018-1')
     {
-        $members = Member::whereHas('courses',function($query)use($period){
-            $query->where('period',$period)->whereIn('course_member.status',['didnt_finish','didnt_start']);
+        $members = Member::whereHas('courses', function ($query) use ($period) {
+            $query->where('period', $period)->whereIn('course_member.status', ['didnt_finish', 'didnt_start']);
         })->get();
         $members->each->append('image');
         $available = [];
-        foreach(Course::where('period','2018-2')->orderBy('name')->get() as $cr){
-            if(!in_array($cr->name,$available)) $available[] = $cr->name;
+        foreach (Course::where('period', '2018-2')->orderBy('name')->get() as $cr) {
+            if (!in_array($cr->name, $available)) $available[] = $cr->name;
         }
-        return view('members.unfinished', compact('members','period','available'));
+
+        return view('members.unfinished', compact('members', 'period', 'available'));
     }
 
     /**
@@ -458,11 +466,12 @@ class MemberController extends Controller
      */
     public function recommend(Member $member)
     {
-        $course_name = request()->get('course','');
-        $results = [];
+        $course_name = request()->get('course', '');
+        $results     = [];
         Mail::to($member->email)->send(new CourseRecommendedMail($course_name, $member));
-        $results['status'] = 'success';
+        $results['status']  = 'success';
         $results['message'] = 'Mensaje enviado correctamente';
+
         return $results;
     }
 
