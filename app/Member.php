@@ -129,7 +129,7 @@ class Member extends Model
 
     public function professorCourses()
     {
-        return $this->hasMany(Course::class);
+        return $this->hasMany(Course::class,'professor_id');
     }
 
     /**
