@@ -136,6 +136,7 @@ class CoursesController extends Controller
             return $results;
         }
         $course->append('dayName');
+        if($course->professor)$course->professor->append('image');
         $members = $course->members()->orderBy('name')->get();
         $members->each->append('image');
         return view('courses.students', compact('course','members'));
