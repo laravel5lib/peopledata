@@ -132,6 +132,7 @@ class CoursesController extends Controller
         if(request()->ajax()){
             $results = [];
             $results['members'] = $course->members()->orderBy('name')->get();
+            $results['members']->each->append('image');
             return $results;
         }
         $course->append('dayName');
