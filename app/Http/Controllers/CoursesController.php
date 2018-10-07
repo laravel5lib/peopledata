@@ -28,7 +28,14 @@ class CoursesController extends Controller
     public function index()
     {
         $period = request()->get('period','2018-2');
-        return view('courses.index', compact('period'));
+        $courses = Course::where('period',$period)->get();
+        $professorEmails = [];
+        foreach($courses as $course){
+            if($prof = $course->professor){
+                if($prof->email && !in_array($prof->email, $professorEmails))$professorEmails[] = $prof->email;
+            }
+        }
+        return view('courses.index', compact('period', 'professorEmails'));
     }
 
     public function export()
@@ -119,12 +126,15 @@ class CoursesController extends Controller
         //
     }
 
-    /**
-     * @param Course $course
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
+    
     public function students(Course $course)
     {
+        if(request()->ajax()){
+            $results = [];
+            $results['members'] = $course->members()->orderBy('name')->get();
+            return $results;
+        }
+        $course->append('dayName');
         $members = $course->members()->orderBy('name')->get();
         $members->each->append('image');
         return view('courses.students', compact('course','members'));

@@ -191,10 +191,9 @@
 
 <script>
   import PNotify from '../../../../../node_modules/pnotify/dist/es/PNotify.js';
-
-  PNotify.defaults.styling = "bootstrap4"; // Bootstrap version 4
+  PNotify.defaults.styling = "bootstrap4"; 
   import moment from 'moment'
-
+  
   export default {
     components: {},
     mounted () {

@@ -7,6 +7,8 @@ Route::get('/', 'HomeController@index');
 Route::any('mycourses', 'HomeController@mycourses');
 Route::get('terms', 'HomeController@terms')->name('terms');
 
+Route::resource('messages', 'Utils\MessagesController');
+
 Route::resource('members', 'MemberController');
 Route::get('members/{member}/courses', 'MemberController@courses');
 Route::get('members/unfinished/{period}', 'MemberController@unfinishedCourses');

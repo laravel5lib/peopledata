@@ -70,6 +70,9 @@
           }).then(
           ({data}) => {
             this.loading--
+            this.$emit('change',{status: this.status,
+              payment: this.payment,
+              notes: this.notes,})
             if (data.message) PNotify.success(data.message);
           }
         ).catch(function (error) {

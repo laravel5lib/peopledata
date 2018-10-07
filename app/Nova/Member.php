@@ -6,7 +6,9 @@ use Laravel\Nova\Fields\HasOne;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Text;
+// use KABBOUCHI\NovaImpersonate\Impersonate;
 use Laravel\Nova\Http\Requests\NovaRequest;
+
 
 class Member extends Resource
 {
@@ -51,6 +53,8 @@ class Member extends Resource
             Text::make('First Name'),
             Text::make('Last Name'),
             HasOne::make('User'),
+            // Impersonate::make($this->user->id),
+            
         ];
     }
 

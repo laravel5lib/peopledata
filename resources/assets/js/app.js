@@ -16,9 +16,11 @@ window.Vue = require('vue');
  */
 
 Vue.component('spinner', require('./components/Utils/Spinner.vue'));
+Vue.component('compose-message', require('./components/Utils/ComposeMessage.vue'));
 Vue.component('member-show', require('./components/Members/MemberShow.vue'));
 Vue.component('member-edit', require('./components/Members/MemberEdit.vue'));
 Vue.component('members-search', require('./components/Members/MembersSearch.vue'));
+Vue.component('course-details', require('./components/Courses/CourseDetails.vue'));
 Vue.component('student-inscription', require('./components/Courses/StudentInscription.vue'));
 Vue.component('student-unfinished', require('./components/Courses/StudentUnfinished.vue'));
 Vue.component('simple-login', require('./components/Members/SimpleLogin.vue'));

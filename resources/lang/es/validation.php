@@ -20,7 +20,7 @@ return [
     'alpha'                => 'The :attribute may only contain letters.',
     'alpha_dash'           => 'The :attribute may only contain letters, numbers, and dashes.',
     'alpha_num'            => 'The :attribute may only contain letters and numbers.',
-    'array'                => 'The :attribute must be an array.',
+    'array'                => 'Esta campo debe tener una lista de elementos',
     'before'               => 'The :attribute must be a date before :date.',
     'before_or_equal'      => 'The :attribute must be a date before or equal to :date.',
     'between'              => [
@@ -62,7 +62,7 @@ return [
         'numeric' => 'The :attribute must be at least :min.',
         'file'    => 'The :attribute must be at least :min kilobytes.',
         'string'  => 'Este campo debe contener al menos :min caracteres.',
-        'array'   => 'The :attribute must have at least :min items.',
+        'array'   => 'Esta lista debe tener al menos :min elemento(s).',
     ],
     'not_in'               => 'The selected :attribute is invalid.',
     'not_regex'            => 'The :attribute format is invalid.',

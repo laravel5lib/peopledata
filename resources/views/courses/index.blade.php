@@ -19,6 +19,9 @@
                             </div>
                             <div class="col"><a href="/courses/export" class="btn btn-secondary">Exportar</a></div>
                             <div class="col"><a href="/courses/create" class="btn btn-primary">Agregar clase</a></div>
+                            <div class="col">
+                                <compose-message label="Escribir a los Profes" :emails="{{ collect($professorEmails) }}"></compose-message>
+                            </div>
                         </div>
                     </div>
                 </div>
