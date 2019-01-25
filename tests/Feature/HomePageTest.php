@@ -29,7 +29,7 @@ class HomePageTest extends TestCase
         $course = factory(Course::class)->create([
             'name' => 'Test Course',
             'day' => 0,
-            'period' => '2018-2',
+            'period' => '2019-1',
         ]);
         $response = $this->followingRedirects()->actingAs($user)->get('/');
         $response->assertSee($course->name);

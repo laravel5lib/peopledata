@@ -453,7 +453,7 @@ class MemberController extends Controller
         })->get();
         $members->each->append('image');
         $available = [];
-        foreach (Course::where('period', '2018-2')->orderBy('name')->get() as $cr) {
+        foreach (Course::where('period', '2019-1')->orderBy('name')->get() as $cr) {
             if (!in_array($cr->name, $available)) $available[] = $cr->name;
         }
 

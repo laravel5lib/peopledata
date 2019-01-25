@@ -13,7 +13,7 @@
                     <div class="row text-center">
                         <div class="col-md-4"><strong>Estudiante</strong></div>
                         <div class="col-md-3"><strong>Curso</strong></div>
-                        <div class="col-md-2"><strong>2018-2</strong></div>
+                        <div class="col-md-2"><strong>2019-1</strong></div>
                         <div class="col-md-3"><strong>Enviar correo</strong></div>
                     </div>
                 </li>
@@ -21,7 +21,7 @@
                     @php
                         $course = $member->courses()->where('period',$period)->wherePivotIn('status',['didnt_finish','didnt_start'])->first();
                         $course->append('dayName');
-                        if($course2 = $member->courses()->where('period','2018-2')->first()){
+                        if($course2 = $member->courses()->where('period','2019-1')->first()){
                             $course2->append('dayName');
                         }
                     @endphp

@@ -82,7 +82,7 @@ Artisan::command('people:fields', function () {
 })->describe('Sync field definitions information');
 
 Artisan::command('people:registered-mail', function () {
-    $period  = '2018-2';
+    $period  = '2019-1';
     $members = Member::whereHas('courses', function ($query) use ($period) {
         $query->where('period', $period);
     })->get();
@@ -99,7 +99,7 @@ Artisan::command('people:registered-mail', function () {
 })->describe('Send emails to registered students');
 
 Artisan::command('courses:professor-mail', function () {
-    $period  = '2018-2';
+    $period  = '2019-1';
     $courses = Course::where('period',$period)->has('members')->get();
     foreach ($courses as $course) {
         if ($prof = $course->professor) {

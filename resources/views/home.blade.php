@@ -43,7 +43,7 @@
                             </div>
                         </div>
                     @endif
-                    <p class="card-text">A continuación se muestran los cursos de educación cristiana disponibles para el semestre 2018-2.</p>
+                    <p class="card-text">A continuación se muestran los cursos de educación cristiana disponibles para el semestre 2019-1.</p>
                 </div>
             </div>
             <div class="card">

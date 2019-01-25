@@ -27,7 +27,7 @@ class CoursesController extends Controller
      */
     public function index()
     {
-        $period = request()->get('period','2018-2');
+        $period = request()->get('period','2019-1');
         $courses = Course::where('period',$period)->get();
         $professorEmails = [];
         foreach($courses as $course){
@@ -40,7 +40,7 @@ class CoursesController extends Controller
 
     public function export()
     {
-        $period = request()->get('period','2018-2');
+        $period = request()->get('period','2019-1');
 //        $days = ['1' => 'Lunes', '2' => 'Martes', '3' => 'Miércoles', '4' => 'Jueves', '5' => 'Viernes', '6' => 'Sábado', '0' => 'Domingo'];
 //        $courses = Course::where('period', $period)->with('members')->get();
 //        return view('courses.export', compact('days', 'courses'));
