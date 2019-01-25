@@ -18,7 +18,7 @@
                 <option value="didnt_start">No llegó</option>
                 <option value="didnt_finish">Desertó</option>
             </select></div>
-            <div class="col-md-2 text-center">
+            <div class="col-md-2 text-center" v-if="value">
                 <div class="input-group">
                     <div class="input-group-prepend">
                         <div class="input-group-text">$</div>
@@ -42,7 +42,7 @@
   PNotify.defaults.styling = "bootstrap4"; 
 
   export default {
-    props: ['member', 'course_id'],
+    props: ['member', 'course_id', 'value'],
     data () {
       return {
         loading: 0,

@@ -4,7 +4,10 @@
         @if($course->professor)
             <small class="text-info">{{ $course->professor->first_name }} {{ $course->professor->last_name }}</small>
         @endif
-        <p class="card-text">{{ $course->hour }}<br>
+        <p class="card-text">
+            @if($course->hour != '12:00 am')
+                <span>{{ $course->hour }}</span><br>
+            @endif
             {{ $course->location }}<br>
             @if($course->value)
                 <span class="text-muted">${{ number_format($course->value,0,',','.') }}</span> <br>
