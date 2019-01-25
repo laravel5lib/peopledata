@@ -12,21 +12,26 @@
   "devDependencies": {
     "axios": "^0.18",
     "bootstrap": "^4.0.0",
-    "popper.js": "^1.12",
     "cross-env": "^5.1",
+    "false": "^0.0.4",
     "jquery": "^3.2",
-    "laravel-mix": "^2.0",
-    "lodash": "^4.17.4",
-    "vue": "^2.5.7"
+    "lodash": "^4.17.11",
+    "popper.js": "^1.12",
+    "sass": "^1.16.1",
+    "sass-loader": "7.*",
+    "vue": "^2.5.22",
+    "vue-template-compiler": "^2.5.22"
   },
   "dependencies": {
     "ajv": "^6.5.1",
     "animate.css": "^3.6.1",
     "element-ui": "^2.3.2",
+    "laravel-mix": "^4.0.7",
     "material-design-icons": "^3.0.1",
     "moment": "^2.22.0",
     "nonblockjs": "^1.0.8",
     "pnotify": "^4.0.0-alpha.2",
-    "vue2-touch-events": "^1.0.0"
+    "vue2-touch-events": "^1.0.0",
+    "webpack": "^4.29.0"
   }
 }

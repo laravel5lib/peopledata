@@ -15,16 +15,16 @@ window.Vue = require('vue');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('spinner', require('./components/Utils/Spinner.vue'));
-Vue.component('compose-message', require('./components/Utils/ComposeMessage.vue'));
-Vue.component('member-show', require('./components/Members/MemberShow.vue'));
-Vue.component('member-edit', require('./components/Members/MemberEdit.vue'));
-Vue.component('members-search', require('./components/Members/MembersSearch.vue'));
-Vue.component('course-details', require('./components/Courses/CourseDetails.vue'));
-Vue.component('student-inscription', require('./components/Courses/StudentInscription.vue'));
-Vue.component('student-unfinished', require('./components/Courses/StudentUnfinished.vue'));
-Vue.component('simple-login', require('./components/Members/SimpleLogin.vue'));
-Vue.component('course-register-small', require('./components/Courses/CourseRegisterSmall.vue'));
+Vue.component('spinner', require('./components/Utils/Spinner.vue').default);
+Vue.component('compose-message', require('./components/Utils/ComposeMessage.vue').default);
+Vue.component('member-show', require('./components/Members/MemberShow.vue').default);
+Vue.component('member-edit', require('./components/Members/MemberEdit.vue').default);
+Vue.component('members-search', require('./components/Members/MembersSearch.vue').default);
+Vue.component('course-details', require('./components/Courses/CourseDetails.vue').default);
+Vue.component('student-inscription', require('./components/Courses/StudentInscription.vue').default);
+Vue.component('student-unfinished', require('./components/Courses/StudentUnfinished.vue').default);
+Vue.component('simple-login', require('./components/Members/SimpleLogin.vue').default);
+Vue.component('course-register-small', require('./components/Courses/CourseRegisterSmall.vue').default);
 
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
