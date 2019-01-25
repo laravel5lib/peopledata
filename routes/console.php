@@ -27,9 +27,12 @@ Artisan::command('people:sync {limit?} {offset?}', function ($limit = 25, $offse
         $response = json_decode($res->getBody(), true);
         if (isset($response['data'])) {
             foreach ($response['data'] as $row) {
+                if (!Member::find($row['id'])) $new = true;
+                else $new = false;
                 $member = Member::firstOrCreate(['id' => $row['id']]);
                 $member->updateFromPeople();
-                $this->line(++$count . '. ' . $row['id'] . ' ' . $member->name);
+                if($new) $this->info(++$count . '. ' . $row['id'] . ' ' . $member->name . ($new?' (Nuevo)':''));
+                else $this->line(++$count . '. ' . $row['id'] . ' ' . $member->name);
             }
         }
     }
@@ -37,11 +40,11 @@ Artisan::command('people:sync {limit?} {offset?}', function ($limit = 25, $offse
 })->describe('Sync tabs information');
 
 Artisan::command('people:invite {limit?} {offset?}', function ($limit = 25, $offset = 0) {
-    $members = Member::where('child',0)
-        ->whereNotNull('email')
-        ->whereNotIn('id',['32461976','32462095'])
-        ->doesntHave('courses')
-        ->orderBy('name')->skip($offset)->take($limit)->get();
+    $members = Member::where('child', 0)
+                     ->whereNotNull('email')
+                     ->whereNotIn('id', ['32461976', '32462095'])
+                     ->doesntHave('courses')
+                     ->orderBy('name')->skip($offset)->take($limit)->get();
     $i       = 0;
     foreach ($members as $member) {
         $this->line(++$i . '. ' . $member->first_name . ' ' . $member->last_name);
@@ -100,7 +103,7 @@ Artisan::command('people:registered-mail', function () {
 
 Artisan::command('courses:professor-mail', function () {
     $period  = '2019-1';
-    $courses = Course::where('period',$period)->has('members')->get();
+    $courses = Course::where('period', $period)->has('members')->get();
     foreach ($courses as $course) {
         if ($prof = $course->professor) {
             if ($prof->email && $prof->id == 35918102) {

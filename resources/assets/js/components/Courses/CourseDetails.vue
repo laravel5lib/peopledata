@@ -6,9 +6,9 @@
                 <div class="row">
                     <div class="col-md-5">
                         <h5 class="card-title">{{ course.name }}<br>
-                            <small class="text-muted">{{ course.dayName }} {{ course.hour }}<br>
-                                ${{ course.value }}<br>
-                                {{ course.location }}
+                            <small class="text-muted">{{ course.dayName }} <span v-if="course.hour !== '12:00 am'">{{ course.hour }}</span><br>
+                                <span v-if="course.value">${{ course.value }}</span><br>
+                                <span v-if="course.location">{{ course.location }}</span>
                             </small>
                         </h5>
                         <compose-message :emails="activeEmails"></compose-message>
