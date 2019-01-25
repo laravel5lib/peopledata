@@ -36,7 +36,6 @@ Artisan::command('people:sync {limit?} {offset?}', function ($limit = 25, $offse
             }
         }
     }
-
 })->describe('Sync tabs information');
 
 Artisan::command('people:invite {limit?} {offset?}', function ($limit = 25, $offset = 0) {
