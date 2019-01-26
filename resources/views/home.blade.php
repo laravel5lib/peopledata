@@ -7,7 +7,7 @@
     <div class="container">
         <div class="card-deck">
             <div class="card mb-4">
-                <img class="card-img-top" src="/images/banners/enfasis2018.jpg" alt="Enfasis">
+                <img class="card-img-top" src="/images/banners/enfasis2019.jpg" alt="Énfasis">
             </div>
             <div class="card mb-4">
                 <img class="card-img-top" src="/images/banners/ruta2018-2.jpeg" alt="Ruta">
