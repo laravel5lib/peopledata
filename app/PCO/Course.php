@@ -60,7 +60,8 @@ class Course extends Model
     public function getDayNameAttribute()
     {
         $days = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
-        return $days[$this->day];
+        if(isset($days[$this->day])) return $days[$this->day];
+        else return '';
     }
 
     public function getStyleAttribute()
