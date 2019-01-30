@@ -41,10 +41,11 @@ class CoursesController extends Controller
     public function export()
     {
         $period = request()->get('period','2019-1');
+        $status = request()->get('status',[]);
 //        $days = ['1' => 'Lunes', '2' => 'Martes', '3' => 'Miércoles', '4' => 'Jueves', '5' => 'Viernes', '6' => 'Sábado', '0' => 'Domingo'];
 //        $courses = Course::where('period', $period)->with('members')->get();
 //        return view('courses.export', compact('days', 'courses'));
-        return new CoursesMembersExport($period);
+        return new CoursesMembersExport($period, $status);
     }
 
     /**

@@ -8,6 +8,9 @@
     <div class="container">
         <div class="card">
             <h5 class="card-header text-white bg-info">Estudiantes que no completaron curso en {{ $period }}</h5>
+            <div class="card-body">
+                <a href="/courses/export?period={{ $period }}&status[]=didnt_start&status[]=didnt_finish" class="btn btn-secondary mb-2">Exportar Listado de Deserciones</a>
+            </div>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
                     <div class="row text-center">

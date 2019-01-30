@@ -18,7 +18,10 @@
                                     <option {{ $period=='2019-1'?'selected':'' }} value="2019-1">2019-1</option>
                                 </select>
                             </div>
-                            <div class="col"><a href="/courses/export" class="btn btn-secondary">Exportar</a></div>
+                            <div class="col">
+                                <a href="/courses/export?period={{ $period }}" class="btn btn-secondary mb-2">Exportar Lista de Estudiantes</a>
+                                <a href="/members/unfinished/{{ $period }}" class="btn btn-secondary">Ver deserciones</a>
+                            </div>
                             <div class="col"><a href="/courses/create" class="btn btn-primary">Agregar clase</a></div>
                             <div class="col">
                                 <compose-message label="Escribir a los Profes" :emails="{{ collect($professorEmails) }}"></compose-message>

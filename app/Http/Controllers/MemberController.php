@@ -441,12 +441,8 @@ class MemberController extends Controller
 
         return $results;
     }
-
-    /**
-     * @param string $period
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function unfinishedCourses($period = '2018-1')
+    
+    public function unfinishedCourses($period = '2019-1')
     {
         $members = Member::whereHas('courses', function ($query) use ($period) {
             $query->where('period', $period)->whereIn('course_member.status', ['didnt_finish', 'didnt_start']);

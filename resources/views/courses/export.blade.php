@@ -15,7 +15,7 @@
     <tbody>
     @foreach($courses as $course)
         @foreach($course->members as $member)
-            @if($member->pivot->payment > 0 || ($member->pivot->status != 'didnt_start' && $member->pivot->status != 'didnt_finish') )
+            @if( !count($status) || (count($status) && in_array($member->pivot->status, $status)) )
                 <tr>
                     <td>{{ $course->name }}</td>
                     <td>{{ $days[$course->day] }}</td>

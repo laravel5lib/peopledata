@@ -14,12 +14,19 @@ class CoursesMembersExport implements FromView, Responsable, ShouldAutoSize
     use Exportable;
 
     protected $period;
-    private $fileName = 'courses_members.xlsx';
+    protected $status;
+    private $fileName = 'estudiantes.xlsx';
 
-    public function __construct($period)
+    public function __construct($period, $status = [])
     {
+        $this->status = $status;
         $this->period   = $period;
-        $this->fileName = $period . '-' . $this->fileName;
+        if(count($status)){
+            if(in_array('didnt_start',$status)) $this->fileName = $period . '-Deserciones-' . $this->fileName;
+            else $this->fileName = $period . '-' . $this->fileName;
+        } else {
+            $this->fileName = $period . '-' . $this->fileName;
+        }
     }
 
     public function view() : View
@@ -33,7 +40,8 @@ class CoursesMembersExport implements FromView, Responsable, ShouldAutoSize
             'didnt_start'=>'No llegó',
             'didnt_finish'=>'Desertó',
             ];
+        $status = $this->status;
         $courses = Course::where('period', $this->period)->with('members')->get();
-        return view('courses.export', compact('days', 'courses', 'options'));
+        return view('courses.export', compact('days', 'courses', 'options', 'status'));
     }
 }
