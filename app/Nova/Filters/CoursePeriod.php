@@ -32,6 +32,7 @@ class CoursePeriod extends Filter
             '2018-1'=>'2018-1',
             '2018-2'=>'2018-2',
             '2019-1'=>'2019-1',
+            'nuevos'=>'nuevos',
         ];
     }
 }
