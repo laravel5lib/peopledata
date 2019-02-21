@@ -400,7 +400,8 @@ class MemberController extends Controller
             $results['members'] = $members;
         }
 
-        return $results;
+        if (request()->ajax()) return $results;
+        return view('members.index', compact('members'));
     }
 
     /**
@@ -421,7 +422,7 @@ class MemberController extends Controller
 
         return redirect('/');
     }
-    
+
     public function simpleLogin()
     {
         $this->validate(request(), [
@@ -441,7 +442,7 @@ class MemberController extends Controller
 
         return $results;
     }
-    
+
     public function unfinishedCourses($period = '2019-1')
     {
         $members = Member::whereHas('courses', function ($query) use ($period) {

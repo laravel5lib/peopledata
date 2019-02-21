@@ -1,0 +1,26 @@
+.student-period.confirmed,
+.student-period.signed,
+.student-period.in_progress
+{
+  .badge.badge-info{
+    background-color: $success;
+  }
+}
+.student-period.completed
+{
+  .badge.badge-info{
+    background-color: $blue;
+  }
+}
+.student-period.didnt_finish,
+.student-period.didnt_start
+{
+  .badge.badge-info{
+    background-color: $danger;
+  }
+}
+.professor-period.period-2019-1{
+  .badge.badge-info{
+    background-color: $success;
+  }
+}

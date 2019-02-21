@@ -1,6 +1,6 @@
 <template>
     <div>
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#composeMessageModal">
+        <button type="button" class="btn btn-block btn-primary mb-2" data-toggle="modal" data-target="#composeMessageModal">
             <i class="fal fa-envelope"></i> {{ this.label }}
         </button>
         <div class="modal fade" id="composeMessageModal" tabindex="-1" role="dialog" aria-labelledby="composeMessageModalLabel" aria-hidden="true">
