@@ -22,7 +22,7 @@ class HomeController extends Controller
     {
         if(auth()->check()){
             $user = auth()->user();
-            if($user->id == 59) return redirect('/courses');
+            if(in_array($user->id,[1,59]) ) return redirect('/courses');
             if($member = $user->member){
                 if($course = $member->professorCourses()->where('period','2019-1')->first()){
                     return redirect('/courses/'.$course->id.'/students');
