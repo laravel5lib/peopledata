@@ -2,6 +2,7 @@
 
 namespace App\Nova\Filters;
 
+use App\PCO\Course;
 use Illuminate\Http\Request;
 use Laravel\Nova\Filters\Filter;
 
@@ -28,11 +29,7 @@ class CoursePeriod extends Filter
      */
     public function options(Request $request)
     {
-        return [
-            '2018-1'=>'2018-1',
-            '2018-2'=>'2018-2',
-            '2019-1'=>'2019-1',
-            'nuevos'=>'nuevos',
-        ];
+        return Course::select('period')->distinct()->orderBy('period')->pluck('period','period');
+        
     }
 }

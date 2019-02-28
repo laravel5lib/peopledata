@@ -27,20 +27,21 @@ class CoursesController extends Controller
      */
     public function index()
     {
-        $period = request()->get('period','2019-1');
+        $period = request()->get('period',config('elencuentro.period'));
         $courses = Course::where('period',$period)->get();
+        $periods = Course::select('period')->distinct()->orderBy('period')->pluck('period');
         $professorEmails = [];
         foreach($courses as $course){
             if($prof = $course->professor){
                 if($prof->email && !in_array($prof->email, $professorEmails))$professorEmails[] = $prof->email;
             }
         }
-        return view('courses.index', compact('period', 'professorEmails'));
+        return view('courses.index', compact('period', 'professorEmails','periods'));
     }
 
     public function export()
     {
-        $period = request()->get('period','2019-1');
+        $period = request()->get('period',config('elencuentro.period'));
         $status = request()->get('status',[]);
 //        $days = ['1' => 'Lunes', '2' => 'Martes', '3' => 'Miércoles', '4' => 'Jueves', '5' => 'Viernes', '6' => 'Sábado', '0' => 'Domingo'];
 //        $courses = Course::where('period', $period)->with('members')->get();

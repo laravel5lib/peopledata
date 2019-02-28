@@ -443,14 +443,15 @@ class MemberController extends Controller
         return $results;
     }
 
-    public function unfinishedCourses($period = '2019-1')
+    public function unfinishedCourses($period = null)
     {
+        if(!$period)$period = config('elencuentro.period');
         $members = Member::whereHas('courses', function ($query) use ($period) {
             $query->where('period', $period)->whereIn('course_member.status', ['didnt_finish', 'didnt_start']);
         })->get();
         $members->each->append('image');
         $available = [];
-        foreach (Course::where('period', '2019-1')->orderBy('name')->get() as $cr) {
+        foreach (Course::where('period', config('elencuentro.period'))->orderBy('name')->get() as $cr) {
             if (!in_array($cr->name, $available)) $available[] = $cr->name;
         }
 

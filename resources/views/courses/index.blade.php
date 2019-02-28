@@ -13,10 +13,9 @@
                         <div class="row">
                             <div class="col">
                                 <select id="period" class="form-control" onChange="document.location.href='/courses?period='+document.getElementById('period').options[document.getElementById('period').selectedIndex].value">
-                                    <option {{ $period=='2018-1'?'selected':'' }} value="2018-1">2018-1</option>
-                                    <option {{ $period=='2018-2'?'selected':'' }} value="2018-2">2018-2</option>
-                                    <option {{ $period=='2019-1'?'selected':'' }} value="2019-1">2019-1</option>
-                                    <option {{ $period=='nuevos'?'selected':'' }} value="nuevos">nuevos</option>
+                                    @foreach($periods as $row)
+                                        <option {{ $period==$row?'selected':'' }} value="{{ $row }}">{{ $row }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="col">

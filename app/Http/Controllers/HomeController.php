@@ -24,7 +24,7 @@ class HomeController extends Controller
             $user = auth()->user();
             if(in_array($user->id,[1,59]) ) return redirect('/courses');
             if($member = $user->member){
-                if($course = $member->professorCourses()->where('period','2019-1')->first()){
+                if($course = $member->professorCourses()->where('period',config('elencuentro.period') )->first()){
                     return redirect('/courses/'.$course->id.'/students');
                 }
             }
@@ -38,7 +38,7 @@ class HomeController extends Controller
      */
     public function mycourses()
     {
-        $period = request()->get('period','2019-1');
+        $period = request()->get('period',config('elencuentro.period') );
         $days = [
             '1'=>['day'=>'Lunes'],
             '2'=>['day'=>'Martes'],
