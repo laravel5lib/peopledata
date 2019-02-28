@@ -149,7 +149,7 @@
                     </small>
                 </div>
             </div>
-            <div class="card">
+            <div class="card" v-if="false">
                 <div class="card-header text-white bg-info">Educación Cristiana</div>
                 <!--<div class="card-footer text-muted"><small>Esta es la lista de cursos disponibles,</small></div>-->
                 <ul class="list-group list-group-flush">
