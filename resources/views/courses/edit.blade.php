@@ -49,6 +49,9 @@
                         <div class="col-md-4">
                             @include('forms.text', ['field'=>'value', 'label'=>'Valor del curso','placeholder'=>'0','help'=>'Costo del material del curso','value'=>old('value',$course->value),'prepend'=>'$'])        
                         </div>
+                        <div class="col-md-4">
+                            @include('forms.select', ['field'=>'ministry_id', 'label'=>'Ministerio','help'=>'Ministerio al que pertenece este curso','value'=>old('ministry_id',$course->ministry_id), 'options'=>\App\Ministry::orderBy('name')->get()->pluck('name','id')->toArray()])
+                        </div>
                     </div>
                     <button type="submit" class="btn btn-primary">Actualizar</button>
                     <a href="/courses/{{ $course->id }}/students" class="btn btn-info">Lista de Estudiantes</a>

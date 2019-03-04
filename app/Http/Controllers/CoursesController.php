@@ -20,15 +20,14 @@ class CoursesController extends Controller
     {
         $this->middleware('auth')->except(['professorSummary']);
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    
     public function index()
     {
         $period = request()->get('period',config('elencuentro.period'));
-        $courses = Course::where('period',$period)->get();
+        $ministry = request()->get('ministry',0);
+        if($ministry >0) $courses = Course::where('period',$period)->where('ministry_id',$ministry)->orderBy('hour')->get();
+        else $courses = Course::where('period',$period)->orderBy('hour')->get();
+        
         $periods = Course::select('period')->distinct()->orderBy('period')->pluck('period');
         $professorEmails = [];
         foreach($courses as $course){
@@ -36,7 +35,7 @@ class CoursesController extends Controller
                 if($prof->email && !in_array($prof->email, $professorEmails))$professorEmails[] = $prof->email;
             }
         }
-        return view('courses.index', compact('period', 'professorEmails','periods'));
+        return view('courses.index', compact('period', 'professorEmails','periods', 'ministry','courses'));
     }
 
     public function export()
@@ -91,14 +90,7 @@ class CoursesController extends Controller
     {
         return view('courses.edit', compact('course'));
     }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param Course $course
-     * @return \Illuminate\Http\Response
-     */
+    
     public function update(Request $request, Course $course)
     {
         $this->validate(request(),[

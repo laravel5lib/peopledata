@@ -54,12 +54,13 @@
                                 </a>
 
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a href="/members/{{ auth()->user()->member_id }}/edit" class="dropdown-item">Editar Mi Perfil</a>
+                                    <a href="/members/{{ auth()->user()->member_id }}" class="dropdown-item">Ver Mi Perfil</a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                         {{ __('Salir') }}
                                     </a>
-
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                         @csrf
                                     </form>

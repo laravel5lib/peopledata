@@ -5,39 +5,23 @@
                 <div class="card-header text-white bg-info">Información Personal</div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-2 ">
+                        <div class="col-md-3">
                             <div class="align-items-center justify-content-center text-center user_avatar">
                                 <img :src="member.image" :alt="member.name" class="rounded-circle img-fluid img-thumbnail" width="120">
                             </div>
                             <hr>
-                            <div class="age">
-                                {{ age }} <br>
+                            <div class="text-center" v-if="member.birthdate">
+                                <small class="text-muted">Fecha de nacimiento</small>
+                                <br>
+                                {{ member.birthdate }}<br>
+                                <span class="age">{{ age }}</span><br>
                                 <small>años</small>
                             </div>
-                            <div>
-                                <div class="form-group text-center">
-                                    <div>
-                                        <el-date-picker name="birthdate" align="center" format="yyyy-MM-dd" value-format="yyyy-MM-dd" id="birthdate" v-model="member.birthdate" type="date" placeholder="Escoja una fecha"></el-date-picker>
-                                    </div>
-                                    <small id="birthdateHelp" class="form-text text-muted">Fecha de nacimiento en formato AAAA-MM-DD</small>
-                                </div>
-                            </div>
                         </div>
-                        <div class="col-md-10">
+                        <div class="col-md-9">
                             <div class="row">
                                 <div class="col-md">
-                                    <div class="form-group">
-                                        <label for="first_name">Nombres</label>
-                                        {{ member.first_name }}
-                                        <small id="first_nameHelp" class="form-text text-muted">Escriba su(s) nombre(s)</small>
-                                    </div>
-                                </div>
-                                <div class="col-md">
-                                    <div class="form-group">
-                                        <label for="last_name">Apellidos</label>
-                                        {{ member.last_name }}
-                                        <small id="last_nameHelp" class="form-text text-muted">Escriba los apellidos completos</small>
-                                    </div>
+                                    <h2>{{ member.first_name }} {{ member.last_name }}</h2>
                                 </div>
                             </div>
                             <div class="row">
@@ -98,31 +82,25 @@
                         </div>
                     </div>
                 </div>
-                <div class="card-footer text-muted">
-                    <small class="text-muted">
-                        Al hacer uso del este formulario, y en conformidad con lo dispuesto en la Ley Estatuaria 1581 de 2012, el Decreto Reglamentario 1377 de 2013 y demás normas concordantes sobre protección de Datos Personales, Yo autorizo de manera previa, expresa e informativa a LA IGLESIA EL ENCUENTRO CON DIOS,
-                        para recolectar, almacenar, administrar, procesar, transferir y utilizar toda la información que pueda relacionarse a mí, que le he proporcionado ahora o en el pasado,
-                        los cuales serán destinados para las finalidades contempladas en el documento de políticas de privacidad publicado aquí:
-                        <a target="_blank" href="/terms">Política de tratamiento de datos personales</a>.
-                        <br>
-                        Con esta aceptación, autorizo el tratamiento de mis datos para las finalidades arriba mencionadas y reconozco que los datos suministrados son ciertos y no ha sido omitida o alterada ninguna información, quedando informado que la falsedad u omisión de algún dato supondrá la imposibilidad de prestar correctamente el servicio.
-                    </small>
-                </div>
             </div>
             <div class="card">
                 <div class="card-header text-white bg-info">Educación Cristiana</div>
-                <!--<div class="card-footer text-muted"><small>Esta es la lista de cursos disponibles,</small></div>-->
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item" v-for="course in courses" :class="{'list-group-item-info':course.data_type=='header'}">
-                        <div class="row">
-                            <div class="col-md">{{ course.name }}</div>
-                            <div class="col-md" v-if="course.data_type=='select'">
-                                <div v-if="!member.field_courses[course.id]">No</div>
-                                <div v-else>{{ member.field_courses[course.id] }}</div>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
+                <div class="card-footer text-muted">
+                    <span v-for="course in courses" v-if="course.data_type==='select' && member.field_courses[course.id] && member.field_courses[course.id] !== 'No'"> 
+                            {{ course.name }},
+                    </span>
+                </div>
+                <!--<ul class="list-group list-group-flush">-->
+                <!--<li class="list-group-item" v-for="course in courses" :class="{'list-group-item-info':course.data_type=='header'}">-->
+                <!--<div class="row">-->
+                <!--<div class="col-md">{{ course.name }}</div>-->
+                <!--<div class="col-md" v-if="course.data_type=='select'">-->
+                <!--<div v-if="!member.field_courses[course.id]">No</div>-->
+                <!--<div v-else>{{ member.field_courses[course.id] }}</div>-->
+                <!--</div>-->
+                <!--</div>-->
+                <!--</li>-->
+                <!--</ul>-->
             </div>
         </div>
     </div>
@@ -132,7 +110,7 @@
   import moment from 'moment'
 
   export default {
-    props: ['member','courses'],
+    props: ['member', 'courses'],
     mounted () {
     },
     data () {

@@ -8,18 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Course extends Model
 {
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = ['name','description','location', 'day', 'hour','status','period','value'];
-
-    /**
-     * The relations to eager load on every query.
-     *
-     * @var array
-     */
+    protected $guarded = [];
     protected $with = ['professor'];
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

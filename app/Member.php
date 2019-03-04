@@ -44,13 +44,10 @@ class Member extends Model
         }
         return $this;
     }
-
-    /**
-     * @param $response
-     * @return Member
-     */
+    
     public function updateWithJson($response)
     {
+//        dd(array_keys($response['included']));
         if (isset($response['data'])) {
             $data = $response['data'];
             if (isset($data['attributes'])) {
@@ -102,9 +99,12 @@ class Member extends Model
 //                            $this->fields()->syncWithoutDetaching([$field->id => ['id' => $key, 'value' => $val]]);
 //                        }
 //                        $this->fields()->syncWithoutDetaching([$field->id => ['id' => $included['id'], 'value' => $value]]);
+                    } else {
+//                        dd($included);
+                        Log::error('Field Not found: ' . data_get($included, 'relationships.field_definition.data.id') );    
                     }
                 } else {
-                    Log::info('Field Not found: ' . data_get($included, 'relationships.field_definition.data.id') );
+                    
                 }
             }
         }

@@ -4265,28 +4265,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['member', 'courses'],
@@ -110347,7 +110325,7 @@ var render = function() {
             _vm._v(" "),
             _c("div", { staticClass: "card-body" }, [
               _c("div", { staticClass: "row" }, [
-                _c("div", { staticClass: "col-md-2 " }, [
+                _c("div", { staticClass: "col-md-3" }, [
                   _c(
                     "div",
                     {
@@ -110368,94 +110346,37 @@ var render = function() {
                   _vm._v(" "),
                   _c("hr"),
                   _vm._v(" "),
-                  _c("div", { staticClass: "age" }, [
-                    _vm._v(
-                      "\n                            " + _vm._s(_vm.age) + " "
-                    ),
-                    _c("br"),
-                    _vm._v(" "),
-                    _c("small", [_vm._v("años")])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", [
-                    _c("div", { staticClass: "form-group text-center" }, [
-                      _c(
-                        "div",
-                        [
-                          _c("el-date-picker", {
-                            attrs: {
-                              name: "birthdate",
-                              align: "center",
-                              format: "yyyy-MM-dd",
-                              "value-format": "yyyy-MM-dd",
-                              id: "birthdate",
-                              type: "date",
-                              placeholder: "Escoja una fecha"
-                            },
-                            model: {
-                              value: _vm.member.birthdate,
-                              callback: function($$v) {
-                                _vm.$set(_vm.member, "birthdate", $$v)
-                              },
-                              expression: "member.birthdate"
-                            }
-                          })
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "small",
-                        {
-                          staticClass: "form-text text-muted",
-                          attrs: { id: "birthdateHelp" }
-                        },
-                        [_vm._v("Fecha de nacimiento en formato AAAA-MM-DD")]
-                      )
-                    ])
-                  ])
+                  _vm.member.birthdate
+                    ? _c("div", { staticClass: "text-center" }, [
+                        _c("small", { staticClass: "text-muted" }, [
+                          _vm._v("Fecha de nacimiento")
+                        ]),
+                        _vm._v(" "),
+                        _c("br"),
+                        _vm._v(
+                          "\n                            " +
+                            _vm._s(_vm.member.birthdate)
+                        ),
+                        _c("br"),
+                        _vm._v(" "),
+                        _c("span", { staticClass: "age" }, [
+                          _vm._v(_vm._s(_vm.age))
+                        ]),
+                        _c("br"),
+                        _vm._v(" "),
+                        _c("small", [_vm._v("años")])
+                      ])
+                    : _vm._e()
                 ]),
                 _vm._v(" "),
-                _c("div", { staticClass: "col-md-10" }, [
+                _c("div", { staticClass: "col-md-9" }, [
                   _c("div", { staticClass: "row" }, [
                     _c("div", { staticClass: "col-md" }, [
-                      _c("div", { staticClass: "form-group" }, [
-                        _c("label", { attrs: { for: "first_name" } }, [
-                          _vm._v("Nombres")
-                        ]),
+                      _c("h2", [
                         _vm._v(
-                          "\n                                    " +
-                            _vm._s(_vm.member.first_name) +
-                            "\n                                    "
-                        ),
-                        _c(
-                          "small",
-                          {
-                            staticClass: "form-text text-muted",
-                            attrs: { id: "first_nameHelp" }
-                          },
-                          [_vm._v("Escriba su(s) nombre(s)")]
-                        )
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "col-md" }, [
-                      _c("div", { staticClass: "form-group" }, [
-                        _c("label", { attrs: { for: "last_name" } }, [
-                          _vm._v("Apellidos")
-                        ]),
-                        _vm._v(
-                          "\n                                    " +
-                            _vm._s(_vm.member.last_name) +
-                            "\n                                    "
-                        ),
-                        _c(
-                          "small",
-                          {
-                            staticClass: "form-text text-muted",
-                            attrs: { id: "last_nameHelp" }
-                          },
-                          [_vm._v("Escriba los apellidos completos")]
+                          _vm._s(_vm.member.first_name) +
+                            " " +
+                            _vm._s(_vm.member.last_name)
                         )
                       ])
                     ])
@@ -110631,9 +110552,7 @@ var render = function() {
                   ])
                 ])
               ])
-            ]),
-            _vm._v(" "),
-            _vm._m(0)
+            ])
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "card" }, [
@@ -110642,37 +110561,20 @@ var render = function() {
             ]),
             _vm._v(" "),
             _c(
-              "ul",
-              { staticClass: "list-group list-group-flush" },
+              "div",
+              { staticClass: "card-footer text-muted" },
               _vm._l(_vm.courses, function(course) {
-                return _c(
-                  "li",
-                  {
-                    staticClass: "list-group-item",
-                    class: {
-                      "list-group-item-info": course.data_type == "header"
-                    }
-                  },
-                  [
-                    _c("div", { staticClass: "row" }, [
-                      _c("div", { staticClass: "col-md" }, [
-                        _vm._v(_vm._s(course.name))
-                      ]),
-                      _vm._v(" "),
-                      course.data_type == "select"
-                        ? _c("div", { staticClass: "col-md" }, [
-                            !_vm.member.field_courses[course.id]
-                              ? _c("div", [_vm._v("No")])
-                              : _c("div", [
-                                  _vm._v(
-                                    _vm._s(_vm.member.field_courses[course.id])
-                                  )
-                                ])
-                          ])
-                        : _vm._e()
+                return course.data_type === "select" &&
+                  _vm.member.field_courses[course.id] &&
+                  _vm.member.field_courses[course.id] !== "No"
+                  ? _c("span", [
+                      _vm._v(
+                        " \n                        " +
+                          _vm._s(course.name) +
+                          ",\n                "
+                      )
                     ])
-                  ]
-                )
+                  : _vm._e()
               }),
               0
             )
@@ -110681,28 +110583,7 @@ var render = function() {
       ])
     : _vm._e()
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-footer text-muted" }, [
-      _c("small", { staticClass: "text-muted" }, [
-        _vm._v(
-          "\n                    Al hacer uso del este formulario, y en conformidad con lo dispuesto en la Ley Estatuaria 1581 de 2012, el Decreto Reglamentario 1377 de 2013 y demás normas concordantes sobre protección de Datos Personales, Yo autorizo de manera previa, expresa e informativa a LA IGLESIA EL ENCUENTRO CON DIOS,\n                    para recolectar, almacenar, administrar, procesar, transferir y utilizar toda la información que pueda relacionarse a mí, que le he proporcionado ahora o en el pasado,\n                    los cuales serán destinados para las finalidades contempladas en el documento de políticas de privacidad publicado aquí:\n                    "
-        ),
-        _c("a", { attrs: { target: "_blank", href: "/terms" } }, [
-          _vm._v("Política de tratamiento de datos personales")
-        ]),
-        _vm._v(".\n                    "),
-        _c("br"),
-        _vm._v(
-          "\n                    Con esta aceptación, autorizo el tratamiento de mis datos para las finalidades arriba mencionadas y reconozco que los datos suministrados son ciertos y no ha sido omitida o alterada ninguna información, quedando informado que la falsedad u omisión de algún dato supondrá la imposibilidad de prestar correctamente el servicio.\n                "
-        )
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
