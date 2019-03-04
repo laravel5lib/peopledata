@@ -166,7 +166,12 @@ class MemberController extends Controller
      */
     public function show(Member $member)
     {
-        return view('members.show', compact('member'));
+        $member->updateFromPeople();
+        $member->append(['image', 'profession', 'working', 'company', 'field_courses']);
+//        $marital_statuses = MaritalStatus::all();
+        $courses          = Field::where('tab_id', 47880)->orderBy('sequence')->get();
+
+        return view('members.show', compact('member', 'courses'));
     }
 
     /**

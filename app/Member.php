@@ -3,6 +3,7 @@
 namespace App;
 
 use App\PCO\Field;
+use Illuminate\Support\Facades\Log;
 use MediaUploader;
 use Carbon\Carbon;
 use App\PCO\Course;
@@ -103,7 +104,7 @@ class Member extends Model
 //                        $this->fields()->syncWithoutDetaching([$field->id => ['id' => $included['id'], 'value' => $value]]);
                     }
                 } else {
-//                    dd($included);
+                    Log::info('Field Not found: ' . data_get($included, 'relationships.field_definition.data.id') );
                 }
             }
         }
