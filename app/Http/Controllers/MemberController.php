@@ -168,10 +168,10 @@ class MemberController extends Controller
     {
         $member->updateFromPeople();
         $member->append(['image', 'profession', 'working', 'company', 'field_courses']);
-//        $marital_statuses = MaritalStatus::all();
+        $marital_statuses = MaritalStatus::all();
         $courses          = Field::where('tab_id', 47880)->orderBy('sequence')->get();
 
-        return view('members.show', compact('member', 'courses'));
+        return view('members.show', compact('member', 'courses','marital_statuses'));
     }
 
     /**

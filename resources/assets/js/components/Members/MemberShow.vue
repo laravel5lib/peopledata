@@ -10,73 +10,36 @@
                                 <img :src="member.image" :alt="member.name" class="rounded-circle img-fluid img-thumbnail" width="120">
                             </div>
                             <hr>
-                            <div class="text-center" v-if="member.birthdate">
-                                <small class="text-muted">Fecha de nacimiento</small>
-                                <br>
-                                {{ member.birthdate }}<br>
-                                <span class="age">{{ age }}</span><br>
-                                <small>años</small>
-                            </div>
+                            <a href="/members/" class="btn">Editar</a>
                         </div>
                         <div class="col-md-9">
                             <div class="row">
-                                <div class="col-md">
+                                <div class="col">
                                     <h2>{{ member.first_name }} {{ member.last_name }}</h2>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md">
-                                    <div class="form-group" v-if="!member.child">
-                                        <label for="marital_status_id">Estado civil</label>
-                                        {{ member.marital_status_id }}
-                                        <small id="marital_status_idHelp" class="form-text text-muted">Seleccione su estado civil actual</small>
+                                    <div v-if="member.email" class="text-info">{{ member.email }}</div>
+                                    <div v-if="member.phone"><span class="text-muted">Teléfono:</span> {{ member.phone }}</div>
+                                    <div v-if="member.marital_status_id">
+                                        <span class="text-muted">Estado civil:</span> <span v-for="marital in marital_statuses" v-if="member.marital_status_id == marital.id">{{ marital.value }}</span>
+                                    </div>
+                                    <div v-if="member.gender">
+                                        <span v-if="member.gender==='M'">Masculino</span>
+                                        <span v-else-if="member.gender==='F'">Femenino</span>
+                                        <span v-else>&nbsp;</span>
                                     </div>
                                 </div>
                                 <div class="col-md">
-                                    <div class="form-group">
-                                        <label for="gender">Género</label>
-                                        {{ member.gender }}
-                                        <small id="genderHelp" class="form-text text-muted">Seleccione su género de la lista</small>
-                                    </div>
+                                    <div v-if="member.profession"><span class="text-muted">Profesión:</span> {{ member.profession }}</div>
+                                    <div v-if="member.working"><span class="text-muted">Situación laboral</span> {{ member.working }}</div>
+                                    <div v-if="member.company"><span class="text-muted">Empresa:</span> {{ member.company }}</div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md">
-                                    <div class="form-group">
-                                        <label for="email">Correo electrónico</label>
-                                        {{ member.email}}
-                                        <small id="emailHelp" class="form-text text-muted">Escriba su dirección de correo electrónico personal</small>
-                                    </div>
-                                </div>
-                                <div class="col-md">
-                                    <div class="form-group">
-                                        <label for="phone">Teléfono</label>
-                                        {{ member.phone }}
-                                        <small id="phoneHelp" class="form-text text-muted">Escriba su número celular o principal teléfono de contacto</small>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md">
-                                    <div class="form-group">
-                                        <label for="profession">Profesión</label>
-                                        {{ member.profession }}
-                                        <small id="professionHelp" class="form-text text-muted">Profesión o principal área de trabajo</small>
-                                    </div>
-                                </div>
-                                <div class="col-md">
-                                    <div class="form-group">
-                                        <label for="working">Situación laboral actual</label>
-                                        {{ member.working }}
-                                        <small id="workingHelp" class="form-text text-muted">Selecciona una opción de la lista</small>
-                                    </div>
-                                </div>
-                                <div class="col-md">
-                                    <div class="form-group">
-                                        <label for="company">Empresa / Organización</label>
-                                        {{ member.company }}
-                                        <small id="companyHelp" class="form-text text-muted">Donde trabajas o realizas tu actividad principal</small>
-                                    </div>
+                                <div class="col-md text-center" v-if="member.birthdate">
+                                    {{ member.birthdate }}<br>
+                                    <span class="age">{{ age }}</span><br>
+                                    <small>años</small>
                                 </div>
                             </div>
                         </div>
@@ -110,12 +73,7 @@
   import moment from 'moment'
 
   export default {
-    props: ['member', 'courses'],
-    mounted () {
-    },
-    data () {
-      return {}
-    },
+    props: ['member', 'courses', 'marital_statuses'],
     computed: {
       age: function () {
         if (!this.member.birthdate) return '-?-';

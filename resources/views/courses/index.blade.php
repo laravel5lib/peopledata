@@ -11,7 +11,7 @@
                 <div class="card mb-2">
                     <div class="card-body">
                         <div class="row">
-                            <div class="col">
+                            <div class="col-md">
                                 <select id="period" class="mb-2 form-control" onChange="document.location.href='/courses?period='+document.getElementById('period').options[document.getElementById('period').selectedIndex].value + '&ministry='+document.getElementById('ministry').options[document.getElementById('ministry').selectedIndex].value">
                                     @foreach($periods as $row)
                                         <option {{ $period==$row?'selected':'' }} value="{{ $row }}">{{ $row }}</option>
@@ -25,17 +25,17 @@
                                 </select>
 
                             </div>
-                            <div class="col">
+                            <div class="col-md">
                                 <a href="/courses/export?period={{ $period }}" class="btn btn-block btn-secondary mb-2"><i class="fal fa-file-excel"></i> Exportar Lista de Estudiantes</a>
                                 <a href="/members/unfinished/{{ $period }}" class="btn btn-block btn-secondary"><i class="fal fa-user-slash"></i> Ver deserciones</a>
                             </div>
-                            <div class="col">
+                            <div class="col-md">
                                 <compose-message label="Escribir a los Profes" :emails="{{ collect($professorEmails) }}"></compose-message>
                                 <a href="/courses/create" class="btn btn-primary btn-block">
                                     <i class="fal fa-plus"></i> Agregar clase
                                 </a>
                             </div>
-                            <div class="col">
+                            <div class="col-md">
                                 <form action="/members/search" method="post">
                                     {{ csrf_field() }}
                                     <div>Buscar estudiante:</div>
