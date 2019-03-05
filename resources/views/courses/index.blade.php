@@ -23,7 +23,6 @@
                                         <option {{ $ministry==$row->id?'selected':'' }} value="{{ $row->id }}">{{ $row->name }}</option>
                                     @endforeach
                                 </select>
-
                             </div>
                             <div class="col-md">
                                 <a href="/courses/export?period={{ $period }}" class="btn btn-block btn-secondary mb-2"><i class="fal fa-file-excel"></i> Exportar Lista de Estudiantes</a>
