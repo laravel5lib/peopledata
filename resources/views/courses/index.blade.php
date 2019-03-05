@@ -17,7 +17,7 @@
                                         <option {{ $period==$row?'selected':'' }} value="{{ $row }}">{{ $row }}</option>
                                     @endforeach
                                 </select>
-                                <select id="ministry" class="form-control" onChange="document.location.href='/courses?period='+document.getElementById('period').options[document.getElementById('period').selectedIndex].value + '&ministry='+document.getElementById('ministry').options[document.getElementById('ministry').selectedIndex].value">
+                                <select id="ministry" class="mb-2 form-control" onChange="document.location.href='/courses?period='+document.getElementById('period').options[document.getElementById('period').selectedIndex].value + '&ministry='+document.getElementById('ministry').options[document.getElementById('ministry').selectedIndex].value">
                                     <option value="0">Todos los ministerios</option>
                                     @foreach(\App\Ministry::orderBy('name')->get() as $row)
                                         <option {{ $ministry==$row->id?'selected':'' }} value="{{ $row->id }}">{{ $row->name }}</option>
@@ -26,11 +26,11 @@
                             </div>
                             <div class="col-md">
                                 <a href="/courses/export?period={{ $period }}" class="btn btn-block btn-secondary mb-2"><i class="fal fa-file-excel"></i> Exportar Lista de Estudiantes</a>
-                                <a href="/members/unfinished/{{ $period }}" class="btn btn-block btn-secondary"><i class="fal fa-user-slash"></i> Ver deserciones</a>
+                                <a href="/members/unfinished/{{ $period }}" class="btn btn-block btn-secondary mb-2"><i class="fal fa-user-slash"></i> Ver deserciones</a>
                             </div>
                             <div class="col-md">
                                 <compose-message label="Escribir a los Profes" :emails="{{ collect($professorEmails) }}"></compose-message>
-                                <a href="/courses/create" class="btn btn-primary btn-block">
+                                <a href="/courses/create" class="btn btn-primary btn-block mb-2">
                                     <i class="fal fa-plus"></i> Agregar clase
                                 </a>
                             </div>
