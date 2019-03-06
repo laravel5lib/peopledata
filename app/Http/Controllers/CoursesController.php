@@ -24,7 +24,7 @@ class CoursesController extends Controller
     public function index()
     {
         $period = request()->get('period',config('elencuentro.period'));
-        $ministry = request()->get('ministry',0);
+        $ministry = request()->get('ministry',1);
         if($ministry >0) $courses = Course::where('period',$period)->where('ministry_id',$ministry)->orderBy('hour')->get();
         else $courses = Course::where('period',$period)->orderBy('hour')->get();
         
