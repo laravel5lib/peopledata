@@ -1001,12 +1001,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/KABBOUCHI/nova-impersonate.git",
-                "reference": "03e8faa8907118a84ce40ac9b14a1847f37c051e"
+                "reference": "5b441948248eeca09afb01920cc9c246264ea8dc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/KABBOUCHI/nova-impersonate/zipball/03e8faa8907118a84ce40ac9b14a1847f37c051e",
-                "reference": "03e8faa8907118a84ce40ac9b14a1847f37c051e",
+                "url": "https://api.github.com/repos/KABBOUCHI/nova-impersonate/zipball/5b441948248eeca09afb01920cc9c246264ea8dc",
+                "reference": "5b441948248eeca09afb01920cc9c246264ea8dc",
                 "shasum": ""
             },
             "require": {
@@ -1035,7 +1035,7 @@
                 "laravel",
                 "nova"
             ],
-            "time": "2019-02-11 12:37:43"
+            "time": "2019-03-07 08:27:33"
         },
         {
             "name": "lab404/laravel-impersonate",
