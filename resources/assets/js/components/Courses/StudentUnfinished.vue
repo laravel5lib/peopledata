@@ -5,7 +5,7 @@
                 <img :src="member.image" :alt="member.name" class="rounded-circle img-fluid img-thumbnail mb-1" width="100">
             </div>
             <div class="col-md-3">
-                <a :href="'/members/'+member.id + '/edit'">{{ member.first_name }} {{ member.last_name }}</a><br>
+                <a :href="'/members/'+member.id">{{ member.first_name }} {{ member.last_name }}</a><br>
                 <small class="text-muted">{{ member.email }}</small>
                 <br>
                 <small class="text-muted">Tel: {{ member.phone }}</small>

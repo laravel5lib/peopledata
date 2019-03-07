@@ -10,7 +10,7 @@
                 <img class="card-img-top" src="/images/banners/enfasis2019.jpg" alt="Énfasis">
             </div>
             <div class="card mb-4">
-                <img class="card-img-top" src="/images/banners/ruta2018-2.jpeg" alt="Ruta">
+                <img class="card-img-top" src="/images/banners/ruta2019-1.jpeg" alt="Ruta">
             </div>
         </div>
         <div class="card-deck">
@@ -49,8 +49,8 @@
             <div class="card">
                 <div class="card-body">
                     @if($member)
-                        @if($past = $member->courses()->where('period','2018-1')->first())
-                            <p class="card-text">El semestre 2018-1 te inscribiste en el curso
+                        @if($past = $member->courses()->where('period','2018-2')->first())
+                            <p class="card-text">El semestre 2018-2 te inscribiste en el curso
                                 <span class="text-info">{{ $past->name }}</span> con
                                 @if($past->professor)
                                     <span class="text-muted">{{ $past->professor->name }}</span>
@@ -64,7 +64,7 @@
                                 @endif
                             </p>
                         @else
-                            <p class="card-text">El semestre 2018-1, no tenemos registro que te hayas inscrito en ningun curso.</p>
+                            <p class="card-text">El semestre 2018-2, no tenemos registro que te hayas inscrito en ningun curso.</p>
                         @endif
                         @if(($fields = $member->field_courses_taken) && count($fields))
                             <p class="card-text">Anteriormente, nos informaste que ya has tomado los siguientes cursos:
