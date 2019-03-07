@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    Detalles de miembro @parent
+    {{ $member->name }} :: Detalles de miembro @parent
 @endsection
 
 @section('content')
