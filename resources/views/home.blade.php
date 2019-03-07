@@ -7,14 +7,10 @@
     <div class="container">
         <div class="card-deck">
             <div class="card mb-4">
-                <img class="card-img-top" src="/images/banners/enfasis2019.jpg" alt="Énfasis">
-            </div>
-            <div class="card mb-4">
                 <img class="card-img-top" src="/images/banners/ruta2019-1.jpeg" alt="Ruta">
             </div>
-        </div>
-        <div class="card-deck">
-            <div class="card">
+            <div class="card mb-4">
+                <img class="card-img-top" src="/images/banners/enfasis2019.jpg" alt="Énfasis">
                 <div class="card-body">
                     <h5 class="card-title">Ministerio de Educación Cristiana <br>
                         <small class="text-muted">Proceso de inscripción de cursos</small>
@@ -45,8 +41,6 @@
                     @endif
                     <p class="card-text">A continuación se muestran los cursos de educación cristiana disponibles para el semestre 2019-1.</p>
                 </div>
-            </div>
-            <div class="card">
                 <div class="card-body">
                     @if($member)
                         @if($past = $member->courses()->where('period','2018-2')->first())
@@ -82,7 +76,7 @@
                             <p class="card-text">Tampoco tenemos registrado en nuestro sistema que hayas tomado algún otro curso anteriormente.</p>
                         @endif
                         {{--<p class="card-text">Tomando en cuenta esta información, para este semestre podrías tomar el curso:--}}
-                            {{--<span class="text-info">{{ $member->recommendCourse() }}</span></p>--}}
+                        {{--<span class="text-info">{{ $member->recommendCourse() }}</span></p>--}}
                     @else
                         <simple-login></simple-login>
                     @endif
