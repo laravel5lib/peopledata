@@ -50,9 +50,58 @@
             <div class="card" v-if="finishedCourses.length">
                 <div class="card-header text-white bg-info">Cursos completados y en curso</div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item" v-for="course in finishedCourses" v-if="course.pivot.status !== 'didnt_start' && course.pivot.status !== 'didnt_finish'">
+                    <li class="list-group-item list-group-item-success">Nivel 1</li>
+                    <li class="list-group-item" v-for="course in finishedCourses" v-if="course.category ==='Nivel 1' && course.pivot.status !== 'didnt_start' && course.pivot.status !== 'didnt_finish'">
                         <div class="row">
-                            <div class="col-sm-2 text-center"><span class="badge badge-info">{{ course.period }}</span></div>
+                            <div class="col-sm-2 text-center">
+                                <span class="badge badge-info">{{ course.period }}</span><br>
+                                <span v-if="course.ministry_id !== 1" class="badge badge-secondary">{{ course.ministry.name }}</span>
+                            </div>
+                            <div class="col-sm">
+                                {{ course.name }}<br>
+                                <span class="text-muted small" v-if="course.professor">{{ course.professor.name }}</span>
+                                <span class="text-muted small" v-else>Sin profesor</span>
+                            </div>
+                            <div class="col-sm text-right"><a :href="'/courses/'+course.id + '/students'" class="btn btn-secondary">Ver estudiantes</a></div>
+                        </div>
+                    </li>
+                    <li class="list-group-item list-group-item-success">Nivel 2</li>
+                    <li class="list-group-item" v-for="course in finishedCourses" v-if="course.category ==='Nivel 2' && course.pivot.status !== 'didnt_start' && course.pivot.status !== 'didnt_finish'">
+                        <div class="row">
+                            <div class="col-sm-2 text-center">
+                                <span class="badge badge-info">{{ course.period }}</span><br>
+                                <span v-if="course.ministry_id !== 1" class="badge badge-secondary">{{ course.ministry.name }}</span>
+                            </div>
+                            <div class="col-sm">
+                                {{ course.name }}<br>
+                                <span class="text-muted small" v-if="course.professor">{{ course.professor.name }}</span>
+                                <span class="text-muted small" v-else>Sin profesor</span>
+                            </div>
+                            <div class="col-sm text-right"><a :href="'/courses/'+course.id + '/students'" class="btn btn-secondary">Ver estudiantes</a></div>
+                        </div>
+                    </li>
+                    <li class="list-group-item list-group-item-success">Nivel 3</li>
+                    <li class="list-group-item" v-for="course in finishedCourses" v-if="course.category ==='Nivel 3' && course.pivot.status !== 'didnt_start' && course.pivot.status !== 'didnt_finish'">
+                        <div class="row">
+                            <div class="col-sm-2 text-center">
+                                <span class="badge badge-info">{{ course.period }}</span><br>
+                                <span v-if="course.ministry_id !== 1" class="badge badge-secondary">{{ course.ministry.name }}</span>
+                            </div>
+                            <div class="col-sm">
+                                {{ course.name }}<br>
+                                <span class="text-muted small" v-if="course.professor">{{ course.professor.name }}</span>
+                                <span class="text-muted small" v-else>Sin profesor</span>
+                            </div>
+                            <div class="col-sm text-right"><a :href="'/courses/'+course.id + '/students'" class="btn btn-secondary">Ver estudiantes</a></div>
+                        </div>
+                    </li>
+                    <li class="list-group-item list-group-item-info">Otros</li>
+                    <li class="list-group-item" v-for="course in finishedCourses" v-if="course.category ==='Otros' && course.pivot.status !== 'didnt_start' && course.pivot.status !== 'didnt_finish'">
+                        <div class="row">
+                            <div class="col-sm-2 text-center">
+                                <span class="badge badge-info">{{ course.period }}</span><br>
+                                <span v-if="course.ministry_id !== 1" class="badge badge-secondary">{{ course.ministry.name }}</span>
+                            </div>
                             <div class="col-sm">
                                 {{ course.name }}<br>
                                 <span class="text-muted small" v-if="course.professor">{{ course.professor.name }}</span>

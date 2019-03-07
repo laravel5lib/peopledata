@@ -89,7 +89,7 @@ class CoursesController extends Controller
     public function edit(Course $course)
     {
         $colors = collect(['night_fade','winter_neva','morpheus_den','star_wine','fly_high','grow_early','sky_glider','aqua_splash','love_kiss','mountain_rock','desert_hump','big_mango','healthy_water','happy_memories']);
-        $categories = ['Nivel 1'=>'Nivel 1','Nivel 2'=>'Nivel 2','Nivel 3'=>'Nivel 3'];
+        $categories = ['Nivel 1'=>'Nivel 1','Nivel 2'=>'Nivel 2','Nivel 3'=>'Nivel 3','Otros'=>'Otros'];
         return view('courses.edit', compact('course','colors', 'categories'));
     }
     

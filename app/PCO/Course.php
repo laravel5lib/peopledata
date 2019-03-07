@@ -3,19 +3,22 @@
 namespace App\PCO;
 
 use App\Member;
+use App\Ministry;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Course extends Model
 {
     protected $guarded = [];
-    protected $with = ['professor'];
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
+    protected $with = ['professor','ministry'];
+    
+    public function ministry()
+    {
+        return $this->belongsTo(Ministry::class);
+    }
     public function professor()
     {
-        return $this->belongsTo(Member::class,'professor_id');
+        return $this->belongsTo(Member::class);
     }
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
