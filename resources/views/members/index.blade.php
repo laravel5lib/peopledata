@@ -21,7 +21,7 @@
                 <li class="list-group-item">
                     <div class="row">
                         <div class="col-md-1">
-                            <a href="/members/{{ $member->id }}/edit"><img src="{{ $member->image }}" alt="{{ $member->name }}" class="rounded-circle img-fluid img-thumbnail" width="100"></a>
+                            <a href="/members/{{ $member->id }}"><img src="{{ $member->image }}" alt="{{ $member->name }}" class="rounded-circle img-fluid img-thumbnail" width="100"></a>
                         </div>
                         <div class="col-md-3">
                             {{ $member->first_name }} {{ $member->last_name }}<br>
