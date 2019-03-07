@@ -28,7 +28,7 @@
                             Teléfono: {{ $member->phone}}<br>
                             Email: {{ $member->email }}
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             @forelse($member->courses()->orderBy('period','desc')->get() as $course)
                                 <div class="student-period period-{{ $course->period }} {{ $course->pivot->status }}">
                                     <span class="badge badge-info">{{ $course->period }}</span>
@@ -38,7 +38,7 @@
                                 -
                             @endforelse
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             @forelse($member->professorCourses()->orderBy('period','desc')->get() as $course)
                                 <div class="professor-period period-{{ $course->period }}">
                                     <span class="badge badge-info">Profesor {{ $course->period }}</span>
@@ -47,6 +47,9 @@
                             @empty
                                 -
                             @endforelse
+                        </div>
+                        <div class="col-md-2">
+                            <a href="/members/{{ $member->id }}" class="btn btn-secondary">Ver Perfil</a>
                         </div>
                     </div>
                 </li>
