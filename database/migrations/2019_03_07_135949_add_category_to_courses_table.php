@@ -14,7 +14,7 @@ class AddCategoryToCoursesTable extends Migration
     public function up()
     {
         Schema::table('courses', function (Blueprint $table) {
-            $table->string('category')->nullable()->after('period');
+            $table->string('category')->default('Otros')->after('period');
         });
     }
 
