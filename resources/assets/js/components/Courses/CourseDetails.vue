@@ -19,7 +19,7 @@
                     <div class="col-md-4">
                         <h6 class="card-title" v-if="course.professor">
                             <strong>Profesor:</strong>
-                            <a :href="'/members/'+ course.professor.id + '/edit'">{{ course.professor.first_name }} {{ course.professor.last_name }}</a><br>
+                            <a :href="'/members/'+ course.professor.id">{{ course.professor.first_name }} {{ course.professor.last_name }}</a><br>
                             <small class="text-muted">{{ course.professor.email }}</small>
                             <br>
                             <small class="text-muted">Tel: {{ course.professor.phone }}</small>

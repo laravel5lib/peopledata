@@ -9,13 +9,14 @@
                             <div class="align-items-center justify-content-center text-center user_avatar">
                                 <img :src="member.image" :alt="member.name" class="rounded-circle img-fluid img-thumbnail" width="120">
                             </div>
-                            <hr>
-                            <a href="/members/" class="btn">Editar</a>
                         </div>
                         <div class="col-md-9">
                             <div class="row">
                                 <div class="col">
                                     <h2>{{ member.first_name }} {{ member.last_name }}</h2>
+                                </div>
+                                <div class="col text-right">
+                                    <a :href="'/members/'+ member.id + '/edit'" class="btn btn-primary">Editar</a>
                                 </div>
                             </div>
                             <div class="row">
@@ -46,10 +47,57 @@
                     </div>
                 </div>
             </div>
-            <div class="card">
-                <div class="card-header text-white bg-info">Educación Cristiana</div>
+            <div class="card" v-if="finishedCourses.length">
+                <div class="card-header text-white bg-info">Cursos completados y en curso</div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item" v-for="course in finishedCourses" v-if="course.pivot.status !== 'didnt_start' && course.pivot.status !== 'didnt_finish'">
+                        <div class="row">
+                            <div class="col-sm-2 text-center"><span class="badge badge-info">{{ course.period }}</span></div>
+                            <div class="col-sm">
+                                {{ course.name }}<br>
+                                <span class="text-muted small" v-if="course.professor">{{ course.professor.name }}</span>
+                                <span class="text-muted small" v-else>Sin profesor</span>
+                            </div>
+                            <div class="col-sm text-right"><a :href="'/courses/'+course.id + '/students'" class="btn btn-secondary">Ver estudiantes</a></div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="card" v-if="unfinishedCourses.length">
+                <div class="card-header text-white bg-info">Cursos no empezados o desertados</div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item" v-for="course in unfinishedCourses" v-if="course.pivot.status === 'didnt_start' || course.pivot.status === 'didnt_finish'">
+                        <div class="row">
+                            <div class="col-sm-2 text-center"><span class="badge badge-danger">{{ course.period }}</span></div>
+                            <div class="col-sm">
+                                {{ course.name }}<br>
+                                <span class="text-muted small" v-if="course.professor">{{ course.professor.name }}</span>
+                                <span class="text-muted small" v-else>Sin profesor</span>
+                            </div>
+                            <div class="col-sm text-right"><a :href="'/courses/'+course.id + '/students'" class="btn btn-secondary">Ver estudiantes</a></div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="card" v-if="professor_courses.length">
+                <div class="card-header text-white bg-info">Ha sido profesor de los siguientes cursos</div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item" v-for="course in professor_courses">
+                        <div class="row">
+                            <div class="col-sm-2 text-center"><span class="badge badge-info">{{ course.period }}</span></div>
+                            <div class="col-sm">
+                                {{ course.name }}<br>
+                                <span class="text-muted small" v-if="course.professor">{{ course.professor.name }}</span>
+                            </div>
+                            <div class="col-sm text-right"><a :href="'/courses/'+course.id + '/students'" class="btn btn-secondary">Ver estudiantes</a></div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="card" v-if="member.field_courses.length">
+                <div class="card-header text-white bg-info">Otros cursos</div>
                 <div class="card-footer text-muted">
-                    <span v-for="course in courses" v-if="course.data_type==='select' && member.field_courses[course.id] && member.field_courses[course.id] !== 'No'"> 
+                    <span v-for="course in old_courses" v-if="course.data_type==='select' && member.field_courses[course.id] && member.field_courses[course.id] !== 'No'"> 
                             {{ course.name }},
                     </span>
                 </div>
@@ -66,6 +114,7 @@
                 <!--</ul>-->
             </div>
         </div>
+        <spinner v-if="loading"></spinner>
     </div>
 </template>
 
@@ -73,12 +122,41 @@
   import moment from 'moment'
 
   export default {
-    props: ['member', 'courses', 'marital_statuses'],
+    props: ['member', 'old_courses', 'marital_statuses'],
+    mounted(){
+      this.loading++
+      axios.get('/member-courses/'+this.member.id).then(
+        ({data})=>{
+          if(data.courses)this.courses = data.courses
+          if(data.professor_courses)this.professor_courses = data.professor_courses
+          this.loading--
+        }
+      ).catch(()=>{
+        this.loading--
+      })
+    },
+    data(){
+      return {
+        courses:[],
+        professor_courses:[],
+        loading: 0
+      }
+    },
     computed: {
-      age: function () {
+      age () {
         if (!this.member.birthdate) return '-?-';
         else if (moment(this.member.birthdate).format('YYYY') == '2018' || moment(this.member.birthdate).format('YYYY') == '2017') return '-?-';
         return moment().diff(this.member.birthdate, 'years');
+      },
+      finishedCourses(){
+        return this.courses.filter(function(item){
+          return item.pivot.status !== 'didnt_start' && item.pivot.status !== 'didnt_finish'
+        })
+      },
+      unfinishedCourses(){
+        return this.courses.filter(function(item){
+          return item.pivot.status === 'didnt_start' || item.pivot.status === 'didnt_finish'
+        })
       }
     },
   }

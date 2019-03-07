@@ -3,29 +3,34 @@
 namespace App;
 
 use App\PCO\Field;
-use Illuminate\Support\Facades\Log;
 use MediaUploader;
 use Carbon\Carbon;
 use App\PCO\Course;
 use GuzzleHttp\Client;
 use Plank\Mediable\Mediable;
-use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 
-/**
- * @property mixed id
- */
+
 class Member extends Model
 {
     use Mediable, Notifiable;
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
+    
     protected $fillable = ['id', 'avatar', 'first_name', 'last_name', 'nickname', 'birthdate', 'child', 'gender', 'name', 'remote_id', 'status', 'created_at', 'updated_at'];
 
 
+    public function createUser()
+    {
+        $user = User::firstOrCreate(['email' => $this->email]);
+        if (!$user->name) {
+            $user->name = $this->name;
+            $user->save();
+        }
+        $user->member()->associate($this);
+        $user->save();
+        return $user;
+    }
     public function user()
     {
         return $this->hasOne(User::class);
@@ -47,7 +52,6 @@ class Member extends Model
     
     public function updateWithJson($response)
     {
-//        dd(array_keys($response['included']));
         if (isset($response['data'])) {
             $data = $response['data'];
             if (isset($data['attributes'])) {
@@ -110,7 +114,31 @@ class Member extends Model
         }
         return $this;
     }
-
+    
+    public function syncCourses()
+    {
+        $courses = $this->courses()->wherePivotIn('status', ['completed','signed','in_progress','confirmed'])->pluck('name','id')->toArray();
+        $fields = $this->fields;
+        foreach ($fields as $field){
+            if($field->tab_id == 47880){
+                $found = false;
+                $data = explode(' / ',$field->name);
+                foreach ($data as $name){
+                    $name = trim($name);
+                    if(in_array($name,$courses)) {
+                        $found = true;
+                        $this->fields()->detach($field->id);
+                        $this->deleteFieldValue($field->id);
+                    }
+                }
+                if (!$found && $field->pivot->value == 'Si'){
+                    $name = trim($data[0]);
+                    $cr = Course::firstOrCreate(['name'=>$name,'period'=>'0-Anteriores']);
+                    $cr->members()->syncWithoutDetaching([$this->id =>['status'=>'completed']]);
+                }
+            }
+        }
+    }
     /**
      * Related fields
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
@@ -179,6 +207,21 @@ class Member extends Model
                 $this->fields()->syncWithoutDetaching([$field_id => ['value' => $value]]);
             }
         }
+    }
+    
+    public function deleteFieldValue($field_id)
+    {
+        $data   = $this->fields()->where('fields.id', $field_id)->first();
+        $client = new Client();
+        if ($data_id = data_get($data, 'pivot.id')) {
+            $res = $client->delete('https://api.planningcenteronline.com/people/v2/field_data/' . $data_id,
+                ['auth' => [config('services.people.id'), config('services.people.secret')]]
+            );
+            if ($res->getStatusCode() == 200) {
+//                $this->fields()->detach($field_id);
+//                dd($this->fields()->count());
+            }
+        } 
     }
 
     /**

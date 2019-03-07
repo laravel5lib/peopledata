@@ -10,7 +10,6 @@ Route::get('terms', 'HomeController@terms')->name('terms');
 Route::resource('messages', 'Utils\MessagesController');
 
 Route::resource('members', 'MemberController');
-Route::get('members/{member}/courses', 'MemberController@courses');
 Route::get('members/unfinished/{period}', 'MemberController@unfinishedCourses');
 Route::get('members/add/{id}', 'MemberController@add');
 Route::post('members/{member}/addimage', 'MemberController@addimage');
@@ -18,6 +17,7 @@ Route::post('members/{member}/recommend', 'MemberController@recommend');
 Route::post('members/search', 'MemberController@search');
 Route::post('members/simple-login', 'MemberController@simpleLogin');
 Route::get('members/{member}/updateinfo', 'MemberController@updateinfo')->name('members.updateinfo')->middleware('signed');
+Route::get('member-courses/{member}', 'Member\MemberCoursesController@index');
 
 Route::get('courses/export', 'CoursesController@export');
 Route::resource('courses', 'CoursesController');

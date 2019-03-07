@@ -157,29 +157,18 @@ class MemberController extends Controller
 
         return $results;
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Member $member
-     * @return \Illuminate\Http\Response
-     */
+    
     public function show(Member $member)
     {
         $member->updateFromPeople();
+        $member->syncCourses();
         $member->append(['image', 'profession', 'working', 'company', 'field_courses']);
         $marital_statuses = MaritalStatus::all();
         $courses          = Field::where('tab_id', 47880)->orderBy('sequence')->get();
 
         return view('members.show', compact('member', 'courses','marital_statuses'));
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Member $member
-     * @return \Illuminate\Http\Response
-     */
+    
     public function edit(Member $member)
     {
         $member->updateFromPeople();
@@ -189,13 +178,7 @@ class MemberController extends Controller
 
         return view('members.edit', compact('member', 'marital_statuses', 'courses'));
     }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Member $member
-     * @return array
-     */
+    
     public function update(Member $member)
     {
         $this->validate(request(), [
@@ -407,25 +390,6 @@ class MemberController extends Controller
 
         if (request()->ajax()) return $results;
         return view('members.index', compact('members'));
-    }
-
-    /**
-     * @param Member $member
-     * @return mixed
-     */
-    public function courses(Member $member)
-    {
-        $member->updateFromPeople();
-        $user = User::firstOrCreate(['email' => $member->email]);
-        if (!$user->name) {
-            $user->name = $member->name;
-            $user->save();
-        }
-        $user->member()->associate($member);
-        $user->save();
-        Auth::login($user, true);
-
-        return redirect('/');
     }
 
     public function simpleLogin()

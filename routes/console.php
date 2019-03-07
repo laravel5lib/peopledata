@@ -31,6 +31,7 @@ Artisan::command('people:sync {limit?} {offset?}', function ($limit = 25, $offse
                 else $new = false;
                 $member = Member::firstOrCreate(['id' => $row['id']]);
                 $member->updateFromPeople();
+                $member->syncCourses();
                 if($new) $this->info((++$count + $offset) . '. ' . $row['id'] . ' ' . $member->name . ($new?' (Nuevo)':''));
                 else $this->line((++$count + $offset) . '. ' . $row['id'] . ' ' . $member->name);
             }
