@@ -40,8 +40,7 @@
                         </div>
                     @endif
                     <p class="card-text">A continuación se muestran los cursos de educación cristiana disponibles para el semestre 2019-1.</p>
-                </div>
-                <div class="card-body">
+                    <hr>
                     @if($member)
                         @if($past = $member->courses()->where('period','2018-2')->first())
                             <p class="card-text">El semestre 2018-2 te inscribiste en el curso

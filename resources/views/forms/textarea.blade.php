@@ -2,7 +2,7 @@
     <label for="{{ $field }}">{{ $label ?? ucwords($field) }}</label>
     <textarea name="{{ $field }}" 
               id="{{ $field }}" 
-              rows="3" 
+              rows="5" 
               placeholder="{{ $placeholder ?? '' }}" 
               class="form-control {{ $errors->has($field)?'is-invalid':'' }}" 
               aria-describedby="{{ $field }}Help">{{ $value ?? '' }}</textarea>

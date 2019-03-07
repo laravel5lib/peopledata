@@ -25,6 +25,7 @@ Vue.component('student-inscription', require('./components/Courses/StudentInscri
 Vue.component('student-unfinished', require('./components/Courses/StudentUnfinished.vue').default);
 Vue.component('simple-login', require('./components/Members/SimpleLogin.vue').default);
 Vue.component('course-register-small', require('./components/Courses/CourseRegisterSmall.vue').default);
+Vue.component('course-summary', require('./components/Courses/CourseSummary.vue').default);
 
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
