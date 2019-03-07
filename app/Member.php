@@ -127,8 +127,8 @@ class Member extends Model
                     $name = trim($name);
                     if(in_array($name,$courses)) {
                         $found = true;
-                        $this->fields()->detach($field->id);
                         $this->deleteFieldValue($field->id);
+                        $this->fields()->detach($field->id);
                     }
                 }
                 if (!$found && $field->pivot->value == 'Si'){
