@@ -17,6 +17,7 @@
                             @include('forms.text', ['field'=>'name', 'label'=>'Nombre','placeholder'=>'Escriba aquí','help'=>'Escriba el nombre del curso','value'=>old('name',$course->name)])
                             @include('forms.textarea', ['field'=>'description', 'label'=>'Descripción','placeholder'=>'Escriba aquí','help'=>'Descripción corta del curso','value'=>old('description',$course->description)])
                             @include('forms.select', ['field'=>'ministry_id', 'label'=>'Ministerio','help'=>'Ministerio al que pertenece este curso','value'=>old('ministry_id',$course->ministry_id), 'options'=>\App\Ministry::orderBy('name')->get()->pluck('name','id')->toArray()])
+                            @include('forms.select', ['field'=>'category', 'label'=>'Nivel','help'=>'Nivel dentro de la ruta de educación','value'=>old('category',$course->category), 'options'=>$categories])
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
