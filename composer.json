@@ -9,7 +9,7 @@
         "doctrine/dbal": "^2.8",
         "fideloper/proxy": "^4.0",
         "guzzlehttp/guzzle": "^6.3",
-        "kabbouchi/nova-impersonate": "dev-master",
+        "kabbouchi/nova-impersonate": "^1.0",
         "laravel/framework": "5.8.*",
         "laravel/nova": "*",
         "laravel/tinker": "^1.0",

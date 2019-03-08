@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "989fe5a300a2193108c8262ad16f3eba",
+    "content-hash": "57d2fc38c98f4c22692fef55042b592e",
     "packages": [
         {
             "name": "cakephp/chronos",
@@ -997,7 +997,7 @@
         },
         {
             "name": "kabbouchi/nova-impersonate",
-            "version": "dev-master",
+            "version": "v1.0.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/KABBOUCHI/nova-impersonate.git",
@@ -1035,7 +1035,7 @@
                 "laravel",
                 "nova"
             ],
-            "time": "2019-03-07 08:27:33"
+            "time": "2019-03-07T08:27:33+00:00"
         },
         {
             "name": "lab404/laravel-impersonate",
@@ -5645,9 +5645,7 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "kabbouchi/nova-impersonate": 20
-    },
+    "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
