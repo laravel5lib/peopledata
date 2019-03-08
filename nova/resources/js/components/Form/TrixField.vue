@@ -1,29 +1,18 @@
 <template>
-    <field-wrapper>
-        <div class="w-1/5 px-8 py-6">
-            <slot>
-                <form-label :for="field.name">
-                    {{ field.name }}
-                </form-label>
-            </slot>
-        </div>
-        <div class="w-4/5 px-8 py-6">
+    <default-field :field="field" :errors="errors" :full-width-content="true">
+        <template slot="field">
             <trix
                 name="trixman"
                 :value="field.value"
-                placeholder=""
                 @change="handleChange"
                 @file-add="handleFileAdd"
                 @file-remove="handleFileRemove"
-                :class="{'border-danger': hasError}"
+                :class="{ 'border-danger': hasError }"
                 :with-files="field.withFiles"
+                v-bind="extraAttributes"
             />
-
-            <p v-if="hasError" class="my-2 text-danger">
-                {{ firstError }}
-            </p>
-        </div>
-    </field-wrapper>
+        </template>
+    </default-field>
 </template>
 
 <script>
@@ -111,6 +100,23 @@ export default {
                     )
                     .then(response => console.log(response))
                     .catch(error => {})
+            }
+        },
+    },
+
+    computed: {
+        defaultAttributes() {
+            return {
+                placeholder: this.field.placeholder || this.field.name,
+            }
+        },
+
+        extraAttributes() {
+            const attrs = this.field.extraAttributes
+
+            return {
+                ...this.defaultAttributes,
+                ...attrs,
             }
         },
     },

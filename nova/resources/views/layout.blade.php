@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,800,800i,900,900i" rel="stylesheet">
 
     <!-- Styles -->
-    <link rel="stylesheet" href="{{ mix('app.css', 'nova-assets') }}">
+    <link rel="stylesheet" href="{{ mix('app.css', 'vendor/nova') }}">
 
     <!-- Tool Styles -->
     @foreach(Nova::availableStyles(request()) as $name => $path)
@@ -36,8 +36,8 @@
 
             <!-- Content -->
             <div class="content">
-                <div class="flex items-center relative shadow h-header bg-white z-50 px-6">
-                    <a href="{{ Config::get('nova.url') }}" class="no-underline dim font-bold text-90 mr-6">
+                <div class="flex items-center relative shadow h-header bg-white z-20 px-6">
+                    <a v-if="'{{ Nova::name() }}'" href="{{ Config::get('nova.url') }}" class="no-underline dim font-bold text-90 mr-6">
                         {{ Nova::name() }}
                     </a>
 
@@ -45,7 +45,7 @@
                         <global-search></global-search>
                     @endif
 
-                    <dropdown class="ml-auto h-9 flex items-center" style="right: 20px">
+                    <dropdown class="ml-auto h-9 flex items-center dropdown-right">
                         @include('nova::partials.user')
                     </dropdown>
                 </div>
@@ -53,13 +53,7 @@
                 <div data-testid="content" class="px-view py-view mx-auto">
                     @yield('content')
 
-                    <p class="mt-8 text-center text-xs text-80">
-                        <a href="http://nova.laravel.com" class="text-primary dim no-underline">Laravel Nova</a>
-                        <span class="px-1">&middot;</span>
-                        &copy; {{ date('Y') }} Laravel LLC - By Taylor Otwell, David Hemphill, and Steve Schoger.
-                        <span class="px-1">&middot;</span>
-                        v{{ Laravel\Nova\Nova::version() }}
-                    </p>
+                    @include('nova::partials.footer')
                 </div>
             </div>
         </div>
@@ -70,9 +64,9 @@
     </script>
 
     <!-- Scripts -->
-    <script src="{{ mix('manifest.js', 'nova-assets') }}"></script>
-    <script src="{{ mix('vendor.js', 'nova-assets') }}"></script>
-    <script src="{{ mix('app.js', 'nova-assets') }}"></script>
+    <script src="{{ mix('manifest.js', 'vendor/nova') }}"></script>
+    <script src="{{ mix('vendor.js', 'vendor/nova') }}"></script>
+    <script src="{{ mix('app.js', 'vendor/nova') }}"></script>
 
     <!-- Build Nova Instance -->
     <script>

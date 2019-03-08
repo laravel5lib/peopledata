@@ -1,28 +1,15 @@
 <template>
-    <default-field :field="field">
+    <default-field :field="field" :errors="errors">
         <template slot="field">
-            <select
+            <select-control
                 :id="field.attribute"
                 v-model="value"
                 class="w-full form-control form-select"
                 :class="errorClasses"
+                :options="field.options"
             >
-                <option value="" selected disabled>
-                    {{__('Choose an option')}}
-                </option>
-
-                <option
-                    v-for="option in field.options"
-                    :value="option.value"
-                    :selected="option.value == value"
-                >
-                    {{ option.label }}
-                </option>
-            </select>
-
-            <p v-if="hasError" class="my-2 text-danger">
-                {{ firstError }}
-            </p>
+                <option value="" selected>{{ __('Choose an option') }}</option>
+            </select-control>
         </template>
     </default-field>
 </template>

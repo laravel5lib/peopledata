@@ -25,7 +25,6 @@ mix
         'marked',
         'moment',
         'numeral',
-        'pikaday',
         'places.js',
         'popper.js',
         'vue-async-computed',
@@ -42,7 +41,7 @@ mix
     ])
     .setPublicPath('public')
     .postCss('resources/css/app.css', 'public', [tailwindcss('tailwind.js')])
-    .copy('public', '../nova-app/public/nova')
+    .copy('public', '../nova-app/public/vendor/nova')
     .webpackConfig({
         resolve: {
             alias: {

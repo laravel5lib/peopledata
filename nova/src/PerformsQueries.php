@@ -65,8 +65,12 @@ trait PerformsQueries
 
             $model = $query->getModel();
 
+            $connectionType = $query->getModel()->getConnection()->getDriverName();
+
+            $likeOperator = $connectionType == 'pgsql' ? 'ilike' : 'like';
+
             foreach (static::searchableColumns() as $column) {
-                $query->orWhere($model->qualifyColumn($column), 'like', '%'.$search.'%');
+                $query->orWhere($model->qualifyColumn($column), $likeOperator, '%'.$search.'%');
             }
         });
     }
@@ -86,7 +90,7 @@ trait PerformsQueries
             static::newModel()->search($search), $withTrashed
         ), function ($scoutBuilder) use ($request) {
             static::scoutQuery($request, $scoutBuilder);
-        })->take(200)->keys();
+        })->take(200)->get()->map->getKey();
 
         return static::applySoftDeleteConstraint(
             $query->whereIn(static::newModel()->getQualifiedKeyName(), $keys->all()), $withTrashed

@@ -2,8 +2,10 @@
 
 namespace Laravel\Nova;
 
-use Laravel\Nova\Fields\Avatar;
+use Closure;
+use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\MorphTo;
+use Laravel\Nova\Contracts\Cover;
 use Illuminate\Support\Collection;
 use Laravel\Nova\Fields\MorphMany;
 use Laravel\Nova\Actions\Actionable;
@@ -27,13 +29,19 @@ trait ResolvesFields
      */
     public function indexFields(NovaRequest $request)
     {
-        return $this->resolveFields($request)->reject(function ($field) use ($request) {
-            return $field instanceof ListableField ||
-                   ! $field->showOnIndex ||
-                   ! $field->authorize($request);
+        return $this->resolveFields($request, function (Collection $fields) {
+            return $fields->reject(function ($field) {
+                return $field instanceof ListableField || ! $field->showOnIndex;
+            });
         })->each(function ($field) use ($request) {
-            if ($field instanceof Resolvable) {
+            if ($field instanceof Resolvable && ! $field->pivot) {
                 $field->resolveForDisplay($this->resource);
+            }
+
+            if ($field instanceof Resolvable && $field->pivot) {
+                $accessor = $this->pivotAccessorFor($request, $request->viaResource);
+
+                $field->resolveForDisplay($this->{$accessor} ?? new Pivot);
             }
         });
     }
@@ -46,12 +54,20 @@ trait ResolvesFields
      */
     public function detailFields(NovaRequest $request)
     {
-        return $this->resolveFields($request)->reject(function ($field) use ($request) {
-            return ! $field->showOnDetail || ! $field->authorize($request);
+        return $this->resolveFields($request, function (Collection $fields) {
+            return $fields->filter->showOnDetail;
         })->when(in_array(Actionable::class, class_uses_recursive(static::newModel())), function ($fields) {
-            return $fields->push(MorphMany::make('Actions', 'actions', ActionResource::class));
+            return $fields->push(MorphMany::make(__('Actions'), 'actions', ActionResource::class));
         })->each(function ($field) use ($request) {
-            if ($field instanceof Resolvable) {
+            if ($field instanceof ListableField || ! $field instanceof Resolvable) {
+                return;
+            }
+
+            if ($field->pivot) {
+                $accessor = $this->pivotAccessorFor($request, $request->viaResource);
+
+                $field->resolveForDisplay($this->{$accessor} ?? new Pivot);
+            } else {
                 $field->resolveForDisplay($this->resource);
             }
         });
@@ -65,7 +81,9 @@ trait ResolvesFields
      */
     public function creationFields(NovaRequest $request)
     {
-        return $this->removeNonCreationFields($this->resolveFields($request));
+        return $this->removeComputedFields($this->resolveFields($request, function ($fields) {
+            return $this->removeNonCreationFields($fields);
+        }));
     }
 
     /**
@@ -93,9 +111,21 @@ trait ResolvesFields
         return $fields->reject(function ($field) {
             return $field instanceof ListableField ||
                    $field instanceof ResourceToolElement ||
-                   $field->attribute === $this->resource->getKeyName() ||
-                   $field->attribute === 'ComputedField' ||
+                   ($field instanceof ID && $field->attribute === $this->resource->getKeyName()) ||
                    ! $field->showOnCreation;
+        });
+    }
+
+    /**
+     * Remove computed fields from the given collection.
+     *
+     * @param \Illuminate\Support\Collection $fields
+     * @return \Illuminate\Support\Collection
+     */
+    protected function removeComputedFields(Collection $fields)
+    {
+        return $fields->reject(function ($field) {
+            return $field->attribute === 'ComputedField';
         });
     }
 
@@ -107,7 +137,9 @@ trait ResolvesFields
      */
     public function updateFields(NovaRequest $request)
     {
-        return $this->removeNonUpdateFields($this->resolveFields($request));
+        return $this->removeComputedFields($this->resolveFields($request, function ($fields) {
+            return $this->removeNonUpdateFields($fields);
+        }));
     }
 
     /**
@@ -135,8 +167,7 @@ trait ResolvesFields
         return $fields->reject(function ($field) {
             return $field instanceof ListableField ||
                    $field instanceof ResourceToolElement ||
-                   $field->attribute === $this->resource->getKeyName() ||
-                   $field->attribute === 'ComputedField' ||
+                   ($field instanceof ID && $field->attribute === $this->resource->getKeyName()) ||
                    ! $field->showOnUpdate;
         });
     }
@@ -144,14 +175,19 @@ trait ResolvesFields
     /**
      * Resolve the given fields to their values.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest $request
+     * @param  \Closure|null $filter
      * @return \Illuminate\Support\Collection
      */
-    protected function resolveFields(NovaRequest $request)
+    protected function resolveFields(NovaRequest $request, Closure $filter = null)
     {
-        $fields = tap($this->availableFields($request), function ($fields) {
-            $fields->whereInstanceOf(Resolvable::class)->each->resolve($this->resource);
-        });
+        $fields = $this->availableFields($request);
+
+        if (! is_null($filter)) {
+            $fields = $filter($fields);
+        }
+
+        $fields->whereInstanceOf(Resolvable::class)->each->resolve($this->resource);
 
         $fields = $fields->filter->authorize($request)->values();
 
@@ -196,7 +232,7 @@ trait ResolvesFields
 
         $relatedResource = new $relatedResource($relatedResource::newModel());
 
-        return $relatedResource->availableFields($request)->reject(function ($f) use ($field) {
+        $result = $relatedResource->availableFields($request)->reject(function ($f) use ($field) {
             return isset($f->attribute) &&
                    isset($field->inverse) &&
                    $f->attribute !== $field->inverse;
@@ -204,6 +240,8 @@ trait ResolvesFields
             return isset($field->resourceClass) &&
                    $field->resourceClass == $request->resource();
         });
+
+        return $result;
     }
 
     /**
@@ -217,7 +255,7 @@ trait ResolvesFields
         $fields = $this->resolveFields($request);
 
         $field = $fields->first(function ($field) {
-            return $field instanceof Avatar;
+            return $field instanceof Cover;
         });
 
         if ($field) {
@@ -239,7 +277,7 @@ trait ResolvesFields
         $default = Panel::defaultNameFor($request->newResource());
 
         return $panels->when($panels->where('name', $default)->isEmpty(), function ($panels) use ($default) {
-            return $panels->push(new Panel($default));
+            return $panels->push((new Panel($default))->withToolbar());
         })->all();
     }
 
@@ -310,8 +348,10 @@ trait ResolvesFields
 
         if ($field && isset($field->fieldsCallback)) {
             return collect(array_values(
-                $this->filter(call_user_func($field->fieldsCallback, $request))
-            ));
+                $this->filter(call_user_func($field->fieldsCallback, $request, $this->resource))
+            ))->each(function ($field) {
+                $field->pivot = true;
+            });
         }
 
         return collect([]);

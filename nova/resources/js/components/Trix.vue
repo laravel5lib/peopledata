@@ -1,6 +1,7 @@
 <template>
     <trix-editor
         ref="theEditor"
+        @keydown.stop
         @trix-change="handleChange"
         @trix-initialize="initialize"
         @trix-attachment-add="handleAddFile"
@@ -51,3 +52,9 @@ export default {
     },
 }
 </script>
+
+<style>
+trix-editor:empty:not(:focus)::before {
+    color: var(--70);
+}
+</style>

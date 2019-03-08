@@ -1,6 +1,6 @@
 <template>
     <div>
-        <default-field :field="field" :field-name="fieldName">
+        <default-field :field="field" :show-errors="false" :field-name="fieldName">
             <select
                 :disabled="isLocked"
                 :data-testid="`${field.attribute}-type`"
@@ -10,7 +10,9 @@
                 @change="refreshResourcesForTypeChange"
                 class="block w-full form-control form-input form-input-bordered form-select mb-3"
             >
-                <option value="" disabled selected>{{__('Choose Type')}}</option>
+                <option value="" selected :disabled="!field.nullable">
+                    {{ __('Choose Type') }}
+                </option>
 
                 <option
                     v-for="option in field.morphToTypes"
@@ -23,29 +25,38 @@
             </select>
         </default-field>
 
-        <default-field :field="field" :show-help-text="false" :field-name="fieldTypeName">
+        <default-field
+            :field="field"
+            :errors="errors"
+            :show-help-text="false"
+            :field-name="fieldTypeName"
+        >
             <template slot="field">
                 <search-input
                     v-if="isSearchable && !isLocked"
                     :data-testid="`${field.attribute}-search-input`"
+                    :disabled="!resourceType || isLocked"
                     @input="performSearch"
                     @clear="clearSelection"
                     @selected="selectResource"
-                    :value='selectedResource'
-                    :data='availableResources'
-                    trackBy='value'
-                    searchBy='display'
+                    :value="selectedResource"
+                    :data="availableResources"
+                    trackBy="value"
+                    searchBy="display"
                     class="mb-3"
                 >
                     <div slot="default" v-if="selectedResource" class="flex items-center">
                         <div v-if="selectedResource.avatar" class="mr-3">
-                            <img :src="selectedResource.avatar" class="w-8 h-8 rounded-full block" />
+                            <img
+                                :src="selectedResource.avatar"
+                                class="w-8 h-8 rounded-full block"
+                            />
                         </div>
 
                         {{ selectedResource.display }}
                     </div>
 
-                    <div slot="option" slot-scope="{option, selected}" class="flex items-center">
+                    <div slot="option" slot-scope="{ option, selected }" class="flex items-center">
                         <div v-if="option.avatar" class="mr-3">
                             <img :src="option.avatar" class="w-8 h-8 rounded-full block" />
                         </div>
@@ -65,8 +76,11 @@
                 >
                     <option
                         value=""
-                        disabled
-                        :selected="selectedResourceId == ''">{{__('Choose')}} {{ fieldTypeName }}</option>
+                        :disabled="!field.nullable"
+                        :selected="selectedResourceId == ''"
+                    >
+                        {{ __('Choose') }} {{ fieldTypeName }}
+                    </option>
 
                     <option
                         v-for="resource in availableResources"
@@ -80,18 +94,14 @@
 
                 <!-- Trashed State -->
                 <div v-if="softDeletes && !isLocked">
-                    <label class="flex items-center" @input="toggleWithTrashed" @keydown.prevent.space.enter="toggleWithTrashed">
-                        <checkbox :dusk="field.attribute + '-with-trashed-checkbox'" :checked="withTrashed" />
-
-                        <span class="ml-2">
-                            {{__('With Trashed')}}
-                        </span>
-                    </label>
+                    <checkbox-with-label
+                        :dusk="field.attribute + '-with-trashed-checkbox'"
+                        :checked="withTrashed"
+                        @change="toggleWithTrashed"
+                    >
+                        {{ __('With Trashed') }}
+                    </checkbox-with-label>
                 </div>
-
-                <p v-if="hasError" class="my-2 text-danger">
-                    {{ firstError }}
-                </p>
             </template>
         </default-field>
     </div>
@@ -157,11 +167,15 @@ export default {
          * Fill the forms formData with details from this field
          */
         fill(formData) {
-            if (this.selectedResource) {
+            if (this.selectedResource && this.resourceType) {
                 formData.append(this.field.attribute, this.selectedResource.value)
                 formData.append(this.field.attribute + '_type', this.resourceType)
-                formData.append(this.field.attribute + '_trashed', this.withTrashed)
+            } else {
+                formData.append(this.field.attribute, '')
+                formData.append(this.field.attribute + '_type', '')
             }
+
+            formData.append(this.field.attribute + '_trashed', this.withTrashed)
         },
 
         /**
@@ -216,7 +230,7 @@ export default {
             this.determineIfSoftDeletes()
             // }
 
-            if (!this.isSearchable) {
+            if (!this.isSearchable && this.resourceType) {
                 this.getAvailableResources()
             }
         },
@@ -290,7 +304,7 @@ export default {
          * Determine if the field is locked
          */
         isLocked() {
-            return Boolean(this.viaResource)
+            return Boolean(this.viaResource && this.field.reverse)
         },
 
         /**

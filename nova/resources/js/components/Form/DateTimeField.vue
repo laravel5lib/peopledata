@@ -1,35 +1,42 @@
 <template>
-    <default-field :field="field">
+    <default-field :field="field" :errors="errors">
         <template slot="field">
             <div class="flex items-center">
                 <date-time-picker
                     class="w-full form-control form-input form-input-bordered"
-                    :field="field"
+                    :dusk="field.attribute"
+                    :name="field.name"
+                    :placeholder="placeholder"
                     :value="localizedValue"
                     :twelve-hour-time="usesTwelveHourTime"
+                    :first-day-of-week="firstDayOfWeek"
+                    :class="errorClasses"
                     @change="handleChange"
                 />
 
                 <span class="text-80 text-sm ml-2">({{ userTimezone }})</span>
             </div>
-
-            <p v-if="hasError" class="my-2 text-danger">
-                {{ firstError }}
-            </p>
         </template>
     </default-field>
 </template>
 
 <script>
-import DateTimePicker from '../DateTimePicker'
 import { Errors, FormField, HandlesValidationErrors, InteractsWithDates } from 'laravel-nova'
 
 export default {
     mixins: [HandlesValidationErrors, FormField, InteractsWithDates],
 
-    components: { DateTimePicker },
-
     data: () => ({ localizedValue: '' }),
+
+    computed: {
+        firstDayOfWeek() {
+            return this.field.firstDayOfWeek || 0
+        },
+
+        placeholder() {
+            return this.field.placeholder || moment().format('YYYY-MM-DD HH:mm:ss')
+        },
+    },
 
     methods: {
         /*

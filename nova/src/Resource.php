@@ -37,6 +37,13 @@ abstract class Resource implements ArrayAccess, JsonSerializable, UrlRoutable
     public $resource;
 
     /**
+     * The logical group associated with the resource.
+     *
+     * @var string
+     */
+    public static $group = 'Other';
+
+    /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
@@ -119,6 +126,16 @@ abstract class Resource implements ArrayAccess, JsonSerializable, UrlRoutable
     public function model()
     {
         return $this->resource;
+    }
+
+    /**
+     * Get the logical group associated with the resource.
+     *
+     * @return string
+     */
+    public static function group()
+    {
+        return static::$group;
     }
 
     /**
@@ -213,11 +230,11 @@ abstract class Resource implements ArrayAccess, JsonSerializable, UrlRoutable
     /**
      * Get the search result subtitle for the resource.
      *
-     * @return string
+     * @return string|null
      */
     public function subtitle()
     {
-        return null;
+        //
     }
 
     /**
@@ -239,7 +256,18 @@ abstract class Resource implements ArrayAccess, JsonSerializable, UrlRoutable
      */
     public static function uriKey()
     {
-        return Str::plural(Str::snake(class_basename(get_called_class()), '-'));
+        return Str::plural(Str::kebab(class_basename(get_called_class())));
+    }
+
+    /**
+     * Get meta information about this resource for client side comsumption.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return array
+     */
+    public static function additionalInformation(Request $request)
+    {
+        return [];
     }
 
     /**
