@@ -135,7 +135,11 @@
             @endif
         @endforeach
         <div style="background-color: #c3e6cb;color:#155724;padding: 10px;">Agregue a continuación los cursos tomados que no estan en este perfil</div>
-        @for($i = $courses->count();$i<22;$i++)
+        @php
+        $max = 22;
+        if($courses->count() <=1)$max = 21;
+        @endphp
+        @for($i = $courses->count();$i<$max;$i++)
             <div style="border:1px solid #666;padding:5px;margin-bottom: 3px;">
                 <table width="100%">
                     <tr>
