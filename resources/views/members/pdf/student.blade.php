@@ -67,7 +67,7 @@
                             <td width="20%">
                                 <small style="color: #999;">Periodo:</small>
                                 <br>
-                                <span>{{ $course->period != '0-Anteriores'?$course->period:'__________________________' }}</span>
+                                <span>{{ $course->period != '0-Anteriores'?$course->period:'________________' }}</span>
                             </td>
                         </tr>
                     </table>
