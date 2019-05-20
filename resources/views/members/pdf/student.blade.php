@@ -57,7 +57,7 @@
         <div style="background-color: #c3e6cb;color:#155724;padding: 10px;">Nivel 1</div>
         @foreach($courses as $course)
             @if($course->category == 'Nivel 1')
-                <div style="border:1px solid #666;padding:5px;margin-bottom: 3px;">
+                <div style="border:1px solid #666;padding:3px;margin-bottom: 3px;">
                     <table width="100%">
                         <tr>
                             <td width="80%">
@@ -77,7 +77,7 @@
         <div style="background-color: #c3e6cb;color:#155724;padding: 10px;">Nivel 2</div>
         @foreach($courses as $course)
             @if($course->category == 'Nivel 2')
-                <div style="border:1px solid #666;padding:5px;margin-bottom: 3px;">
+                <div style="border:1px solid #666;padding:3px;margin-bottom: 3px;">
                     <table width="100%">
                         <tr>
                             <td width="80%">
@@ -97,7 +97,7 @@
         <div style="background-color: #c3e6cb;color:#155724;padding: 10px;">Nivel 3</div>
         @foreach($courses as $course)
             @if($course->category == 'Nivel 3')
-                <div style="border:1px solid #666;padding:5px;margin-bottom: 3px;">
+                <div style="border:1px solid #666;padding:3px;margin-bottom: 3px;">
                     <table width="100%">
                         <tr>
                             <td width="80%">
@@ -117,7 +117,7 @@
         <div style="background-color: #c3e6cb;color:#155724;padding: 10px;">Otros</div>
         @foreach($courses as $course)
             @if($course->category == 'Otros')
-                <div style="border:1px solid #666;padding:5px;margin-bottom: 3px;">
+                <div style="border:1px solid #666;padding:3px;margin-bottom: 3px;">
                     <table width="100%">
                         <tr>
                             <td width="80%">
