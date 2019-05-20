@@ -67,7 +67,7 @@
                             <td width="20%">
                                 <small style="color: #999;">Periodo:</small>
                                 <br>
-                                <span>{{ $course->period != '0-Anteriores'?$course->period:'________________' }}</span>
+                                <span>{{ $course->period != '0-Anteriores'?$course->period:'_______________' }}</span>
                             </td>
                         </tr>
                     </table>
@@ -87,7 +87,7 @@
                             <td width="20%">
                                 <small style="color: #999;">Periodo:</small>
                                 <br>
-                                <span>{{ $course->period }}</span>
+                                <span>{{ $course->period != '0-Anteriores'?$course->period:'_______________' }}</span>
                             </td>
                         </tr>
                     </table>
@@ -107,7 +107,7 @@
                             <td width="20%">
                                 <small style="color: #999;">Periodo:</small>
                                 <br>
-                                <span>{{ $course->period }}</span>
+                                <span>{{ $course->period != '0-Anteriores'?$course->period:'_______________' }}</span>
                             </td>
                         </tr>
                     </table>
@@ -127,7 +127,7 @@
                             <td width="20%">
                                 <small style="color: #999;">Periodo:</small>
                                 <br>
-                                <span>{{ $course->period }}</span>
+                                <span>{{ $course->period != '0-Anteriores'?$course->period:'_______________' }}</span>
                             </td>
                         </tr>
                     </table>
