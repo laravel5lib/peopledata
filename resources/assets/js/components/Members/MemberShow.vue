@@ -162,6 +162,16 @@
                 <!--</li>-->
                 <!--</ul>-->
             </div>
+            <div class="card">
+                <div class="card-body row text-center">
+                    <div class="col-md">
+                        <a target="_blank" :href="'/members/'+member.id+'/professor-pdf'" class="btn btn-primary">Actualización de Datos de Profesor</a>
+                    </div>
+                    <div class="col-md">
+                        <a target="_blank" :href="'/members/'+member.id+'/student-pdf'" class="btn btn-primary">Actualización de Datos de Estudiante</a>
+                    </div>
+                </div>
+            </div>
         </div>
         <spinner v-if="loading"></spinner>
     </div>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use PDF;
 use App\User;
 use App\Member;
 use App\PCO\Course;
@@ -12,7 +13,6 @@ use App\MaritalStatus;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Auth;
 use App\Mail\Courses\CourseRecommendedMail;
 
 class MemberController extends Controller
@@ -97,7 +97,7 @@ class MemberController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      * @return array
      */
     public function store(Request $request)
@@ -157,7 +157,7 @@ class MemberController extends Controller
 
         return $results;
     }
-    
+
     public function show(Member $member)
     {
         $member->updateFromPeople();
@@ -166,9 +166,31 @@ class MemberController extends Controller
         $marital_statuses = MaritalStatus::all();
         $courses          = Field::where('tab_id', 47880)->orderBy('sequence')->get();
 
-        return view('members.show', compact('member', 'courses','marital_statuses'));
+        return view('members.show', compact('member', 'courses', 'marital_statuses'));
     }
-    
+
+    public function professorPdf(Member $member)
+    {
+        $marital_statuses = MaritalStatus::pluck('value', 'id')->all();
+        $courses = $member->professorCourses()->orderBy('period','desc')->get();
+        $pdf     = app()->make('dompdf.wrapper');
+        $pdf->loadView('members.pdf.professor', compact('member', 'courses','marital_statuses'));
+        return $pdf->stream($member->id . '-professor.pdf');
+    }
+    public function studentPdf(Member $member)
+    {
+        $marital_statuses = MaritalStatus::pluck('value', 'id')->all();
+        $courses = $member->courses()
+               ->orderBy('category','asc')
+               ->orderBy('period','asc')
+               ->wherePivot('status','<>','didnt_start')
+               ->wherePivot('status','<>','didnt_finish')
+               ->get();
+        $pdf     = app()->make('dompdf.wrapper');
+        $pdf->loadView('members.pdf.student', compact('member', 'courses','marital_statuses'));
+        return $pdf->stream($member->id . '-student.pdf');
+    }    
+
     public function edit(Member $member)
     {
         $member->updateFromPeople();
@@ -178,7 +200,7 @@ class MemberController extends Controller
 
         return view('members.edit', compact('member', 'marital_statuses', 'courses'));
     }
-    
+
     public function update(Member $member)
     {
         $this->validate(request(), [
@@ -295,7 +317,7 @@ class MemberController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Member $member
+     * @param \App\Member $member
      * @return \Illuminate\Http\Response
      */
     public function destroy(Member $member)
@@ -389,6 +411,7 @@ class MemberController extends Controller
         }
 
         if (request()->ajax()) return $results;
+
         return view('members.index', compact('members'));
     }
 
@@ -414,7 +437,7 @@ class MemberController extends Controller
 
     public function unfinishedCourses($period = null)
     {
-        if(!$period)$period = config('elencuentro.period');
+        if (!$period) $period = config('elencuentro.period');
         $members = Member::whereHas('courses', function ($query) use ($period) {
             $query->where('period', $period)->whereIn('course_member.status', ['didnt_finish', 'didnt_start']);
         })->get();

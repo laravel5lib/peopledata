@@ -17,7 +17,7 @@ class Member extends Model
 {
     use Mediable, Notifiable;
     
-    protected $fillable = ['id', 'avatar', 'first_name', 'last_name', 'nickname', 'birthdate', 'child', 'gender', 'name', 'remote_id', 'status', 'created_at', 'updated_at'];
+    protected $guarded = [];
 
 
     public function createUser()
@@ -58,6 +58,19 @@ class Member extends Model
                 $attributes               = $data['attributes'];
                 $attributes['created_at'] = Carbon::parse($attributes['created_at']);
                 $attributes['updated_at'] = Carbon::parse($attributes['updated_at']);
+                unset($attributes['accounting_administrator']);
+                unset($attributes['anniversary']);
+                unset($attributes['demographic_avatar_url']);
+                unset($attributes['given_name']);
+                unset($attributes['grade']);
+                unset($attributes['graduation_year']);
+                unset($attributes['inactivated_at']);
+                unset($attributes['medical_notes']);
+                unset($attributes['membership']);
+                unset($attributes['middle_name']);
+                unset($attributes['people_permissions']);
+                unset($attributes['school_type']);
+                unset($attributes['site_administrator']);
                 $this->update($attributes);
                 if ($attributes['avatar']) {
                     foreach ($this->getMedia('avatar') as $media) {
@@ -285,6 +298,29 @@ class Member extends Model
     public function setCompanyAttribute($value)
     {
         $this->updateFieldValue(187252, $value);
+    }
+   
+    public function getDateElencuentroAttribute()
+    {
+        if ($field = $this->fields()->where('fields.id', 277791)->first()) {
+            return $field->pivot->value;
+        }
+        return '';
+    }
+    public function setDateElencuentroAttribute($value)
+    {
+        $this->updateFieldValue(277791, $value);
+    }
+    public function getDateChristAttribute()
+    {
+        if ($field = $this->fields()->where('fields.id', 277790)->first()) {
+            return $field->pivot->value;
+        }
+        return '';
+    }
+    public function setDateChristAttribute($value)
+    {
+        $this->updateFieldValue(277790, $value);
     }
 
     /**

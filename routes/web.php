@@ -12,6 +12,8 @@ Route::resource('messages', 'Utils\MessagesController');
 Route::resource('members', 'MemberController');
 Route::get('members/unfinished/{period}', 'MemberController@unfinishedCourses');
 Route::get('members/add/{id}', 'MemberController@add');
+Route::get('members/{member}/professor-pdf', 'MemberController@professorPdf');
+Route::get('members/{member}/student-pdf', 'MemberController@studentPdf');
 Route::post('members/{member}/addimage', 'MemberController@addimage');
 Route::post('members/{member}/recommend', 'MemberController@recommend');
 Route::post('members/search', 'MemberController@search');
