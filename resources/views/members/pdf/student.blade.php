@@ -62,7 +62,7 @@
                         <tr>
                             <td width="80%">
                                 <strong>{{ $course->name }}</strong><br>
-                                <small><span style="color: #999;">Professor:</span> {{ $course->professor? $course->professor->name: 'Sin profesor' }}</small>
+                                <small><span style="color: #999;">Professor:</span> {{ $course->professor? $course->professor->name: '__________________________' }}</small>
                             </td>
                             <td width="20%">
                                 <small style="color: #999;">Periodo:</small>
@@ -82,7 +82,7 @@
                         <tr>
                             <td width="80%">
                                 <strong>{{ $course->name }}</strong><br>
-                                <small><span style="color: #999;">Professor:</span> {{ $course->professor? $course->professor->name: 'Sin profesor' }}</small>
+                                <small><span style="color: #999;">Professor:</span> {{ $course->professor? $course->professor->name: '__________________________' }}</small>
                             </td>
                             <td width="20%">
                                 <small style="color: #999;">Periodo:</small>
@@ -102,7 +102,7 @@
                         <tr>
                             <td width="80%">
                                 <strong>{{ $course->name }}</strong><br>
-                                <small><span style="color: #999;">Professor:</span> {{ $course->professor? $course->professor->name: 'Sin profesor' }}</small>
+                                <small><span style="color: #999;">Professor:</span> {{ $course->professor? $course->professor->name: '__________________________' }}</small>
                             </td>
                             <td width="20%">
                                 <small style="color: #999;">Periodo:</small>
@@ -122,7 +122,7 @@
                         <tr>
                             <td width="80%">
                                 <strong>{{ $course->name }}</strong><br>
-                                <small><span style="color: #999;">Professor:</span> {{ $course->professor? $course->professor->name: 'Sin profesor' }}</small>
+                                <small><span style="color: #999;">Professor:</span> {{ $course->professor? $course->professor->name: '__________________________' }}</small>
                             </td>
                             <td width="20%">
                                 <small style="color: #999;">Periodo:</small>
