@@ -9,6 +9,7 @@
                 'courses'=>$course->professor->professorCourses()->orderBy('period','desc')->get()
                 ])
     <div class="page-break"></div>
+    <div class="page-break"></div>
     @include('members.pdf.member', [
                 'member'=>$course->professor,
                 'courses'=>$course->professor->courses()

@@ -132,7 +132,7 @@
     @php
         $max = 21;
         if($courses->count() <=1)$max = 21;
-        if($courses->count() ==22)$max = 23;
+        if($courses->count() ==22)$max = 22;
     @endphp
     @for($i = $courses->count();$i<$max;$i++)
         <div style="border:1px solid #666;padding:5px;margin-bottom: 3px;">
