@@ -12,6 +12,7 @@
                             </small>
                         </h5>
                         <compose-message :emails="activeEmails"></compose-message>
+                        <a target="_blank" :href="'/courses/'+course.id+'/students-pdf'" class="btn btn-primary btn-block">Formatos de Actualización de Datos</a>
                     </div>
                     <div class="col-md-1">
                         <img v-if="course.professor" :src="course.professor.image" :alt="course.professor.name" class="rounded-circle img-fluid img-thumbnail mb-1" width="100">

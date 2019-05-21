@@ -11,6 +11,11 @@
     <!-- Styles -->
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
     <script defer src="{{ asset('js/fontawesome-all.js') }}"></script>
+    <style>
+        .page-break {
+            page-break-after: always;
+        }
+    </style>
 </head>
 <body>
     @yield('content')

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\MaritalStatus;
 use App\User;
 use App\Member;
 use App\PCO\Course;
@@ -266,5 +267,12 @@ class CoursesController extends Controller
         Auth::login($user, true);
         return redirect('/courses/'.$course->id . '/students');
         
+    }
+    public function studentPdf(Course $course)
+    {
+        $marital_statuses = MaritalStatus::pluck('value', 'id')->all();
+        $pdf     = app()->make('dompdf.wrapper');
+        $pdf->loadView('courses.pdf.members', compact('course','marital_statuses'));
+        return $pdf->stream($course->id . '-members.pdf');
     }
 }
