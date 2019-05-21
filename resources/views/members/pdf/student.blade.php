@@ -34,7 +34,7 @@
                         <td valign="top">
                             <div><strong>Género:</strong> {{ $member->gender == 'M'?'Masculino':'Femenino' }}</div>
                             <div><strong>Teléfono:</strong> {{ $member->phone }}</div>
-                            <div><strong>F. Nacim.:</strong> {{ $member->birthdate }}</div>
+                            <div><strong>F. Nacim.:</strong> {{ str_replace("2018","____",$member->birthdate) }}</div>
                             <div><strong>Estado Civil:</strong> {{ $marital_statuses[$member->marital_status_id] }}</div>
                         </td>
                     </tr>
