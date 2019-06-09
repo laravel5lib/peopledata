@@ -130,27 +130,27 @@ class Member extends Model
     
     public function syncCourses()
     {
-        $courses = $this->courses()->wherePivotIn('status', ['completed','signed','in_progress','confirmed'])->pluck('name','id')->toArray();
-        $fields = $this->fields;
-        foreach ($fields as $field){
-            if($field->tab_id == 47880){
-                $found = false;
-                $data = explode(' / ',$field->name);
-                foreach ($data as $name){
-                    $name = trim($name);
-                    if(in_array($name,$courses)) {
-                        $found = true;
-                        $this->deleteFieldValue($field->id);
-                        $this->fields()->detach($field->id);
-                    }
-                }
-                if (!$found && $field->pivot->value == 'Si'){
-                    $name = trim($data[0]);
-                    $cr = Course::firstOrCreate(['name'=>$name,'period'=>'0-Anteriores']);
-                    $cr->members()->syncWithoutDetaching([$this->id =>['status'=>'completed']]);
-                }
-            }
-        }
+//        $courses = $this->courses()->wherePivotIn('status', ['completed','signed','in_progress','confirmed'])->pluck('name','id')->toArray();
+//        $fields = $this->fields;
+//        foreach ($fields as $field){
+//            if($field->tab_id == 47880){
+//                $found = false;
+//                $data = explode(' / ',$field->name);
+//                foreach ($data as $name){
+//                    $name = trim($name);
+//                    if(in_array($name,$courses)) {
+//                        $found = true;
+//                        $this->deleteFieldValue($field->id);
+//                        $this->fields()->detach($field->id);
+//                    }
+//                }
+//                if (!$found && $field->pivot->value == 'Si'){
+//                    $name = trim($data[0]);
+//                    $cr = Course::firstOrCreate(['name'=>$name,'period'=>'0-Anteriores']);
+//                    $cr->members()->syncWithoutDetaching([$this->id =>['status'=>'completed']]);
+//                }
+//            }
+//        }
     }
     /**
      * Related fields
