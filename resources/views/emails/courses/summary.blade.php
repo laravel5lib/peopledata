@@ -1,7 +1,7 @@
 @component('mail::message')
 # Hola {{ $professor->first_name }}!
 
-Estas recibiendo este correo porque tienes una clase asignada para este semestre 2019-1!   
+Estas recibiendo este correo porque tienes una clase asignada para este semestre 2019-2!   
 
 A continuación tienes la lista de personas inscritas en el curso.
 
