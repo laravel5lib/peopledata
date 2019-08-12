@@ -58,6 +58,7 @@ class Member extends Model
                 $attributes               = $data['attributes'];
                 $attributes['created_at'] = Carbon::parse($attributes['created_at']);
                 $attributes['updated_at'] = Carbon::parse($attributes['updated_at']);
+                unset($attributes['passed_background_check']);
                 unset($attributes['accounting_administrator']);
                 unset($attributes['anniversary']);
                 unset($attributes['demographic_avatar_url']);
