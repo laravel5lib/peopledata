@@ -13,13 +13,13 @@
     </tr>
     </thead>
     <tbody>
-    @foreach($courses as $course)
-        @foreach($course->members as $member)
+{{--    @foreach($courses as $course)--}}
+{{--        @foreach($course->members as $member)--}}
 {{--            @if( !count($status) || (count($status) && in_array($member->pivot->status, $status)) )--}}
-                <tr>
+{{--                <tr>--}}
 {{--                    <td>{{ $course->name }}</td>--}}
 {{--                    <td>{{ ($course->day && isset($days[$course->day])) ? $days[$course->day] : '' }}</td>--}}
-                    <td>-</td>
+{{--                    <td>-</td>--}}
 {{--                    <td>{{ $course->hour }}</td>--}}
 {{--                    <td>{{ optional($course->professor)->first_name . ' ' . optional($course->professor)->last_name }}</td>--}}
 {{--                    <td>{{ $member->first_name . ' ' . $member->last_name }}</td>--}}
@@ -27,9 +27,9 @@
 {{--                    <td>{{ $member->email }}</td>--}}
 {{--                    <td>{{ $member->pivot->payment }}</td>--}}
 {{--                    <td>{{ $options[$member->pivot->status] }}</td>--}}
-                </tr>
+{{--                </tr>--}}
 {{--            @endif--}}
-        @endforeach
-    @endforeach
+{{--        @endforeach--}}
+{{--    @endforeach--}}
     </tbody>
 </table>
