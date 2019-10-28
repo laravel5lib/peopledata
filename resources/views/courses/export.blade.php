@@ -15,7 +15,7 @@
     <tbody>
     @foreach($courses as $course)
         @foreach($course->members as $member)
-            @if( !count($status) || (count($status) && in_array($member->pivot->status, $status)) )
+{{--            @if( !count($status) || (count($status) && in_array($member->pivot->status, $status)) )--}}
                 <tr>
 {{--                    <td>{{ $course->name }}</td>--}}
 {{--                    <td>{{ ($course->day && isset($days[$course->day])) ? $days[$course->day] : '' }}</td>--}}
@@ -28,7 +28,7 @@
 {{--                    <td>{{ $member->pivot->payment }}</td>--}}
 {{--                    <td>{{ $options[$member->pivot->status] }}</td>--}}
                 </tr>
-            @endif
+{{--            @endif--}}
         @endforeach
     @endforeach
     </tbody>
