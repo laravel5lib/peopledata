@@ -18,7 +18,7 @@
             @if( !count($status) || (count($status) && in_array($member->pivot->status, $status)) )
                 <tr>
                     <td>{{ $course->name }}</td>
-                    <td>{{ $days[$course->day] }}</td>
+                    <td>{{ isset($days[$course->day]) ?$days[$course->day]:'' }}</td>
                     <td>{{ $course->hour }}</td>
                     <td>{{ optional($course->professor)->first_name . ' ' . optional($course->professor)->last_name }}</td>
                     <td>{{ $member->first_name . ' ' . $member->last_name }}</td>
