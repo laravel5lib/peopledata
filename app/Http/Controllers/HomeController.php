@@ -22,7 +22,7 @@ class HomeController extends Controller
     {
         if(auth()->check()){
             $user = auth()->user();
-            if(in_array($user->id,[1,59]) ) return redirect('/courses');
+            if(in_array($user->id,[1,59,55]) ) return redirect('/courses');
             if($member = $user->member){
                 if($course = $member->professorCourses()->where('period',config('elencuentro.period') )->first()){
                     return redirect('/courses/'.$course->id.'/students');
