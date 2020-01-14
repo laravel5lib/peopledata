@@ -125,8 +125,11 @@ Artisan::command('courses:duplicate {course_id?}', function ($course_id = 0) {
         $new = $original->replicate();
         $new->period = $period;
         $new->save();
+        $new->professor()->associate($original->professor);
+        $new->ministry()->associate($original->ministry);
         foreach ($original->members as $member){
             $new->members()->attach($member->id);
-        }    
+        }
+        $new->save();
     }
 })->describe('Duplicates a course');
