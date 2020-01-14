@@ -118,3 +118,15 @@ Artisan::command('courses:professor-mail', function () {
         }
     }
 })->describe('Send emails to professor with course summary');
+Artisan::command('courses:duplicate {course_id?}', function ($course_id = 0) {
+    if($course_id){
+        $period = '2020-1';
+        $original = Course::find($course_id);
+        $new = $original->replicate();
+        $new->period = $period;
+        $new->save();
+        foreach ($original->members as $member){
+            $new->members()->attach($member->id);
+        }    
+    }
+})->describe('Duplicates a course');
