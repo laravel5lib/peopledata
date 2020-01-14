@@ -39,7 +39,7 @@
                             </div>
                         </div>
                     @endif
-                    <p class="card-text">A continuación se muestran los cursos de educación cristiana disponibles para el semestre 2019-2.</p>
+                    <p class="card-text">A continuación se muestran los cursos de educación cristiana disponibles para el semestre 2020-1.</p>
                     <hr>
                     @if($member)
                         @if($past = $member->courses()->where('period','2018-2')->first())
