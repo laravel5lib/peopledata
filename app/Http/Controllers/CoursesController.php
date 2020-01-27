@@ -275,4 +275,10 @@ class CoursesController extends Controller
         $pdf->loadView('courses.pdf.members', compact('course','marital_statuses'));
         return $pdf->stream($course->id . '-members.pdf');
     }
+    public function listPdf(Course $course)
+    {
+        $pdf     = app()->make('dompdf.wrapper');
+        $pdf->loadView('courses.pdf.list', compact('course'));
+        return $pdf->stream($course->id . '-list.pdf');
+    }
 }
