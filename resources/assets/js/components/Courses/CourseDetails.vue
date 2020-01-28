@@ -14,10 +14,8 @@
                         <compose-message :emails="activeEmails"></compose-message>
                         <div class="row">
                             <div class="col-md-6"><a target="_blank" :href="'/courses/'+course.id+'/students-pdf'" class="btn btn-primary btn-block">Formatos</a></div>
-                            <div class="col-md-6"><a target="_blank" :href="'/courses/'+course.id+'/list-pdf'" class="btn btn-info btn-block">Lista de clase</a></div>
+                            <div class="col-md-6"><a target="_blank" :href="'/courses/'+course.id+'/courselist'" class="btn btn-info btn-block">Lista de clase</a></div>
                         </div>
-                        
-                        
                     </div>
                     <div class="col-md-1">
                         <img v-if="course.professor" :src="course.professor.image" :alt="course.professor.name" class="rounded-circle img-fluid img-thumbnail mb-1" width="100">
