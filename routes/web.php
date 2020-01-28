@@ -33,7 +33,7 @@ Route::post('courses/{course}/update-student/{member}', 'CoursesController@updat
 Route::post('courses/{course}/remove-student/{member}', 'CoursesController@removeStudent');
 Route::get('courses/{course}/remove-professor', 'CoursesController@removeProfessor');
 Route::get('courses/{course}/search', 'CoursesController@search');
-Route::get('courses/{course}/students-pdf', 'CoursesController@listPdf');
+Route::get('courses/{course}/students-pdf', 'CoursesController@studentPdf');
 Route::get('courses/{course}/list-pdf', 'CoursesController@listPdf');
 
 Route::resource('ministries', 'MinistryController');
