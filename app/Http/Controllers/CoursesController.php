@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\MaritalStatus;
 use App\User;
 use App\Member;
 use App\PCO\Course;
+use App\MaritalStatus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Exports\CoursesMembersExport;
@@ -277,7 +277,6 @@ class CoursesController extends Controller
     }
     public function listPdf(Course $course)
     {
-//        return $course;
         $pdf     = app()->make('dompdf.wrapper');
         $pdf->loadView('courses.pdf.list', compact('course'));
         return $pdf->stream($course->id . '-list.pdf');
