@@ -277,6 +277,7 @@ class CoursesController extends Controller
     }
     public function listPdf(Course $course)
     {
+        return $course;
         $pdf     = app()->make('dompdf.wrapper');
         $pdf->loadView('courses.pdf.list', compact('course'));
         return $pdf->stream($course->id . '-list.pdf');
