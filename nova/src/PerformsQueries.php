@@ -59,13 +59,18 @@ trait PerformsQueries
     protected static function applySearch($query, $search)
     {
         return $query->where(function ($query) use ($search) {
-            if (is_numeric($search) && in_array($query->getModel()->getKeyType(), ['int', 'integer'])) {
-                $query->orWhere($query->getModel()->getQualifiedKeyName(), $search);
-            }
-
             $model = $query->getModel();
 
             $connectionType = $query->getModel()->getConnection()->getDriverName();
+
+            $canSearchPrimaryKey = is_numeric($search) &&
+                                   in_array($query->getModel()->getKeyType(), ['int', 'integer']) &&
+                                   ($connectionType != 'pgsql' || $search <= PHP_INT_MAX) &&
+                                   in_array($query->getModel()->getKeyName(), static::$search);
+
+            if ($canSearchPrimaryKey) {
+                $query->orWhere($query->getModel()->getQualifiedKeyName(), $search);
+            }
 
             $likeOperator = $connectionType == 'pgsql' ? 'ilike' : 'like';
 
@@ -136,7 +141,7 @@ trait PerformsQueries
     protected static function applyOrderings($query, array $orderings)
     {
         if (empty($orderings)) {
-            return empty($query->orders)
+            return empty($query->getQuery()->orders)
                         ? $query->latest($query->getModel()->getQualifiedKeyName())
                         : $query;
         }

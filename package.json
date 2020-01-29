@@ -31,6 +31,7 @@
     "moment": "^2.24.0",
     "nonblockjs": "^1.0.8",
     "pnotify": "^4.0.0",
+    "tailwindcss": "^1.1.4",
     "vue2-touch-events": "^1.1.2",
     "webpack": "^4.33.0"
   }

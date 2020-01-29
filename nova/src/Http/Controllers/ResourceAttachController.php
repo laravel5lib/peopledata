@@ -7,6 +7,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Nova;
 
 class ResourceAttachController extends Controller
 {
@@ -29,6 +30,8 @@ class ResourceAttachController extends Controller
                     $request, $model->{$request->viaRelationship}()
                 )
             );
+
+            Nova::actionEvent()->forAttachedResource($request, $model, $pivot)->save();
 
             $pivot->save();
 
@@ -67,9 +70,23 @@ class ResourceAttachController extends Controller
      */
     protected function initializePivot(NovaRequest $request, $relationship)
     {
+        $parentKey = $request->resourceId;
+        $relatedKey = $request->input($request->relatedResource);
+
+        $parentKeyName = $relationship->getParentKeyName();
+        $relatedKeyName = $relationship->getRelatedKeyName();
+
+        if ($parentKeyName !== $request->model()->getKeyName()) {
+            $parentKey = $request->findModelOrFail()->{$parentKeyName};
+        }
+
+        if ($relatedKeyName !== ($request->newRelatedResource()::newModel())->getKeyName()) {
+            $relatedKey = $request->findRelatedModelOrFail()->{$relatedKeyName};
+        }
+
         ($pivot = $relationship->newPivot())->forceFill([
-            $relationship->getForeignPivotKeyName() => $request->resourceId,
-            $relationship->getRelatedPivotKeyName() => $request->input($request->relatedResource),
+            $relationship->getForeignPivotKeyName() => $parentKey,
+            $relationship->getRelatedPivotKeyName() => $relatedKey,
         ]);
 
         if ($relationship->withTimestamps) {

@@ -26,6 +26,7 @@ Vue.component('student-unfinished', require('./components/Courses/StudentUnfinis
 Vue.component('simple-login', require('./components/Members/SimpleLogin.vue').default);
 Vue.component('course-register-small', require('./components/Courses/CourseRegisterSmall.vue').default);
 Vue.component('course-summary', require('./components/Courses/CourseSummary.vue').default);
+Vue.component('trivia-question-show', require('./components/Games/Trivia/QuestionShow').default);
 
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';

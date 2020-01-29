@@ -2,6 +2,7 @@
 
 namespace Laravel\Nova\Fields;
 
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Http\Request;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -17,7 +18,7 @@ trait ResolvesReverseRelation
     /**
      * Determine if the field is the reverse relation of a showed index view.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return bool
      */
     public function isReverseRelation(Request $request)
@@ -34,7 +35,7 @@ trait ResolvesReverseRelation
     /**
      * Get reverse relation field name.
      *
-     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return string
      */
     public function getReverseRelation(NovaRequest $request)
@@ -60,10 +61,25 @@ trait ResolvesReverseRelation
 
                         $relation = $viaModel->{$field->attribute}();
 
-                        return $relation->getForeignKeyName() === $resource->model()->{$this->attribute}()->getForeignKeyName();
+                        return $this->getRelationForeignKeyName($relation) === $this->getRelationForeignKeyName(
+                                $resource->model()->{$this->attribute}()
+                            );
                     })->attribute ?? '';
         }
 
         return $this->reverseRelation;
+    }
+
+    /**
+     * Get foreign key name for relation.
+     *
+     * @param  \Illuminate\Database\Eloquent\Relations\Relation $relation
+     * @return string
+     */
+    protected function getRelationForeignKeyName(Relation $relation)
+    {
+        return method_exists($relation, 'getForeignKeyName')
+            ? $relation->getForeignKeyName()
+            : $relation->getForeignKey();
     }
 }

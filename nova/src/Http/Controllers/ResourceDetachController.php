@@ -2,12 +2,12 @@
 
 namespace Laravel\Nova\Http\Controllers;
 
-use Laravel\Nova\DeleteField;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
-use Laravel\Nova\Actions\ActionEvent;
 use Laravel\Nova\Contracts\Deletable;
+use Laravel\Nova\DeleteField;
 use Laravel\Nova\Http\Requests\DetachResourceRequest;
+use Laravel\Nova\Nova;
 
 class ResourceDetachController extends Controller
 {
@@ -31,7 +31,7 @@ class ResourceDetachController extends Controller
                 $pivot->delete();
 
                 DB::table('action_events')->insert(
-                    ActionEvent::forResourceDetach(
+                    Nova::actionEvent()->forResourceDetach(
                         $request->user(), $parent, collect([$model]), $pivot->getMorphClass()
                     )->map->getAttributes()->all()
                 );

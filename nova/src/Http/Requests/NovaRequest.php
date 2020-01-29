@@ -2,8 +2,8 @@
 
 namespace Laravel\Nova\Http\Requests;
 
-use Laravel\Nova\MemoizesMethods;
 use Illuminate\Foundation\Http\FormRequest;
+use Laravel\Nova\MemoizesMethods;
 
 class NovaRequest extends FormRequest
 {
@@ -20,5 +20,25 @@ class NovaRequest extends FormRequest
             $this->relationshipType,
             ['belongsToMany', 'morphToMany']
         );
+    }
+
+    /**
+     * Determine if this request is an attach or create request.
+     *
+     * @return bool
+     */
+    public function isCreateOrAttachRequest()
+    {
+        return $this->editing && in_array($this->editMode, ['create', 'attach']);
+    }
+
+    /**
+     * Determine if this request is an update or update-attached request.
+     *
+     * @return bool
+     */
+    public function isUpdateOrUpdateAttachedRequest()
+    {
+        return $this->editing && in_array($this->editMode, ['update', 'update-attached']);
     }
 }

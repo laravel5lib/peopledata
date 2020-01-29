@@ -42,6 +42,12 @@ Route::get('ministries/{ministry}/add/{member}', 'MinistryController@addMember')
 Route::get('ministries/{ministry}/del/{member}', 'MinistryController@delMember');
 Route::get('ministries/{ministry}/edit/{member}', 'MinistryController@editMember');
 
+Route::get('games/trivia/questions/{question}', 'Games\TriviaController@showQuestion');
+Route::post('games/trivia/questions/{question}', 'Games\TriviaController@updateQuestion');
+Route::get('games/trivia/start', 'Games\TriviaController@start');
+Route::get('games/trivia/reset', 'Games\TriviaController@reset');
+Route::get('games/trivia', 'Games\TriviaController@index');
+
 
 //Route::get('/mailable', function(){
 //    $user = \App\User::find(1);
