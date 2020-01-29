@@ -41,7 +41,7 @@ class TriviaController extends Controller
             'option' => 'required',
         ]);
         $option = request('option');
-        $this->session->questions = array_unique(array_merge($this->session->questions, [$question->id=>$option]));
+        $this->session->questions = array_merge($this->session->questions, [$question->id=>$option]);
         $this->session->save();
         $results = [];
         if($option == 'answer'){
