@@ -41,7 +41,7 @@ class TriviaController extends Controller
             'option' => 'required',
         ]);
         $option = request('option');
-        $this->session->questions = array_merge($this->session->questions, [$question->id=>$option]);
+        $this->session->questions = array_merge($this->session->questions, [$question->id]);
         $this->session->save();
         $results = [];
         if($option == 'answer'){
@@ -57,7 +57,7 @@ class TriviaController extends Controller
 
     public function start()
     {
-        $questions = Question::whereNotIn('id', array_keys($this->session->questions))->get();
+        $questions = Question::whereNotIn('id', $this->session->questions)->get();
         if($questions->count()) $question = $questions->random();
         else return redirect('/games/trivia');
 
