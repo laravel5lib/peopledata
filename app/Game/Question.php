@@ -12,8 +12,8 @@ class Question extends Model
     public function getOptionsAttribute()
     {
         $results = [];
-        $results['answer'] = $this->answer;
         $results['option_1'] = $this->option_1;
+        $results['answer'] = $this->answer;
         $results['option_2'] = $this->option_2;
         $results['option_3'] = $this->option_3;
         uasort($results, function ($a, $b) {
