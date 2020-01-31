@@ -100,7 +100,6 @@ Artisan::command('people:registered-mail', function () {
         }
     }
 })->describe('Send emails to registered students');
-
 Artisan::command('courses:professor-mail', function () {
     $period  = '2020-1';
     $courses = Course::where('period', $period)->has('members')->get();
